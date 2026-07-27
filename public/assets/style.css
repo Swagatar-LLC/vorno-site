@@ -1,0 +1,186 @@
+:root {
+  --bg-0: #020617;
+  --bg-1: #050c25;
+  --bg-2: #0b1739;
+  --text: #e6eaf5;
+  --text-dim: #8b93ab;
+  --line: rgba(139, 147, 171, 0.18);
+  --grad: linear-gradient(90deg, #ff922e 0%, #ff6a55 27%, #c04fd2 52%, #6947f5 74%, #00c8ff 100%);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { color-scheme: dark; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: radial-gradient(120% 90% at 50% 0%, var(--bg-2) 0%, var(--bg-1) 55%, var(--bg-0) 100%) fixed var(--bg-0);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 20px 24px 0;
+  width: 100%;
+}
+
+.nav img { width: 34px; height: 34px; border-radius: 8px; }
+
+.nav .brand {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav .links { margin-left: auto; display: flex; gap: 20px; }
+
+.nav .links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.nav .links a:hover { color: var(--text); }
+
+.hero { text-align: center; padding: 56px 0 24px; }
+
+.hero img.mark { width: 128px; height: 128px; border-radius: 28px; margin-bottom: 28px; }
+
+h1 {
+  font-size: clamp(34px, 6vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+h1 .grad, .grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tagline {
+  font-size: 19px;
+  color: var(--text-dim);
+  max-width: 640px;
+  margin: 0 auto 36px;
+}
+
+h2 { font-size: 26px; margin: 40px 0 12px; letter-spacing: -0.01em; }
+
+p { color: var(--text-dim); }
+
+a { color: #7ab8ff; }
+
+.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+
+.btn {
+  display: inline-block;
+  padding: 13px 26px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+.btn-primary { background: var(--grad); color: #fff; }
+
+.btn-ghost {
+  color: var(--text);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.subnote { font-size: 13px; color: var(--text-dim); }
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+  margin-top: 56px;
+  text-align: left;
+}
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 22px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.card h3 { font-size: 16px; margin-bottom: 8px; }
+
+.card p { font-size: 14px; }
+
+.list { list-style: none; margin-top: 20px; }
+
+.list li { margin-bottom: 12px; }
+
+.hub { display: flex; flex-direction: column; gap: 14px; margin-top: 32px; }
+
+.hub a {
+  display: block;
+  text-align: center;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.hub a:hover { border-color: #6947f5; transform: translateY(-1px); }
+
+.hub a .sub { display: block; font-weight: 400; font-size: 13px; color: var(--text-dim); margin-top: 2px; }
+
+.entry { border-left: 2px solid #6947f5; padding-left: 18px; margin: 28px 0; }
+
+.entry .date { font-size: 13px; color: var(--text-dim); }
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 28px 24px 36px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+footer p { margin: 4px 0; font-size: 13px; }
+
+footer a { color: var(--text-dim); }
+
+table.assets { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+
+table.assets th, table.assets td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+table.assets th { color: var(--text-dim); font-weight: 600; }

@@ -1,0 +1,19 @@
+// Wrangler config for the vorno.ai site Worker.
+// Deployed initially via the Cloudflare REST API (see README), but this file
+// lets `bunx wrangler deploy` reproduce the same deployment.
+{
+  "name": "vorno-site",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-07-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
+    "run_worker_first": true
+  },
+  "routes": [
+    { "pattern": "vorno.ai", "custom_domain": true },
+    { "pattern": "www.vorno.ai", "custom_domain": true }
+  ]
+}
