@@ -1,6 +1,6 @@
 ---
 title: Sharing a session
-description: What Vorno's session sharing publishes, where the data is stored and who operates it, and how to stop sharing.
+description: What Vorno's session sharing publishes, where the data is stored and who operates it, how long it is kept, and how to stop sharing.
 ---
 
 **Share online** publishes a copy of a session to a web page you can send to
@@ -23,21 +23,42 @@ whatever the transcript already quotes.
 
 ## Where it goes
 
-Shared sessions are stored on the **hosted viewer at `agents.craft.do`**, which
-belongs to the upstream open-source project Vorno is forked from. It is **not
-operated by Swagatar, LLC**, and the data does not pass through
-infrastructure we run.
+Shared sessions are stored at **`share.vorno.ai`**, which is **operated by
+Swagatar, LLC** — the company that makes Vorno. The copy is held in object
+storage we run, and we are the data controller for it. See the
+[privacy policy](/privacy) for what that means in practice.
 
-Two consequences follow:
+Two things follow, and the first one has not changed:
 
 - **The link is the access control.** There is no password and no sign-in.
   Anyone who has the URL — or who is forwarded it — can read the session. Treat
   a share link as public.
-- **The copy lives on a third party's storage** for as long as the share
-  exists, under that operator's terms and retention.
+- **The link is read-only, though.** Only the copy of Vorno that created a share
+  can update or revoke it. Forwarding a link does not let the person you send it
+  to change what it shows or take it down.
 
 If a session touched something you would not publish, do not share it. Copy out
 the part you want to send instead.
+
+### Shares created before Vorno hosted its own
+
+Vorno used to store shared sessions on `agents.craft.do`, which belongs to the
+upstream open-source project Vorno is forked from and is not operated by
+Swagatar, LLC.
+
+Links created back then still work, and still live there, under that operator's
+terms and retention. Vorno keeps track of which is which, so **Update share** and
+**Stop sharing** still act on the right copy. Only shares created from this
+version onwards are stored by us.
+
+## How long it is kept
+
+A share is deleted **180 days** after it was last uploaded. Updating a share
+restarts that clock.
+
+After that the link stops working, the same as if you had revoked it. If you
+need something to outlive the share, save it yourself rather than relying on
+the link.
 
 ## It is a snapshot, not a live feed
 
@@ -57,8 +78,12 @@ In the session menu:
 - **Deleting the session** in Vorno also revokes its share, so a deleted session
   does not leave a copy behind.
 
-Revoking removes the copy from the viewer. It cannot retrieve anything someone
-already read, copied, or saved while the link was live.
+Revoking deletes the stored copy. It cannot retrieve anything someone already
+read, copied, or saved while the link was live.
+
+Both actions require the copy of Vorno that created the share — they are not
+something a recipient of the link can do, and not something we do on request
+without verifying you control the session.
 
 ## Alternatives
 

@@ -35,8 +35,9 @@ const UPSTREAM_DOMAINS = ["thecraftagents.com", "agents.craft.do"];
 // Declared, reviewed prose mentions. Keyed by `<page>|<domain>`.
 const PROSE_EXCEPTIONS = {
   "docs/sharing/index.html|agents.craft.do":
-    "Session sharing genuinely uploads to this host; the page exists to disclose that. " +
-    "Named as text, not linked.",
+    "Shares created before Vorno hosted its own backend still live on this host and " +
+    "remain readable and revocable there (ADR-0024); the page exists to disclose that. " +
+    "Named as text, not linked. Remove once no supported version can still hold such a share.",
 };
 
 function walk(dir) {
