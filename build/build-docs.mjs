@@ -24,6 +24,7 @@ import {
   BLURBS,
   GROUPS,
   LINKABLE_SLUGS,
+  subdirLabel,
 } from "./docs-manifest.mjs";
 
 const AUTHORED_DIR = path.join(ASTRO_ROOT, "pages");
@@ -96,7 +97,7 @@ function transform(slug, raw) {
   return { title, out: frontmatter + body };
 }
 
-function buildLanding() {
+function buildLanding(discovered = {}) {
   const intro = fs.readFileSync(
     path.join(ASTRO_ROOT, "landing", "index.md"),
     "utf8",
@@ -113,6 +114,18 @@ function buildLanding() {
     return `### ${g.label}\n\n<ul class="vorno-cards">\n${items}\n</ul>`;
   }).join("\n\n");
 
+  // Discovered sets are listed as plain links, not cards: they are peers with
+  // no editorial ordering, and sixteen cards would drown the curated groups.
+  const discoveredSections = Object.entries(discovered)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([dir, pages]) => {
+      const links = pages
+        .map((p) => `[${escapeHtml(p.nav)}](/docs/${p.slug}/)`)
+        .join(" · ");
+      return `### ${subdirLabel(dir)}\n\nStep-by-step setup for specific services.\n\n${links}`;
+    })
+    .join("\n\n");
+
   const footer = [
     "",
     "",
@@ -123,7 +136,10 @@ function buildLanding() {
     "",
   ].join("\n");
 
-  fs.writeFileSync(path.join(COLLECTION, "index.md"), intro + cards + footer);
+  fs.writeFileSync(
+    path.join(COLLECTION, "index.md"),
+    intro + cards + (discoveredSections ? `\n\n${discoveredSections}` : "") + footer,
+  );
 }
 
 function escapeHtml(s) {
@@ -151,6 +167,15 @@ if (unlisted.length) {
 if (missing.length) {
   throw new Error(`manifest lists guides absent at ${TAG}: ${missing.join(", ")}`);
 }
+
+// Guides in subdirectories (e.g. `sources/github.md`) are auto-discovered and
+// published at the matching route (`/docs/sources/github/`). No manifest entry
+// is required — see docs-manifest.mjs for why.
+const subdirs = fs
+  .readdirSync(DOCS_SRC, { withFileTypes: true })
+  .filter((e) => e.isDirectory())
+  .map((e) => e.name)
+  .sort();
 
 fs.rmSync(COLLECTION, { recursive: true, force: true });
 fs.mkdirSync(COLLECTION, { recursive: true });
@@ -182,7 +207,40 @@ if (AUTHORED_SLUGS.length) {
   log(`prepared ${AUTHORED_SLUGS.length} authored pages: ${AUTHORED_SLUGS.join(", ")}`);
 }
 
-buildLanding();
+// --- auto-discovered subdirectory guides ------------------------------------
+
+const discovered = {};
+for (const dir of subdirs) {
+  const files = fs
+    .readdirSync(path.join(DOCS_SRC, dir))
+    .filter((f) => f.endsWith(".md"))
+    .sort();
+  if (!files.length) continue;
+
+  fs.mkdirSync(path.join(COLLECTION, dir), { recursive: true });
+  const pages = [];
+  for (const file of files) {
+    const name = file.replace(/\.md$/, "");
+    const slug = `${dir}/${name}`;
+    const raw = fs.readFileSync(path.join(DOCS_SRC, dir, file), "utf8");
+    const { title, out } = transform(slug, raw);
+    titles[slug] = title;
+    fs.writeFileSync(path.join(COLLECTION, `${slug}.md`), out);
+    pages.push({ slug, nav: title });
+  }
+  // Sorted by the label the reader actually sees, not by filename.
+  pages.sort((a, b) => a.nav.localeCompare(b.nav));
+  discovered[dir] = pages;
+  log(`discovered ${pages.length} guides in ${dir}/`);
+}
+
+// Consumed by astro.config.mjs to build the sidebar.
+fs.writeFileSync(
+  path.join(ASTRO_ROOT, "src", "generated-nav.json"),
+  JSON.stringify(discovered, null, 2),
+);
+
+buildLanding(discovered);
 
 execFileSync("npx", ["astro", "build"], {
   cwd: ASTRO_ROOT,

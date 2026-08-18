@@ -1,9 +1,17 @@
 // @ts-check
+import fs from "node:fs";
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
-import { SIDEBAR } from "../build/docs-manifest.mjs";
+import { buildSidebar } from "../build/docs-manifest.mjs";
 
 const TAG = process.env.VORNO_TAG || "v0.16.0";
+
+// Written by build/build-docs.mjs immediately before `astro build`, listing the
+// guides it found in subdirectories of the fetched docs (see docs-manifest.mjs).
+// Absent on a bare `astro build`, which is fine — the curated groups still render.
+const discovered = fs.existsSync(new URL("./src/generated-nav.json", import.meta.url))
+  ? JSON.parse(fs.readFileSync(new URL("./src/generated-nav.json", import.meta.url), "utf8"))
+  : {};
 
 // Served from the existing vorno.ai Worker at /docs — not a separate host
 // (ADR-0023). `base` must match, or every internal link 404s.
@@ -37,7 +45,7 @@ export default defineConfig({
       editLink: {},
       lastUpdated: false,
       pagination: true,
-      sidebar: SIDEBAR,
+      sidebar: buildSidebar(discovered),
       head: [
         {
           tag: "meta",

@@ -144,11 +144,41 @@ export const BLURBS = Object.fromEntries(
   GROUPS.flatMap((g) => g.pages.map((p) => [p.slug, p.blurb])),
 );
 
-/** Starlight `sidebar` config, built from the same manifest. */
-export const SIDEBAR = [
-  { label: "Overview", link: "/" },
-  ...GROUPS.map((g) => ({
-    label: g.label,
-    items: g.pages.map((p) => ({ slug: p.slug, label: p.nav })),
-  })),
-];
+// Guides in a SUBDIRECTORY of apps/electron/resources/docs are auto-discovered
+// rather than listed above. `sources/` is a homogeneous set — one page per
+// service, all peers, alphabetical — so curating it by hand would mean editing
+// this repo every time the vorno repo adds a service. The manifest's job is
+// giving the ~19 top-level guides a spine; it is not a registry.
+//
+// Label for a discovered subdirectory; unknown dirs get a title-cased fallback.
+export const SUBDIR_LABELS = {
+  sources: "Source setup guides",
+};
+
+export function subdirLabel(dir) {
+  return (
+    SUBDIR_LABELS[dir] ||
+    dir.replace(/[-_]/g, " ").replace(/^\w/, (c) => c.toUpperCase())
+  );
+}
+
+/**
+ * Starlight `sidebar` config.
+ * `discovered` is `{ <dir>: [{ slug, nav }] }` from build-docs.mjs.
+ */
+export function buildSidebar(discovered = {}) {
+  return [
+    { label: "Overview", link: "/" },
+    ...GROUPS.map((g) => ({
+      label: g.label,
+      items: g.pages.map((p) => ({ slug: p.slug, label: p.nav })),
+    })),
+    ...Object.entries(discovered)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([dir, pages]) => ({
+        label: subdirLabel(dir),
+        collapsed: true,
+        items: pages.map((p) => ({ slug: p.slug, label: p.nav })),
+      })),
+  ];
+}
