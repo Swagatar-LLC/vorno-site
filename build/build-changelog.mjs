@@ -103,11 +103,29 @@ if (!releases.length) throw new Error("release feed returned no Vorno releases")
 
 marked.setOptions({ mangle: false, headerIds: false, gfm: true });
 
+// Every published release must produce a page with real notes. A version that
+// silently drops out is the exact failure this cross-check exists to catch —
+// 0.11.4 vanished from the changelog because its notes file was consolidated
+// away after the tag, with no error anywhere. Warning here would reproduce the
+// silence, so it fails the build. ALLOW_MISSING_NOTES is the deliberate escape
+// hatch for a release genuinely cut without notes, so this can't wedge a
+// release at an awkward hour.
+const missingNotes = releases.filter((r) => !readNotes(r.version));
+if (missingNotes.length && !process.env.ALLOW_MISSING_NOTES) {
+  throw new Error(
+    `release feed and built set disagree: ${missingNotes.length} published ` +
+      `release(s) have no notes at ${TAG} or at their own tag — ` +
+      `${missingNotes.map((r) => r.version).join(", ")}.\n` +
+      `Add the notes to apps/electron/resources/release-notes in Swagatar-LLC/vorno, ` +
+      `or set ALLOW_MISSING_NOTES=1 to publish stub pages that link to GitHub.`,
+  );
+}
+
 const entries = [];
 for (const r of releases) {
   const notes = readNotes(r.version);
   if (!notes) {
-    log(`! ${r.version}: no release notes found in the repo at ${TAG} or at ${r.tag}`);
+    log(`! ${r.version}: publishing a stub — no notes at ${TAG} or at ${r.tag} (ALLOW_MISSING_NOTES)`);
   }
   const md = notes?.body ?? "";
   const { headline, body } = splitHeading(r.version, md);
@@ -205,7 +223,17 @@ fs.writeFileSync(
     `Do not edit by hand — run \`npm run build\` in vorno-site instead.\n`,
 );
 
+// Belt and braces: the page count must equal the feed count.
+const built = fs
+  .readdirSync(CHANGELOG_OUT, { withFileTypes: true })
+  .filter((e) => e.isDirectory()).length;
+if (built !== releases.length) {
+  throw new Error(
+    `built ${built} version pages but the release feed lists ${releases.length}`,
+  );
+}
+
 log(
   `wrote ${entries.length} versions (${entries.at(-1).version} … ${entries[0].version}) ` +
-    `to ${path.relative(ROOT, CHANGELOG_OUT)}`,
+    `to ${path.relative(ROOT, CHANGELOG_OUT)} — matches the ${releases.length}-release feed`,
 );

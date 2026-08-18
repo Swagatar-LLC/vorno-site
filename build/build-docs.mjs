@@ -18,7 +18,15 @@ import {
   ROOT,
   TAG,
 } from "./config.mjs";
-import { ALL_SLUGS, BLURBS, GROUPS } from "./docs-manifest.mjs";
+import {
+  ALL_SLUGS,
+  AUTHORED_SLUGS,
+  BLURBS,
+  GROUPS,
+  LINKABLE_SLUGS,
+} from "./docs-manifest.mjs";
+
+const AUTHORED_DIR = path.join(ASTRO_ROOT, "pages");
 
 const COLLECTION = path.join(ASTRO_ROOT, "src", "content", "docs");
 
@@ -74,7 +82,7 @@ function transform(slug, raw) {
   body = body.replace(
     /\]\(\.\/([a-z0-9-]+)\.md(#[^)]*)?\)/g,
     (m, target, hash) =>
-      ALL_SLUGS.includes(target) ? `](/docs/${target}/${hash || ""})` : m,
+      LINKABLE_SLUGS.includes(target) ? `](/docs/${target}/${hash || ""})` : m,
   );
 
   const frontmatter = [
@@ -155,6 +163,24 @@ for (const slug of [...ALL_SLUGS, ...unlisted]) {
   fs.writeFileSync(path.join(COLLECTION, `${slug}.md`), out);
 }
 log(`prepared ${Object.keys(titles).length} guides from ${TAG}`);
+
+// Pages written for this site, copied through untouched — they already carry
+// their own frontmatter and are not subject to the tag.
+for (const slug of AUTHORED_SLUGS) {
+  const src = path.join(AUTHORED_DIR, `${slug}.md`);
+  if (!fs.existsSync(src)) {
+    throw new Error(`manifest marks "${slug}" authored but ${src} is missing`);
+  }
+  const raw = fs.readFileSync(src, "utf8");
+  const fm = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n/);
+  const title = fm?.[1].match(/^title:\s*(.+?)\s*$/m)?.[1];
+  if (!title) throw new Error(`authored page ${slug}.md has no frontmatter title`);
+  titles[slug] = title.replace(/^["']|["']$/g, "");
+  fs.writeFileSync(path.join(COLLECTION, `${slug}.md`), raw);
+}
+if (AUTHORED_SLUGS.length) {
+  log(`prepared ${AUTHORED_SLUGS.length} authored pages: ${AUTHORED_SLUGS.join(", ")}`);
+}
 
 buildLanding();
 

@@ -10,11 +10,24 @@
 // Guide", "Mermaid Diagram Syntax Reference") are correct but repetitive in a
 // list; the page title itself is left exactly as written.
 // `blurb` is used for the /docs landing page cards only.
+//
+// `authored: true` marks a page written for this site rather than fetched from
+// the repo — human framing that sits *in front of* an agent-facing guide
+// without editing it. Its source is `docs-src/pages/<slug>.md`. Every claim on
+// an authored page has to stay true at every release, which is why there are
+// deliberately only two.
 
 export const GROUPS = [
   {
     label: "Connect your data",
     pages: [
+      {
+        slug: "connecting-data",
+        nav: "Connecting a data source",
+        authored: true,
+        blurb:
+          "Start here: what a source actually is, what happens when you ask for one, and what you are agreeing to when you connect it.",
+      },
       {
         slug: "sources",
         nav: "Sources",
@@ -79,6 +92,13 @@ export const GROUPS = [
   {
     label: "Render output",
     pages: [
+      {
+        slug: "rendering",
+        nav: "What Vorno can render",
+        authored: true,
+        blurb:
+          "Overview: the six output formats Vorno renders inline, and which one fits what you are trying to show.",
+      },
       { slug: "data-tables",
         nav: "Data tables", blurb: "Sortable tables and spreadsheets, including file-backed rows." },
       { slug: "mermaid",
@@ -102,7 +122,16 @@ export const GROUPS = [
   },
 ];
 
-export const ALL_SLUGS = GROUPS.flatMap((g) => g.pages.map((p) => p.slug));
+export const ALL_PAGES = GROUPS.flatMap((g) => g.pages);
+
+/** Slugs fetched from the vorno repo — these must exist at the build tag. */
+export const ALL_SLUGS = ALL_PAGES.filter((p) => !p.authored).map((p) => p.slug);
+
+/** Slugs written for this site, sourced from `docs-src/pages/`. */
+export const AUTHORED_SLUGS = ALL_PAGES.filter((p) => p.authored).map((p) => p.slug);
+
+/** Every route under /docs, used for relative-link rewriting. */
+export const LINKABLE_SLUGS = ALL_PAGES.map((p) => p.slug);
 
 export const BLURBS = Object.fromEntries(
   GROUPS.flatMap((g) => g.pages.map((p) => [p.slug, p.blurb])),
