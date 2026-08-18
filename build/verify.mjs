@@ -16,6 +16,13 @@
 //          the point. ALLOW_UPSTREAM_LINKS=1 overrides if a publish must go
 //          out ahead of the source fix.
 //
+//   FAIL — an internal link points at a page that was not built. Added after a
+//          preview build shipped 36 dead `.md` hrefs that every other check
+//          reported as clean: the guides are written for a filesystem, so a
+//          link the build fails to rewrite stays valid on disk and 404s on the
+//          site. The most load-bearing links are the likeliest to break this
+//          way, because prerequisites are what guides link to.
+//
 //   WARN — the same domains appearing as plain text rather than as a link.
 //          Naming a host in prose is sometimes correct — /docs/sharing/ has to
 //          say where shared sessions are actually stored — so these are
@@ -49,9 +56,24 @@ function walk(dir) {
   return out;
 }
 
+/** Does an absolute site path resolve to something actually built? */
+function resolves(sitePath) {
+  const clean = decodeURIComponent(sitePath.split("#")[0].split("?")[0]);
+  if (clean === "/") return fs.existsSync(path.join(PUBLIC_DIR, "index.html"));
+  const target = path.join(PUBLIC_DIR, clean);
+  if (fs.existsSync(target)) {
+    return fs.statSync(target).isDirectory()
+      ? fs.existsSync(path.join(target, "index.html"))
+      : true;
+  }
+  // The assets pipeline serves /foo from /foo/index.html (auto-trailing-slash).
+  return fs.existsSync(`${target}.html`) || fs.existsSync(path.join(target, "index.html"));
+}
+
 const pages = walk(PUBLIC_DIR).sort();
 const failures = [];
 const linkFailures = [];
+const deadLinks = [];
 const warnings = [];
 const exceptionsUsed = new Set();
 
@@ -84,6 +106,15 @@ for (const p of pages) {
       if (PROSE_EXCEPTIONS[key]) exceptionsUsed.add(key);
       else warnings.push(`${rel}: ${proseCount}× ${domain} (as text)`);
     }
+  }
+
+  // Internal link integrity. Only site-absolute hrefs are checked: relative
+  // ones are resolved by the browser against a route we already validated, and
+  // external ones would make the build depend on the network.
+  for (const m of html.matchAll(/href\s*=\s*"(\/[^"]*)"/g)) {
+    const href = m[1];
+    if (href.startsWith("//")) continue; // protocol-relative, external
+    if (!resolves(href)) deadLinks.push(`${rel} -> ${href}`);
   }
 }
 
@@ -124,6 +155,18 @@ if (linkFailures.length) {
 if (!linkFailures.length) {
   console.log("[verify] OK — no page links to an upstream documentation/service domain");
 }
+
+if (deadLinks.length) {
+  console.error(`[verify] FAILED — ${deadLinks.length} internal link(s) point at unbuilt pages:`);
+  for (const d of deadLinks.slice(0, 40)) console.error(`  FAIL  ${d}`);
+  if (deadLinks.length > 40) console.error(`  ... and ${deadLinks.length - 40} more`);
+  console.error(
+    "[verify] a `.md` link the build did not rewrite stays valid on disk and 404s\n" +
+      "         on the site — check build-docs.mjs rewriteLinks().",
+  );
+  process.exit(1);
+}
+console.log(`[verify] OK — every internal link resolves to a built page`);
 
 if (failures.length) {
   console.error("[verify] FAILED — required footer lines missing:");

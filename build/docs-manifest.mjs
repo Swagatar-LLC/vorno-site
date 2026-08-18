@@ -137,8 +137,9 @@ export const ALL_SLUGS = ALL_PAGES.filter((p) => !p.authored).map((p) => p.slug)
 /** Slugs written for this site, sourced from `docs-src/pages/`. */
 export const AUTHORED_SLUGS = ALL_PAGES.filter((p) => p.authored).map((p) => p.slug);
 
-/** Every route under /docs, used for relative-link rewriting. */
-export const LINKABLE_SLUGS = ALL_PAGES.map((p) => p.slug);
+// (Link rewriting used to consult a manifest-derived slug list. It now resolves
+// against the set of pages actually built, which is the only list that can be
+// right — discovered guides are not in this file at all.)
 
 export const BLURBS = Object.fromEntries(
   GROUPS.flatMap((g) => g.pages.map((p) => [p.slug, p.blurb])),
