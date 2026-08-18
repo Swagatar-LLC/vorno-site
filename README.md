@@ -74,7 +74,9 @@ The manual trigger is not a convenience afterthought: it makes the pipeline runn
 
 The job builds → deploys → commits the rebuilt `public/` back → verifies over HTTP. The commit lands **after** the deploy on purpose, so this repo records what actually reached the edge rather than what was hoped for; committing first would let a failed deploy leave the repo claiming to be live.
 
-**Required secret — `CLOUDFLARE_API_TOKEN` on this repository** (Settings → Secrets and variables → Actions). Scope it to *Workers Scripts: Edit* on account `c3e447a3c0a726801eeb9a1148ff09de`. It must be a **separate token from the workspace `cloudflare` source token**, which is IP-allowlisted — GitHub-hosted runners have no stable egress IP, so an allowlisted token fails from CI by design.
+**Required secret — `CLOUDFLARE_API_TOKEN` on this repository** (Settings → Secrets and variables → Actions). Scope it to *Workers Scripts: Edit* on account `c3e447a3c0a726801eeb9a1148ff09de`.
+
+Mint a **separate token from the workspace `cloudflare` source token**, on least-privilege grounds: this one needs exactly one permission on one account, it lives in a shared CI system rather than a local credential store, and either can then be revoked or rotated without breaking the other. Reusing the interactive token would put a broadly-scoped credential in CI and couple two unrelated blast radii.
 
 Without that secret the workflow still runs, still builds, and still gates the output — it warns and skips the deploy instead of failing, so the build leg stays exercisable. Publish by hand in the meantime:
 
