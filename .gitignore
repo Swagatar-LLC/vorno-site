@@ -13,3 +13,6 @@ docs-src/src/content/docs/
 
 # Written by build/build-docs.mjs from the fetched docs tree.
 docs-src/src/generated-nav.json
+
+# Preview builds from an arbitrary ref (VORNO_REF); never deployed.
+.preview/

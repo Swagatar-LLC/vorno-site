@@ -181,6 +181,7 @@ fs.rmSync(COLLECTION, { recursive: true, force: true });
 fs.mkdirSync(COLLECTION, { recursive: true });
 
 const titles = {};
+const authoredRaw = {};
 for (const slug of [...ALL_SLUGS, ...unlisted]) {
   const raw = fs.readFileSync(path.join(DOCS_SRC, `${slug}.md`), "utf8");
   const { title, out } = transform(slug, raw);
@@ -201,7 +202,7 @@ for (const slug of AUTHORED_SLUGS) {
   const title = fm?.[1].match(/^title:\s*(.+?)\s*$/m)?.[1];
   if (!title) throw new Error(`authored page ${slug}.md has no frontmatter title`);
   titles[slug] = title.replace(/^["']|["']$/g, "");
-  fs.writeFileSync(path.join(COLLECTION, `${slug}.md`), raw);
+  authoredRaw[slug] = raw;
 }
 if (AUTHORED_SLUGS.length) {
   log(`prepared ${AUTHORED_SLUGS.length} authored pages: ${AUTHORED_SLUGS.join(", ")}`);
@@ -211,10 +212,25 @@ if (AUTHORED_SLUGS.length) {
 
 const discovered = {};
 for (const dir of subdirs) {
-  const files = fs
+  const all = fs
     .readdirSync(path.join(DOCS_SRC, dir))
     .filter((f) => f.endsWith(".md"))
     .sort();
+
+  // `<dir>/index.md` would take the same route as the top-level `<dir>.md`
+  // (`/docs/sources/`), and one would silently shadow the other.
+  if (all.some((f) => f.toLowerCase() === "index.md") && ALL_SLUGS.includes(dir)) {
+    throw new Error(
+      `${dir}/index.md collides with the top-level ${dir}.md — both resolve to ` +
+        `/docs/${dir}/. Rename one; the site cannot serve both.`,
+    );
+  }
+
+  // README.md is repo navigation, not a doc page, and would publish at the
+  // graceless /docs/<dir>/readme/. The landing page links the set instead.
+  const skipped = all.filter((f) => /^readme\.md$/i.test(f));
+  if (skipped.length) log(`skipped ${dir}/${skipped.join(", ")} (repo navigation, not a page)`);
+  const files = all.filter((f) => !/^readme\.md$/i.test(f));
   if (!files.length) continue;
 
   fs.mkdirSync(path.join(COLLECTION, dir), { recursive: true });
@@ -232,6 +248,20 @@ for (const dir of subdirs) {
   pages.sort((a, b) => a.nav.localeCompare(b.nav));
   discovered[dir] = pages;
   log(`discovered ${pages.length} guides in ${dir}/`);
+}
+
+// Authored pages are written last, so a `<!-- DISCOVERED:<dir> -->` marker can
+// be resolved against what was actually found. That keeps the cross-link to a
+// discovered set automatic: when the guides land, the link list appears, and
+// when there are none the marker leaves no trace.
+for (const [slug, raw] of Object.entries(authoredRaw)) {
+  const resolved = raw.replace(/<!--\s*DISCOVERED:([a-z0-9-]+)\s*-->/gi, (_, dir) => {
+    const pages = discovered[dir];
+    if (!pages?.length) return "";
+    const links = pages.map((p) => `- [${p.nav}](/docs/${p.slug}/)`).join("\n");
+    return `## ${subdirLabel(dir)}\n\nStep-by-step setup for specific services:\n\n${links}`;
+  });
+  fs.writeFileSync(path.join(COLLECTION, `${slug}.md`), resolved);
 }
 
 // Consumed by astro.config.mjs to build the sidebar.

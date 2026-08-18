@@ -24,7 +24,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { FOOTER_DISCLAIMER, FOOTER_POWERED, PUBLIC_DIR, ROOT } from "./config.mjs";
+import { FOOTER_DISCLAIMER, FOOTER_POWERED, IS_PREVIEW, PUBLIC_DIR, REF_LABEL } from "./config.mjs";
 
 // Domains hosting the upstream product's documentation or hosted service.
 // (Bare `craft.do` is deliberately absent: `connect.craft.do` appears in
@@ -34,7 +34,7 @@ const UPSTREAM_DOMAINS = ["thecraftagents.com", "agents.craft.do"];
 
 // Declared, reviewed prose mentions. Keyed by `<page>|<domain>`.
 const PROSE_EXCEPTIONS = {
-  "public/docs/sharing/index.html|agents.craft.do":
+  "docs/sharing/index.html|agents.craft.do":
     "Session sharing genuinely uploads to this host; the page exists to disclose that. " +
     "Named as text, not linked.",
 };
@@ -56,7 +56,9 @@ const warnings = [];
 const exceptionsUsed = new Set();
 
 for (const p of pages) {
-  const rel = path.relative(ROOT, p);
+  // Relative to the output root, not the repo root: a preview build writes to
+  // .preview/public, and an exception must not silently stop matching there.
+  const rel = path.relative(PUBLIC_DIR, p);
   const html = fs.readFileSync(p, "utf8");
 
   for (const line of [FOOTER_DISCLAIMER, FOOTER_POWERED]) {
@@ -85,7 +87,10 @@ for (const p of pages) {
   }
 }
 
-console.log(`[verify] scanned ${pages.length} pages under public/`);
+console.log(
+  `[verify] scanned ${pages.length} pages of ${REF_LABEL}` +
+    (IS_PREVIEW ? " (preview)" : ""),
+);
 
 for (const key of Object.keys(PROSE_EXCEPTIONS)) {
   if (!exceptionsUsed.has(key)) {

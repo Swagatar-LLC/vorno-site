@@ -18,13 +18,32 @@ export const RELEASES_REPO = "Swagatar-LLC/vorno-releases";
 
 export const TAG = process.env.VORNO_TAG || "v0.16.0";
 
+// VORNO_REF builds from any ref codeload accepts — a branch name or a raw SHA,
+// not just a release tag. That exists so a lane can see its own pages render and
+// route over real HTTP *before* they are frozen into a release, rather than
+// discovering a routing problem after the tag is cut.
+//
+// A ref build is a PREVIEW: it never writes the committed output under public/,
+// because that output is what `wrangler deploy` publishes. Preview output goes
+// to .preview/ and is served locally.
+export const REF = process.env.VORNO_REF || null;
+export const IS_PREVIEW = Boolean(REF);
+export const SOURCE_REF = REF || `refs/tags/${TAG}`;
+/** Human label for the thing being published. */
+export const REF_LABEL = REF || TAG;
+
 export const CONTENT_DIR = path.join(ROOT, ".content");
 export const DOCS_SRC = path.join(CONTENT_DIR, "docs");
 export const NOTES_SRC = path.join(CONTENT_DIR, "release-notes");
 export const NOTES_FALLBACK = path.join(CONTENT_DIR, "release-notes-fallback");
 export const RELEASES_JSON = path.join(CONTENT_DIR, "releases.json");
 
-export const PUBLIC_DIR = path.join(ROOT, "public");
+export const PREVIEW_DIR = path.join(ROOT, ".preview");
+
+/** Where this build writes. Never public/ for a preview build. */
+export const PUBLIC_DIR = IS_PREVIEW
+  ? path.join(PREVIEW_DIR, "public")
+  : path.join(ROOT, "public");
 export const DOCS_OUT = path.join(PUBLIC_DIR, "docs");
 export const CHANGELOG_OUT = path.join(PUBLIC_DIR, "changelog");
 

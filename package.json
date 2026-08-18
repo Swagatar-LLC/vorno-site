@@ -8,7 +8,8 @@
     "changelog": "node build/build-changelog.mjs",
     "verify": "node build/verify.mjs",
     "build": "npm run fetch && npm run docs && npm run changelog && npm run verify",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "preview": "node build/preview.mjs"
   },
   "devDependencies": {
     "@astrojs/starlight": "0.41.7",

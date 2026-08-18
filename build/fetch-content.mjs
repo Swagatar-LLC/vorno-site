@@ -18,6 +18,8 @@ import {
   RELEASES_JSON,
   RELEASES_REPO,
   REPO,
+  REF_LABEL,
+  SOURCE_REF,
   TAG,
 } from "./config.mjs";
 
@@ -29,8 +31,8 @@ function extractTarball() {
   fs.rmSync(CONTENT_DIR, { recursive: true, force: true });
   fs.mkdirSync(CONTENT_DIR, { recursive: true });
 
-  const url = `https://codeload.github.com/${REPO}/tar.gz/refs/tags/${TAG}`;
-  log(`streaming ${REPO}@${TAG}`);
+  const url = `https://codeload.github.com/${REPO}/tar.gz/${SOURCE_REF}`;
+  log(`streaming ${REPO}@${REF_LABEL}`);
   // `--strip-components=4` drops `<repo>-<tag>/apps/electron/resources/`,
   // landing `docs/` and `release-notes/` directly in .content/.
   execFileSync(
@@ -45,7 +47,7 @@ function extractTarball() {
   );
 
   if (!fs.existsSync(DOCS_SRC) || !fs.existsSync(NOTES_SRC)) {
-    throw new Error(`tarball for ${TAG} did not contain the expected resource dirs`);
+    throw new Error(`tarball for ${REF_LABEL} did not contain the expected resource dirs`);
   }
   log(
     `${fs.readdirSync(DOCS_SRC).length} docs, ` +
@@ -97,4 +99,4 @@ const releases = await (async () => {
   return rels;
 })();
 
-log(`content ready for ${TAG} (${releases.length} releases)`);
+log(`content ready for ${REF_LABEL} (${releases.length} releases)`);

@@ -67,6 +67,8 @@ suggest this itself.
 The rough test: if you would want the same thing again next week, make a source.
 If you would not, don't.
 
+<!-- DISCOVERED:sources -->
+
 ## Where to go next
 
 - **[Sources Configuration Guide](/docs/sources/)** — the full specification:
