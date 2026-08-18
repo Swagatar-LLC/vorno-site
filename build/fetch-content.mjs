@@ -27,19 +27,44 @@ function log(...args) {
   console.log("[fetch]", ...args);
 }
 
+/**
+ * The two tars disagree about globs, in opposite directions.
+ *
+ * macOS ships **bsdtar**, which matches wildcards in extraction patterns by
+ * default and *rejects* `--wildcards` outright ("Option --wildcards is not
+ * supported"). **GNU tar**, which is what every Linux CI runner has, does the
+ * reverse: without `--wildcards` it treats the glob below as a literal
+ * filename, warns, and exits 2 with "Not found in archive".
+ *
+ * So the flag is mandatory on one platform and fatal on the other, and there is
+ * no single command line that works on both. It has to be decided at runtime.
+ * This was invisible until the first CI run: the build was developed on macOS
+ * and every Linux run died here.
+ */
+function wildcardsFlag() {
+  try {
+    const version = execFileSync("tar", ["--version"], { encoding: "utf8" });
+    return /GNU tar/.test(version) ? "--wildcards " : "";
+  } catch {
+    return ""; // unknown tar: behave as before rather than pass a flag it may reject
+  }
+}
+
 function extractTarball() {
   fs.rmSync(CONTENT_DIR, { recursive: true, force: true });
   fs.mkdirSync(CONTENT_DIR, { recursive: true });
 
   const url = `https://codeload.github.com/${REPO}/tar.gz/${SOURCE_REF}`;
-  log(`streaming ${REPO}@${REF_LABEL}`);
+  const wildcards = wildcardsFlag();
+  log(`streaming ${REPO}@${REF_LABEL}${wildcards ? " (GNU tar)" : ""}`);
   // `--strip-components=4` drops `<repo>-<tag>/apps/electron/resources/`,
   // landing `docs/` and `release-notes/` directly in .content/.
   execFileSync(
     "/bin/sh",
     [
       "-c",
-      `/usr/bin/curl -fsSL ${JSON.stringify(url)} | tar -xz -C ${JSON.stringify(CONTENT_DIR)} ` +
+      `/usr/bin/curl -fsSL ${JSON.stringify(url)} | tar -xz ${wildcards}` +
+        `-C ${JSON.stringify(CONTENT_DIR)} ` +
         `--strip-components=4 '*/apps/electron/resources/docs/*' ` +
         `'*/apps/electron/resources/release-notes/*'`,
     ],
