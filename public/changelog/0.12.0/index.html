@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.12.0 — Changelog</title>
+<meta name="description" content="Remote Web UI access now works through a single port — the WebSocket connection is proxied through the same port the page loads from, so reaching the app from another device (phone, tablet, another computer) only needs one port opened. Previously, remote lo…">
+<link rel="canonical" href="https://vorno.ai/changelog/0.12.0/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.12.0</h1>
+  <p class="tagline" style="margin:0 0 6px;text-align:left">Remote Access That Actually Works</p>
+  <p class="date">July 15, 2026</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.12.0">Download 0.12.0 &amp; assets →</a></p>
+  <div class="prose">
+<h2>Features</h2>
+<ul>
+<li><strong>Remote Web UI access now works through a single port</strong> — the WebSocket connection is proxied through the same port the page loads from, so reaching the app from another device (phone, tablet, another computer) only needs one port opened. Previously, remote logins loaded the page but every call to the backend silently failed.</li>
+<li><strong>Clear connection-error screen</strong> — when the app can&#39;t reach its backend it now shows a &quot;can&#39;t reach your instance&quot; message with a Retry button, instead of dropping you into the first-run setup walkthrough.</li>
+<li><strong>Web UI bind address is selectable in Remote Access settings</strong> — choose <code>127.0.0.1</code> (localhost only) or <code>0.0.0.0</code> (all interfaces), with the same network-exposure warning as the trigger server. A hand-edited interface IP in <code>server-config.json</code> is preserved and shown as a custom option.</li>
+<li><strong>Secure tunnel via Tailscale</strong> — a new option in Remote Access settings fronts the Web UI with <code>tailscale serve</code>, giving you an HTTPS <code>https://&lt;machine&gt;.&lt;tailnet&gt;.ts.net</code> address reachable from any device on your tailnet — no certificates to manage and no LAN ports to open. When Tailscale isn&#39;t installed, the setting shows clear install guidance instead of failing. Designed as an extensible tunnel-provider setting (more providers later).</li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog/0.12.1/">← 0.12.1</a> · <a href="/changelog">All releases</a> · <a href="/changelog/0.11.6/">0.11.6 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>

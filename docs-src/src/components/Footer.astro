@@ -1,0 +1,36 @@
+---
+// Wraps Starlight's default footer with the two lines the vorno-site guardrail
+// requires verbatim on every page. Trademark clearance for "Vorno" is in
+// flight, so the non-affiliation line is legally load-bearing — build/verify.mjs
+// fails the build if it is missing from any generated page.
+import Default from "@astrojs/starlight/components/Footer.astro";
+---
+
+<Default><slot /></Default>
+
+<div class="vorno-footer">
+  <p>
+    © 2026 Swagatar, LLC · <a href="https://vorno.ai/">vorno.ai</a> ·
+    <a href="https://vorno.ai/changelog">Changelog</a> ·
+    <a href="https://vorno.ai/download">Download</a>
+  </p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</div>
+
+<style>
+  .vorno-footer {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--sl-color-hairline);
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+    text-align: center;
+  }
+  .vorno-footer p {
+    margin: 0.25rem 0;
+  }
+  .vorno-footer a {
+    color: var(--sl-color-gray-3);
+  }
+</style>

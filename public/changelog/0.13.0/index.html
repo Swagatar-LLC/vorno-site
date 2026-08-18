@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.13.0 — Changelog</title>
+<meta name="description" content="The first slice of the artifact plane lands alongside a batch of Web UI connection and annotation reliability fixes. Wire-compatible with the prior release.">
+<link rel="canonical" href="https://vorno.ai/changelog/0.13.0/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.13.0</h1>
+  <p class="tagline" style="margin:0 0 6px;text-align:left">Artifact Storage Plane + Connection Reliability</p>
+  <p class="date">July 26, 2026</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.13.0">Download 0.13.0 &amp; assets →</a></p>
+  <div class="prose">
+<p>The first slice of the artifact plane lands alongside a batch of Web UI connection and annotation reliability fixes. Wire-compatible with the prior release.</p>
+<h2>Features</h2>
+<ul>
+<li><strong>Artifact storage roots</strong> — configure and manage where Vorno stores and reads artifacts. This ships the storage-root configuration schema and its management surfaces on top of a new pluggable <em>storage-provider</em> foundation, so future artifact backends slot in without changing the rest of the app (PLAN-029, ADR-0018/0019).</li>
+<li><strong>Silent-disconnect detection for the Web UI</strong> — the Web UI now notices a connection that has quietly died even when the tab stays open and idle (no close or visibility event), reconnects automatically, and re-syncs the session you&#39;re viewing so nothing is silently out of date.</li>
+</ul>
+<h2>Bug Fixes</h2>
+<ul>
+<li>Annotations now stay attached to the right text when content reflows — anchors resolve against the drifted rendered text instead of drifting off.</li>
+<li>Deleting an annotation now converges reliably — no more undeletable &quot;phantom&quot; follow-up chips left behind after a delete.</li>
+<li>Web UI clients recover after sequence gaps and page suspension — a frozen or backgrounded tab (e.g. mobile Safari) reconnects and catches up on missed events instead of silently desyncing.</li>
+<li>&quot;Save &amp; Send&quot; follow-ups are no longer deferred to the next turn — the deferred-save window that could delay a saved follow-up is closed.</li>
+</ul>
+<h2>Improvements</h2>
+<ul>
+<li>Broader CI coverage: the annotation, app-shell, shared-UI, and server-core test suites are now gated in CI, closing previously-untested surfaces.</li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog/0.14.0/">← 0.14.0</a> · <a href="/changelog">All releases</a> · <a href="/changelog/0.12.3/">0.12.3 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>

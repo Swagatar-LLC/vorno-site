@@ -1,3 +1,12 @@
 node_modules/
 .wrangler/
 .DS_Store
+
+# Content fetched from Swagatar-LLC/vorno at a tag, and the Astro scratch space
+# it is staged into. Everything here is reproducible with `npm run build`; the
+# rendered output under public/ is what gets committed and deployed, so a bare
+# `bunx wrangler deploy` from a clean clone still publishes a complete site.
+.content/
+docs-src/dist/
+docs-src/.astro/
+docs-src/src/content/docs/

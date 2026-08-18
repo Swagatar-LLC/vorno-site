@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.11.5 — Changelog</title>
+<meta name="description" content="A fast follow to 0.11.4.">
+<link rel="canonical" href="https://vorno.ai/changelog/0.11.5/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.11.5</h1>
+  <p class="tagline" style="margin:0 0 6px;text-align:left">WebUI Hotfix</p>
+  <p class="date">July 14, 2026</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.11.5">Download 0.11.5 &amp; assets →</a></p>
+  <div class="prose">
+<p>A fast follow to 0.11.4.</p>
+<h2>Bug Fixes</h2>
+<ul>
+<li><strong>The browser WebUI works in packaged builds</strong> — opening <code>http://127.0.0.1:3848</code> returned a bare &quot;Internal Server Error&quot; instead of the login page. Two packaged-only bugs: the login redirect used an API that throws in the packaged runtime (but not in tests), and the WebUI&#39;s bundled assets were looked up at a path that never exists in the installed app. Both fixed; handler failures now also land in the main log instead of vanishing.</li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog/0.11.6/">← 0.11.6</a> · <a href="/changelog">All releases</a> · <a href="/changelog/0.11.4/">0.11.4 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>

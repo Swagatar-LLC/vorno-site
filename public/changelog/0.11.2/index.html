@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.11.2 — Changelog</title>
+<meta name="description" content="The first fully signed, notarized, and auto-updating Vorno release — the fork now ships like a real product.">
+<link rel="canonical" href="https://vorno.ai/changelog/0.11.2/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.11.2</h1>
+  <p class="tagline" style="margin:0 0 6px;text-align:left">First Signed Vorno Release</p>
+  <p class="date">July 14, 2026</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.11.2">Download 0.11.2 &amp; assets →</a></p>
+  <div class="prose">
+<p>The first fully signed, notarized, and auto-updating Vorno release — the fork now ships like a real product.</p>
+<h2>⭐ Signed &amp; notarized macOS builds</h2>
+<ul>
+<li><strong>Developer ID signing + Apple notarization</strong> — Vorno is now signed with a Developer ID certificate and notarized by Apple. No more right-click-to-open or Gatekeeper warnings; the app installs and launches like any Mac App Store-adjacent app.</li>
+<li><strong>Auto-update just works</strong> — updates are published to the Vorno release feed (<a href="https://github.com/Swagatar-LLC/vorno-releases">Swagatar-LLC/vorno-releases</a>) and install in place via Squirrel.Mac. This release is the first to arrive over the built-in updater.</li>
+</ul>
+<h2>⭐ Tag-triggered release pipeline</h2>
+<ul>
+<li>Pushing a <code>v*</code> tag now builds, signs, notarizes, and publishes a release entirely on CI — no laptop builds. The gate verifies tag/version match and required secrets before spending build minutes.</li>
+</ul>
+<h2>⭐ Updates settings</h2>
+<ul>
+<li><strong>New &quot;Updates&quot; section in Settings</strong> — view the current feed, switch channels, toggle automatic update checks, and check for updates manually (PLAN-018). The update feed is runtime-configurable; changes apply without a restart.</li>
+</ul>
+<h2>⭐ WebUI in the packaged app</h2>
+<ul>
+<li>The WebUI (browser access to your workspace) is now bundled into the packaged app with a supervisor, tray controls, autostart, and a configurable port (PLAN-020). Previously this required running from source.</li>
+</ul>
+<h2>Improvements</h2>
+<ul>
+<li>Vorno branding (app name, bundle id <code>co.swagatar.vorno</code>, FORK badge) is applied consistently across the packaged app (PLAN-019).</li>
+</ul>
+<h2>Bug Fixes</h2>
+<ul>
+<li>Fixed packaging OOM by moving electron-builder to 26.15.3 (pinned exactly) — the 26.4.0 dependency collector walked bun&#39;s symlink store unboundedly.</li>
+<li>Fixed CI release builds running out of heap during the WebUI bundle step (<code>NODE_OPTIONS</code> default in <code>build-dmg.sh</code>).</li>
+<li>Fixed the embedded trigger server health-checking the configured port instead of the actually-bound port.</li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog/0.11.3/">← 0.11.3</a> · <a href="/changelog">All releases</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>

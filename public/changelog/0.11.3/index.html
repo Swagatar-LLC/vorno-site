@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.11.3 — Changelog</title>
+<meta name="description" content="Vorno gets its face: the vortex-&quot;V&quot; icon everywhere, in-app branding to match, a changelog that tells Vorno's own story — delivered through the auto-update pipeline that v0.11.2 built.">
+<link rel="canonical" href="https://vorno.ai/changelog/0.11.3/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.11.3</h1>
+  <p class="tagline" style="margin:0 0 6px;text-align:left">The Vorno Identity Release</p>
+  <p class="date">July 14, 2026</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.11.3">Download 0.11.3 &amp; assets →</a></p>
+  <div class="prose">
+<p>Vorno gets its face: the vortex-&quot;V&quot; icon everywhere, in-app branding to match, a changelog that tells Vorno&#39;s own story — delivered through the auto-update pipeline that v0.11.2 built.</p>
+<h2>⭐ New Vorno app icon</h2>
+<ul>
+<li>The app now ships the Vorno vortex-&quot;V&quot; identity across every icon surface: macOS Dock/Finder (<code>icon.icns</code>), macOS 26+ Liquid Glass (layered <code>AppIcon.icon</code> compiled to <code>Assets.car</code>), Windows (<code>icon.ico</code>), and Linux (<code>icon.png</code>).</li>
+<li>The Liquid Glass icon is built from three depth layers (background, vortex, white V) so macOS Tahoe renders it with real glass parallax.</li>
+<li>Also fixes the icon asset/<code>CFBundleIconName</code> mismatch that silently prevented the Liquid Glass icon from loading at all — earlier builds always fell back to the flat icns.</li>
+</ul>
+<h2>Improvements</h2>
+<ul>
+<li><strong>In-app Vorno branding</strong> — The splash/loading screen, app menu, and onboarding/reauth screens now show the Vorno vortex-&quot;V&quot; mark instead of the old Craft &quot;C&quot; symbol, and the bundled logo assets carry the new identity.</li>
+<li><strong>Periodic update checks</strong> — Long-running Vorno instances now re-check for updates on a randomized 2–7 hour interval instead of only at launch. The update toast remains dismissible per version; a dismissed version won&#39;t re-notify. Automatic checks can still be disabled entirely in Settings → Updates.</li>
+<li><strong>&quot;What&#39;s New&quot; now carries the Vorno changelog</strong> — Vorno releases get their own release-notes entries (including backfilled 0.11.2 notes), so this panel reflects what actually shipped in Vorno rather than only upstream history. Vorno also now versions independently of upstream (ADR-0010).</li>
+<li><strong>Webhook security model documented</strong> — The webhook ingest trust boundaries and prompt-injection posture are now written down: a colocated <code>SECURITY.md</code> for developers and a public operator-facing reference in <code>docs/webhooks.md</code>. (The protections themselves are architectural and predate this release — payloads never enter the prompt&#39;s instruction channel.)</li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog/0.11.4/">← 0.11.4</a> · <a href="/changelog">All releases</a> · <a href="/changelog/0.11.2/">0.11.2 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>

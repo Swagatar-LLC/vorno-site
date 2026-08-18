@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vorno — Changelog</title>
-<meta name="description" content="Release notes for each Vorno version.">
+<meta name="description" content="Release notes for every version of Vorno, newest first.">
+<link rel="canonical" href="https://vorno.ai/changelog">
 <link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
 <link rel="stylesheet" href="/assets/style.css">
 </head>
@@ -13,6 +14,7 @@
   <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
   <div class="links">
     <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
     <a href="/changelog">Changelog</a>
     <a href="/blog">Blog</a>
     <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
@@ -20,13 +22,108 @@
 </nav>
 <main>
   <h1>Changelog</h1>
-  <p>Full release notes ship with every build on the <a href="https://github.com/Swagatar-LLC/vorno-releases/releases">releases page</a>.</p>
+  <p>Every Vorno release, newest first. Notes are published from the app's own
+  release notes at the tag that was built, so this page matches what shipped.
+  Binaries live on the <a href="https://github.com/Swagatar-LLC/vorno-releases/releases">releases page</a>, and the app
+  updates itself from that same feed.</p>
   <div class="entry">
-    <h2 style="margin:0 0 4px">v0.13.0</h2>
-    <p class="date">July 25, 2026</p>
-    <p style="margin-top:8px">First slice of the artifact storage plane — storage roots, storage-provider configuration, and management surfaces — plus connection-reliability hardening: read-idle transport liveness, annotation sync fixes, and follow-up send-queue improvements.</p>
-    <p style="margin-top:8px"><a href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.13.0">Download &amp; full notes →</a></p>
+    <h2 style="margin:0 0 4px"><a href="/changelog/0.16.0/">v0.16.0</a></h2>
+    <p class="date">August 15, 2026</p>
+    
+    <p style="margin-top:8px">Automation refusals are now visible in run history. v0.15.0's loop protection was correct but silent: an action stopped by a guard produced a log line and nothing else, so a rule that worked and then quietly stopped was indistinguishable from one that never…</p>
+    <p style="margin-top:8px"><a href="/changelog/0.16.0/">Full notes</a> · <a href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.16.0">Download &amp; assets →</a></p>
   </div>
+  <div class="entry">
+    <h2 style="margin:0 0 4px"><a href="/changelog/0.15.0/">v0.15.0</a></h2>
+    <p class="date">August 7, 2026</p>
+    
+    <p style="margin-top:8px">Automations can now act on sessions from any event. set-status, set-labels, and send-message used to be accepted only on WebhookReceived, which made most lifecycle workflows impossible to express. They now work on any automation event — add a label and have…</p>
+    <p style="margin-top:8px"><a href="/changelog/0.15.0/">Full notes</a> · <a href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.15.0">Download &amp; assets →</a></p>
+  </div>
+  <div class="entry">
+    <h2 style="margin:0 0 4px"><a href="/changelog/0.14.0/">v0.14.0</a></h2>
+    <p class="date">July 30, 2026</p>
+    
+    <p style="margin-top:8px">vorno:// links now open Vorno directly. Vorno registers its own vorno:// URL scheme alongside the existing craftagents:// scheme, using the same link format. Links Vorno generates now prefer vorno://, so they open Vorno reliably even when another Craft Agen…</p>
+    <p style="margin-top:8px"><a href="/changelog/0.14.0/">Full notes</a> · <a href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.14.0">Download &amp; assets →</a></p>
+  </div>
+  <div class="entry">
+    <h2 style="margin:0 0 4px"><a href="/changelog/0.13.0/">v0.13.0</a></h2>
+    <p class="date">July 26, 2026</p>
+    <p style="margin-top:8px"><strong>Artifact Storage Plane + Connection Reliability</strong></p>
+    <p style="margin-top:8px">The first slice of the artifact plane lands alongside a batch of Web UI connection and annotation reliability fixes. Wire-compatible with the prior release.</p>
+    <p style="margin-top:8px"><a href="/changelog/0.13.0/">Full notes</a> · <a href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.13.0">Download &amp; assets →</a></p>
+  </div>
+  <div class="entry">
+    <h2 style="margin:0 0 4px"><a href="/changelog/0.12.3/">v0.12.3</a></h2>
+    <p class="date">July 24, 2026</p>
+    <p style="margin-top:8px"><strong>Web UI remote-access fixes</strong></p>
+    <p style="margin-top:8px">Follow-up bug fixes to the PLAN-022 remote-access package shipped in v0.12.0. No new features; wire-compatible.</p>
+    <p style="margin-top:8px"><a href="/changelog/0.12.3/">Full notes</a> · <a href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.12.3">Download &amp; assets →</a></p>
+  </div>
+  <div class="entry">
+    <h2 style="margin:0 0 4px"><a href="/changelog/0.12.2/">v0.12.2</a></h2>
+    <p class="date">July 24, 2026</p>
+    
+    <p style="margin-top:8px">Agents can create unstarted Tasks on the board with the new createtask tool — title, description, acceptance criteria, sources, skills, LLM connection/model, and working directory; Tasks inherit the current project unless another is specified, and unknown s…</p>
+    <p style="margin-top:8px"><a href="/changelog/0.12.2/">Full notes</a> · <a href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.12.2">Download &amp; assets →</a></p>
+  </div>
+  <div class="entry">
+    <h2 style="margin:0 0 4px"><a href="/changelog/0.12.1/">v0.12.1</a></h2>
+    <p class="date">July 17, 2026</p>
+    <p style="margin-top:8px"><strong>Vorno Branding Cleanup</strong></p>
+    <p style="margin-top:8px">Web UI is now fully Vorno-branded — the login page shows the Vorno logo, the favicon and the Add-to-Home-Screen / PWA icon are the Vorno mark (previously the old &quot;C&quot;), and the login prompt matches Settings (&quot;Enter your Vorno Web UI password&quot;).</p>
+    <p style="margin-top:8px"><a href="/changelog/0.12.1/">Full notes</a> · <a href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.12.1">Download &amp; assets →</a></p>
+  </div>
+  <div class="entry">
+    <h2 style="margin:0 0 4px"><a href="/changelog/0.12.0/">v0.12.0</a></h2>
+    <p class="date">July 15, 2026</p>
+    <p style="margin-top:8px"><strong>Remote Access That Actually Works</strong></p>
+    <p style="margin-top:8px">Remote Web UI access now works through a single port — the WebSocket connection is proxied through the same port the page loads from, so reaching the app from another device (phone, tablet, another computer) only needs one port opened. Previously, remote lo…</p>
+    <p style="margin-top:8px"><a href="/changelog/0.12.0/">Full notes</a> · <a href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.12.0">Download &amp; assets →</a></p>
+  </div>
+  <div class="entry">
+    <h2 style="margin:0 0 4px"><a href="/changelog/0.11.6/">v0.11.6</a></h2>
+    <p class="date">July 15, 2026</p>
+    <p style="margin-top:8px"><strong>Projects, Cleaner Chrome, and Settings Fixes</strong></p>
+    <p style="margin-top:8px">Projects are now first-class citizens — clicking a project in the sidebar opens a dedicated view of that project's sessions (titled with the project name, sidebar highlighted), and clicking All Sessions or any other navigation fully exits the project scope…</p>
+    <p style="margin-top:8px"><a href="/changelog/0.11.6/">Full notes</a> · <a href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.11.6">Download &amp; assets →</a></p>
+  </div>
+  <div class="entry">
+    <h2 style="margin:0 0 4px"><a href="/changelog/0.11.5/">v0.11.5</a></h2>
+    <p class="date">July 14, 2026</p>
+    <p style="margin-top:8px"><strong>WebUI Hotfix</strong></p>
+    <p style="margin-top:8px">A fast follow to 0.11.4.</p>
+    <p style="margin-top:8px"><a href="/changelog/0.11.5/">Full notes</a> · <a href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.11.5">Download &amp; assets →</a></p>
+  </div>
+  <div class="entry">
+    <h2 style="margin:0 0 4px"><a href="/changelog/0.11.4/">v0.11.4</a></h2>
+    <p class="date">July 14, 2026</p>
+    <p style="margin-top:8px"><strong>Version Display Fix</strong></p>
+    <p style="margin-top:8px">A fast follow to 0.11.3.</p>
+    <p style="margin-top:8px"><a href="/changelog/0.11.4/">Full notes</a> · <a href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.11.4">Download &amp; assets →</a></p>
+  </div>
+  <div class="entry">
+    <h2 style="margin:0 0 4px"><a href="/changelog/0.11.3/">v0.11.3</a></h2>
+    <p class="date">July 14, 2026</p>
+    <p style="margin-top:8px"><strong>The Vorno Identity Release</strong></p>
+    <p style="margin-top:8px">Vorno gets its face: the vortex-&quot;V&quot; icon everywhere, in-app branding to match, a changelog that tells Vorno's own story — delivered through the auto-update pipeline that v0.11.2 built.</p>
+    <p style="margin-top:8px"><a href="/changelog/0.11.3/">Full notes</a> · <a href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.11.3">Download &amp; assets →</a></p>
+  </div>
+  <div class="entry">
+    <h2 style="margin:0 0 4px"><a href="/changelog/0.11.2/">v0.11.2</a></h2>
+    <p class="date">July 14, 2026</p>
+    <p style="margin-top:8px"><strong>First Signed Vorno Release</strong></p>
+    <p style="margin-top:8px">The first fully signed, notarized, and auto-updating Vorno release — the fork now ships like a real product.</p>
+    <p style="margin-top:8px"><a href="/changelog/0.11.2/">Full notes</a> · <a href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.11.2">Download &amp; assets →</a></p>
+  </div>
+  <h2>Before 0.11.2</h2>
+  <p>Vorno is a fork of an open-source project and shares its history up to
+  0.11.1; version numbering diverged at 0.11.2, which is the first release built,
+  signed, and published as Vorno. There are no Vorno builds below that version,
+  so earlier release notes are not reproduced here — they belong to the upstream
+  project and are available in
+  <a href="https://github.com/Swagatar-LLC/vorno/tree/v0.16.0/apps/electron/resources/release-notes">the repository</a>.</p>
 </main>
 <footer>
   <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>

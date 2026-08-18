@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.11.4 — Changelog</title>
+<meta name="description" content="A fast follow to 0.11.3.">
+<link rel="canonical" href="https://vorno.ai/changelog/0.11.4/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.11.4</h1>
+  <p class="tagline" style="margin:0 0 6px;text-align:left">Version Display Fix</p>
+  <p class="date">July 14, 2026</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.11.4">Download 0.11.4 &amp; assets →</a></p>
+  <div class="prose">
+<p>A fast follow to 0.11.3.</p>
+<h2>Bug Fixes</h2>
+<ul>
+<li><strong>The app now reports its real version</strong> — Settings → About and the update toasts were displaying &quot;0.11.1&quot; on newer builds (including right after a successful update). The displayed version compiles in from a different file than the app&#39;s actual bundle version, and releases were only bumping the latter — updates worked correctly, but the app lied about what version it was. All version surfaces (Settings About, update toasts, WebUI, CLI <code>--version</code>, error-report tagging) now agree, and a release-pipeline gate ensures they can never drift apart again.</li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog/0.11.5/">← 0.11.5</a> · <a href="/changelog">All releases</a> · <a href="/changelog/0.11.3/">0.11.3 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>

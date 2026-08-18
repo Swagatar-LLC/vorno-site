@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.16.0 — Changelog</title>
+<meta name="description" content="Automation refusals are now visible in run history. v0.15.0's loop protection was correct but silent: an action stopped by a guard produced a log line and nothing else, so a rule that worked and then quietly stopped was indistinguishable from one that never…">
+<link rel="canonical" href="https://vorno.ai/changelog/0.16.0/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.16.0</h1>
+  
+  <p class="date">August 15, 2026</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.16.0">Download 0.16.0 &amp; assets →</a></p>
+  <div class="prose">
+<h2>Features</h2>
+<ul>
+<li><strong>Automation refusals are now visible in run history.</strong> v0.15.0&#39;s loop protection was correct but silent: an action stopped by a guard produced a log line and nothing else, so a rule that worked and then quietly stopped was indistinguishable from one that never matched. Every refusal now writes a history record in the same envelope as an executed action — <code>skipped:self-trigger</code>, <code>skipped:depth-exceeded</code>, <code>skipped:rate-limited</code>, or <code>skipped:unknown-action</code> — rendered as blocked in the Automations timeline, with the reason and the target session. The last one covers a rule that fires normally while one of its actions names a type nothing dispatches; its healthy actions still run.</li>
+<li><strong>New <code>apply-context</code> automation action: activate a named context profile on a session.</strong> One action type for session context, not one per knob. A profile in <code>context-profiles/config.json</code> carries a working directory, sources, and permission mode, reviewed once and reused by id — so a label can become a declarative context activator. Raising the permission mode requires <code>allowEscalation</code> on the profile itself (lowering is always free), and a profile structurally cannot close a session. Skills are deliberately not a profile field — they aren&#39;t session state; that knob is tracked separately as PLAN-032.</li>
+</ul>
+<h2>Improvements</h2>
+<ul>
+<li>Session-action rows in the Automations run history now render a real summary — action, target, and outcome — where the timeline previously showed an em-dash for all of them, leaving a refused action indistinguishable from a successful one except by a red dot.</li>
+<li>The outcome vocabulary operators grep for (<code>set-status:…</code>, <code>rejected:…</code>, <code>deferred:…</code>, <code>skipped:…</code>) now has a single producer shared by all three executors, so the strings in your history can no longer drift apart by host.</li>
+<li>An action type a host doesn&#39;t implement is recorded as <code>skipped:unhandled-action:&lt;type&gt;</code> instead of reporting a clean success with no trace.</li>
+</ul>
+<h2>Bug Fixes</h2>
+<ul>
+<li>Mistyped action names that suggest a context change (<code>addWorkingDirectory</code>, <code>enableSkill</code>, <code>enableSource</code>, <code>applyContext</code>) now get a &quot;did you mean <code>apply-context</code>&quot; suggestion in config validation instead of dead-ending.</li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog">All releases</a> · <a href="/changelog/0.15.0/">0.15.0 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>

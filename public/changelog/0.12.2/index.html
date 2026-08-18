@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.12.2 — Changelog</title>
+<meta name="description" content="Agents can create unstarted Tasks on the board with the new createtask tool — title, description, acceptance criteria, sources, skills, LLM connection/model, and working directory; Tasks inherit the current project unless another is specified, and unknown s…">
+<link rel="canonical" href="https://vorno.ai/changelog/0.12.2/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.12.2</h1>
+  
+  <p class="date">July 24, 2026</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.12.2">Download 0.12.2 &amp; assets →</a></p>
+  <div class="prose">
+<h2>Features</h2>
+<ul>
+<li>Agents can create unstarted Tasks on the board with the new <code>create_task</code> tool — title, description, acceptance criteria, sources, skills, LLM connection/model, and working directory; Tasks inherit the current project unless another is specified, and unknown source/skill references are reported as warnings instead of blocking creation (from upstream v0.11.2)</li>
+<li>Sessions can now be sent between any two workspaces, including remote-to-local and local-to-local transfers (from upstream v0.11.2)</li>
+</ul>
+<h2>Improvements</h2>
+<ul>
+<li>Press Up arrow in a truly empty chat input to cancel the running turn and bring your last prompt back for editing (from upstream v0.11.2)</li>
+<li>In-app &quot;background session finished&quot; alerts are now off by default — enable them under Settings → Appearance (from upstream v0.11.2)</li>
+<li>Background task chips can be dismissed without stopping the task, and a chip with no updates stops spinning and shows an Unknown state without claiming the task stopped (from upstream v0.11.2)</li>
+</ul>
+<h2>Bug Fixes</h2>
+<ul>
+<li>Large transfers involving a remote workspace now allow more time for bundle export/import, reducing timeouts on slower connections (from upstream v0.11.2)</li>
+<li>Queuing a message while the agent is still replying no longer pushes the in-progress response below your new message (from upstream v0.11.2)</li>
+<li>Queuing a message mid-turn no longer makes the agent treat its already-finished previous response as interrupted (from upstream v0.11.2)</li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog/0.12.3/">← 0.12.3</a> · <a href="/changelog">All releases</a> · <a href="/changelog/0.12.1/">0.12.1 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>

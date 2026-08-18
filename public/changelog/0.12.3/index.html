@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.12.3 — Changelog</title>
+<meta name="description" content="Follow-up bug fixes to the PLAN-022 remote-access package shipped in v0.12.0. No new features; wire-compatible.">
+<link rel="canonical" href="https://vorno.ai/changelog/0.12.3/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.12.3</h1>
+  <p class="tagline" style="margin:0 0 6px;text-align:left">Web UI remote-access fixes</p>
+  <p class="date">July 24, 2026</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.12.3">Download 0.12.3 &amp; assets →</a></p>
+  <div class="prose">
+<p>Follow-up bug fixes to the PLAN-022 remote-access package shipped in v0.12.0. No new features; wire-compatible.</p>
+<h2>Bug Fixes</h2>
+<ul>
+<li>Web UI over an HTTPS reverse proxy (e.g. Tailscale) no longer fails to log in or connect — the WebSocket now uses <code>wss://</code> to match the page, avoiding mixed-content blocking</li>
+<li>Web UI login password now persists reliably across restarts, and you can set your own password in Settings → Remote Access instead of only regenerating one</li>
+<li>Web UI Tailscale secure tunnel now supports a configurable HTTPS port (not just 443) and reliably removes its serve rule on stop/quit</li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog/0.13.0/">← 0.13.0</a> · <a href="/changelog">All releases</a> · <a href="/changelog/0.12.2/">0.12.2 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>

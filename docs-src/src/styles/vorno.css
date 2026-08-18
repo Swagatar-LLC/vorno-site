@@ -1,0 +1,113 @@
+/* Brand pass for Starlight.
+ *
+ * CSS variables only — the palette is lifted from public/assets/style.css so
+ * /docs reads as the same site as /, /download and /changelog. No new visual
+ * identity, and the vortex-"V" mark is used as-is.
+ */
+
+:root {
+  --vorno-bg-0: #020617;
+  --vorno-bg-1: #050c25;
+  --vorno-bg-2: #0b1739;
+  --vorno-text: #e6eaf5;
+  --vorno-text-dim: #8b93ab;
+  --vorno-line: rgba(139, 147, 171, 0.18);
+  --vorno-grad: linear-gradient(
+    90deg,
+    #ff922e 0%,
+    #ff6a55 27%,
+    #c04fd2 52%,
+    #6947f5 74%,
+    #00c8ff 100%
+  );
+}
+
+:root[data-theme="dark"] {
+  --sl-color-accent-low: #1b1650;
+  --sl-color-accent: #6947f5;
+  --sl-color-accent-high: #b9c9ff;
+
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #eef1f9;
+  --sl-color-gray-2: #c6ccdd;
+  --sl-color-gray-3: #8b93ab;
+  --sl-color-gray-4: #4d5570;
+  --sl-color-gray-5: #2b3557;
+  --sl-color-gray-6: #14203f;
+
+  --sl-color-black: var(--vorno-bg-0);
+  --sl-color-bg: var(--vorno-bg-0);
+  --sl-color-bg-nav: rgba(5, 12, 37, 0.92);
+  --sl-color-bg-sidebar: var(--vorno-bg-0);
+  --sl-color-bg-inline-code: rgba(255, 255, 255, 0.06);
+  --sl-color-hairline: var(--vorno-line);
+  --sl-color-hairline-light: var(--vorno-line);
+  --sl-color-hairline-shade: var(--vorno-line);
+  --sl-color-text: var(--vorno-text-dim);
+  --sl-color-text-accent: #7ab8ff;
+}
+
+:root[data-theme="light"] {
+  --sl-color-accent-low: #dfd9ff;
+  --sl-color-accent: #5436d6;
+  --sl-color-accent-high: #241263;
+}
+
+/* The landing gradient, reused for the docs index heading. */
+.vorno-grad {
+  background: var(--vorno-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(
+        120% 70% at 50% 0%,
+        var(--vorno-bg-2) 0%,
+        var(--vorno-bg-1) 55%,
+        var(--vorno-bg-0) 100%
+      )
+      fixed,
+    var(--vorno-bg-0);
+}
+
+:root[data-theme="dark"] .main-frame,
+:root[data-theme="dark"] header.header,
+:root[data-theme="dark"] .sidebar-pane {
+  background: transparent;
+}
+
+.site-title img {
+  border-radius: 7px;
+}
+
+/* Card grid on the docs index. */
+.vorno-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 0.9rem;
+  margin-top: 1.25rem;
+  list-style: none;
+  padding: 0;
+}
+
+.vorno-cards li {
+  margin: 0;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  background: var(--sl-color-bg-inline-code);
+}
+
+.vorno-cards li a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.vorno-cards li p {
+  margin: 0.35rem 0 0;
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+}
