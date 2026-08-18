@@ -1,0 +1,214 @@
+name: Publish docs + changelog
+
+# Rebuilds /docs and /changelog at a release tag of Swagatar-LLC/vorno and
+# deploys vorno.ai (PLAN-034 Lane C, ADR-0023).
+#
+# Why this exists: v0.17.0 shipped while the site stayed on the previous build.
+# /changelog/0.17.0/ and eighteen new service guides 404'd for hours. Nothing
+# was red — the release was green, the site was simply never rebuilt, and a
+# human had to notice and publish by hand. ADR-0023 made documentation a
+# release artifact; this is what makes that true without anyone remembering.
+#
+# Two triggers:
+#   repository_dispatch — fired by the `Release` workflow in Swagatar-LLC/vorno
+#                         after a successful, signed, published release.
+#   workflow_dispatch   — run it by hand for any tag. This is deliberate: it
+#                         makes the pipeline runnable and testable *before* the
+#                         deploy secret exists, and gives a human a one-click
+#                         republish that is the same path CI takes.
+
+on:
+  repository_dispatch:
+    types: [vorno-release]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag in Swagatar-LLC/vorno to publish (e.g. v0.17.0)"
+        required: true
+        type: string
+      deploy:
+        description: "Deploy to Cloudflare. Uncheck for a build-only dry run."
+        type: boolean
+        default: true
+
+# Never let two publishes race: they both write public/ and both push to main.
+# Not cancel-in-progress — a half-finished deploy is worse than a queued one.
+concurrency:
+  group: publish-vorno-site
+  cancel-in-progress: false
+
+permissions:
+  contents: write # commits the rebuilt public/ back to main
+
+jobs:
+  publish:
+    name: Build, deploy, verify
+    runs-on: ubuntu-latest
+    steps:
+      # -------------------------------------------------------------------
+      # Resolve and validate the tag.
+      #
+      # The dispatch payload comes from another repository, so it is treated as
+      # untrusted input: it is read through the environment and never
+      # interpolated into a shell script (a `${{ }}` expression pasted into a
+      # `run:` block is executed by the shell, which is a command-injection
+      # vector). The regex is a strict allowlist, not a sanitiser.
+      # -------------------------------------------------------------------
+      - name: Resolve tag
+        id: resolve
+        env:
+          DISPATCH_TAG: ${{ github.event.client_payload.tag }}
+          INPUT_TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          TAG="${DISPATCH_TAG:-${INPUT_TAG:-}}"
+          if [ -z "${TAG}" ]; then
+            echo "::error::No tag supplied. repository_dispatch must send client_payload.tag."
+            exit 1
+          fi
+          if ! printf '%s' "${TAG}" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::Refusing tag '${TAG}' — expected the form v1.2.3."
+            exit 1
+          fi
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+          echo "Publishing ${TAG}"
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Astro 7 requires >= 22.12.
+          node-version: "24"
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      # -------------------------------------------------------------------
+      # Build. Fails loudly on its own: the changelog step cross-checks the
+      # rendered version pages against the GitHub release feed and fails on a
+      # mismatch, and verify.mjs gates footers, upstream links, and internal
+      # link integrity. GITHUB_TOKEN lifts the anonymous API rate limit, which
+      # is shared across the runner fleet.
+      # -------------------------------------------------------------------
+      - name: Build docs + changelog at ${{ steps.resolve.outputs.tag }}
+        env:
+          VORNO_TAG: ${{ steps.resolve.outputs.tag }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run build
+
+      # -------------------------------------------------------------------
+      # Decide whether we can deploy. The Cloudflare token is human-gated
+      # (PLAN-034): until Jeff creates it, this workflow still builds and still
+      # verifies the build — it just cannot publish. That is a warning, not a
+      # failure, so the build leg stays exercisable in the meantime.
+      # -------------------------------------------------------------------
+      - name: Check deploy credentials
+        id: creds
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          WANT_DEPLOY: ${{ github.event_name != 'workflow_dispatch' || inputs.deploy }}
+        run: |
+          set -euo pipefail
+          if [ "${WANT_DEPLOY}" != "true" ]; then
+            echo "can_deploy=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Dry run requested — built and verified, not deploying."
+            exit 0
+          fi
+          if [ -z "${CLOUDFLARE_API_TOKEN}" ]; then
+            echo "can_deploy=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::CLOUDFLARE_API_TOKEN is not set — built and verified, but NOT deployed. Add the secret to this repository to complete the pipeline; until then publish by hand with 'npx wrangler deploy'."
+            exit 0
+          fi
+          echo "can_deploy=true" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy to Cloudflare
+        if: steps.creds.outputs.can_deploy == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          # Not a secret: this account ID is already published in this repo's
+          # README. Setting it explicitly avoids wrangler having to guess when
+          # the token can see more than one account.
+          CLOUDFLARE_ACCOUNT_ID: c3e447a3c0a726801eeb9a1148ff09de
+        run: npx wrangler deploy
+
+      # -------------------------------------------------------------------
+      # Record what was published.
+      #
+      # public/ is committed on purpose, so a bare `wrangler deploy` from a
+      # clean clone publishes a complete site and the git diff shows what the
+      # public site will serve. If CI deployed without committing, the repo
+      # would silently stop describing the live site — which would undo the
+      # reason it is committed at all.
+      #
+      # Deliberately ordered AFTER the deploy: the commit records what actually
+      # reached the edge. Committing first would let a failed deploy leave a
+      # repo claiming to be live.
+      # -------------------------------------------------------------------
+      - name: Commit rebuilt public/
+        if: steps.creds.outputs.can_deploy == 'true'
+        env:
+          TAG: ${{ steps.resolve.outputs.tag }}
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/
+          if git diff --cached --quiet; then
+            echo "public/ is byte-identical to what is committed — nothing to record."
+            exit 0
+          fi
+          git diff --cached --stat
+          {
+            printf 'build: publish %s to vorno.ai\n\n' "${TAG}"
+            printf 'Rebuilt /docs and /changelog from Swagatar-LLC/vorno at %s and\n' "${TAG}"
+            printf 'deployed. Committed after the deploy so this repo records what is\n'
+            printf 'actually live (PLAN-034 Lane C).\n\n'
+            printf 'Run: %s/actions/runs/%s\n\n' "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}" "${GITHUB_RUN_ID}"
+            printf 'Co-Authored-By: Vorno <agents-noreply@swagatar.co>\n'
+          } > /tmp/publish-commit-msg.txt
+          git commit -F /tmp/publish-commit-msg.txt
+          # Another commit may have landed on main while this build ran.
+          git push || { git pull --rebase && git push; }
+
+      # -------------------------------------------------------------------
+      # Verify over real HTTP. A green deploy is not evidence of a correct
+      # site — this is the check whose absence let v0.17.0 ship to a stale
+      # site. verify-live.mjs waits for edge propagation and re-polls before
+      # reporting anything, so it does not cry wolf on asset propagation lag.
+      # -------------------------------------------------------------------
+      - name: Verify the live site
+        if: steps.creds.outputs.can_deploy == 'true'
+        env:
+          VORNO_TAG: ${{ steps.resolve.outputs.tag }}
+        run: npm run verify:live
+
+      - name: Summary
+        if: always()
+        env:
+          TAG: ${{ steps.resolve.outputs.tag }}
+          VERSION: ${{ steps.resolve.outputs.version }}
+          DEPLOYED: ${{ steps.creds.outputs.can_deploy }}
+        run: |
+          {
+            echo "## Publish ${TAG}"
+            echo
+            if [ "${DEPLOYED}" = "true" ]; then
+              echo "Deployed and verified over HTTP."
+              echo
+              echo "- <https://vorno.ai/docs/>"
+              echo "- <https://vorno.ai/changelog/${VERSION}/>"
+            else
+              echo "**Built and verified, but NOT deployed.**"
+              echo
+              echo "Either this was a dry run or \`CLOUDFLARE_API_TOKEN\` is not set on this repository."
+              echo "To publish by hand from a clone:"
+              echo
+              echo '```bash'
+              echo "VORNO_TAG=${TAG} npm run build"
+              echo "npx wrangler deploy"
+              echo "VORNO_TAG=${TAG} npm run verify:live"
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

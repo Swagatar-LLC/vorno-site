@@ -59,7 +59,41 @@ The initial deploy (2026-07-26) was performed via the raw Cloudflare REST API (a
 
 `.content/` is gitignored, so no token is ever written to a tracked file. **`bunx wrangler deploy` remains the normal path** — this is the fallback, and if the two ever disagree, `wrangler.jsonc` is the source of truth.
 
+### Publishing on release (CI)
+
+`.github/workflows/publish.yml` rebuilds `/docs` + `/changelog` at a release tag and deploys. It exists because v0.17.0 shipped while this site stayed on the previous build: `/changelog/0.17.0/` and eighteen new guides 404'd, **nothing was red**, and a human had to notice. ADR-0023 made documentation a release artifact; this is what makes that true without anyone remembering.
+
+Two triggers:
+
+| Trigger | Source |
+|---|---|
+| `repository_dispatch` (`vorno-release`) | the `Release` workflow in `Swagatar-LLC/vorno`, after a **signed, published** release |
+| `workflow_dispatch` | a human, for any tag — with a `deploy` checkbox for a build-only dry run |
+
+The manual trigger is not a convenience afterthought: it makes the pipeline runnable and testable without cutting a release, and it is the same code path CI takes.
+
+The job builds → deploys → commits the rebuilt `public/` back → verifies over HTTP. The commit lands **after** the deploy on purpose, so this repo records what actually reached the edge rather than what was hoped for; committing first would let a failed deploy leave the repo claiming to be live.
+
+**Required secret — `CLOUDFLARE_API_TOKEN` on this repository** (Settings → Secrets and variables → Actions). Scope it to *Workers Scripts: Edit* on account `c3e447a3c0a726801eeb9a1148ff09de`. It must be a **separate token from the workspace `cloudflare` source token**, which is IP-allowlisted — GitHub-hosted runners have no stable egress IP, so an allowlisted token fails from CI by design.
+
+Without that secret the workflow still runs, still builds, and still gates the output — it warns and skips the deploy instead of failing, so the build leg stays exercisable. Publish by hand in the meantime:
+
+```bash
+VORNO_TAG=v0.17.0 npm run build
+npx wrangler deploy
+VORNO_TAG=v0.17.0 npm run verify:live
+```
+
 ### After every deploy, verify over real HTTP
+
+`npm run verify:live` is the scripted form of the sweep below, and is what CI runs. It checks the marketing pages, `/docs/` and a nested docs route, that `/changelog/` **names** the version being published, that `/changelog/<version>/` exists, and that an unknown path still 404s (a catch-all 200 would make every other check meaningless). It waits for edge propagation and re-polls before reporting anything.
+
+```bash
+VORNO_TAG=v0.17.0 npm run verify:live                        # after a deploy
+VORNO_TAG=v0.17.0 VERIFY_INITIAL_DELAY=0 npm run verify:live # already settled
+```
+
+The manual equivalent:
 
 A green deploy is not evidence of a correct site (the failure shape of LEARNING-048). The shell's `curl` is aliased to a missing binary — use `/usr/bin/curl`.
 

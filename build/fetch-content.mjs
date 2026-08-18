@@ -57,10 +57,27 @@ function extractTarball() {
 
 async function fetchReleases() {
   const url = `https://api.github.com/repos/${RELEASES_REPO}/releases?per_page=100`;
-  const res = await fetch(url, {
-    headers: { accept: "application/vnd.github+json", "user-agent": "vorno-site-build" },
-  });
-  if (!res.ok) throw new Error(`release feed: HTTP ${res.status}`);
+  // The feed repo is public, so a token is not required to read it. But the
+  // unauthenticated GitHub API allows only 60 requests/hour *per IP*, and CI
+  // runners share egress IPs with every other job on the fleet — so an
+  // unauthenticated build fails intermittently for reasons that have nothing
+  // to do with this repo. Authenticate when a token is available (CI always
+  // has one); stay anonymous for local builds, which need no setup.
+  const headers = {
+    accept: "application/vnd.github+json",
+    "user-agent": "vorno-site-build",
+  };
+  const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
+  if (token) headers.authorization = `Bearer ${token}`;
+
+  const res = await fetch(url, { headers });
+  if (!res.ok) {
+    const hint =
+      res.status === 403 && !token
+        ? " — looks like the unauthenticated rate limit; set GITHUB_TOKEN"
+        : "";
+    throw new Error(`release feed: HTTP ${res.status}${hint}`);
+  }
   const releases = (await res.json())
     .filter((r) => !r.draft)
     .map((r) => ({
