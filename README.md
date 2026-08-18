@@ -72,6 +72,8 @@ done
 
 `/docs`, `/changelog`, `/download`, `/links`, and `/blog` each 307 to their trailing-slash form (the assets pipeline's `auto-trailing-slash`), so check with `-L` or request the trailing-slash URL.
 
+**Wait ~30s before verifying, and re-check any 404 before believing it.** Newly uploaded assets propagate across Cloudflare PoPs asynchronously: immediately after the v0.17.0 deploy, four `/docs/sources/*` routes 404'd while fourteen returned 200, and one route returned 200 and then 404 within the same sweep. All eighteen were consistently 200 twenty seconds later. A verification script that runs the instant the deploy returns will produce false failures — which is worse than no check, because it trains you to ignore it.
+
 **Cloudflare gotcha:** Redirect Rules run **before** Workers and silently shadow them. Never add one to these zones. If a path mysteriously bypasses the Worker, check that first and purge the zone cache after deleting the rule.
 
 ## Guardrails

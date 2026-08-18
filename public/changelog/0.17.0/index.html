@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.17.0 — Changelog</title>
+<meta name="description" content="Vorno has documentation of its own, at vorno.ai/docs — searchable, and generated from the same guides that ship inside the app, so the published pages are exactly what your build contains. Every release republishes them.">
+<link rel="canonical" href="https://vorno.ai/changelog/0.17.0/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.17.0</h1>
+  
+  <p class="date">August 18, 2026</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.17.0">Download 0.17.0 &amp; assets →</a></p>
+  <div class="prose">
+<h2>Features</h2>
+<ul>
+<li><strong>Vorno has documentation of its own, at <a href="https://vorno.ai/docs">vorno.ai/docs</a></strong> — searchable, and generated from the same guides that ship inside the app, so the published pages are exactly what your build contains. Every release republishes them.</li>
+<li><strong>Setup guides for 19 services</strong> — GitHub, Linear, Slack, Gmail, Google Calendar/Drive/Docs/Sheets, Outlook, Microsoft Calendar, Teams, SharePoint, Craft, Filesystem, Brave Search, Memory, plus shared Google and Microsoft prerequisite guides. The agent reads these before setting up a source, so it starts from the service&#39;s real auth flow, current scopes, and known traps instead of guessing. They record a verification date and tell the agent to trust the live service over the page when the two disagree.</li>
+<li><strong>A real changelog at <a href="https://vorno.ai/changelog">vorno.ai/changelog</a></strong> — every Vorno release, published automatically at tag time rather than maintained by hand.</li>
+<li><strong>In-app documentation links now go to Vorno&#39;s docs</strong> — the Help menu and the &quot;Learn more&quot; item beside session sharing. Sharing now has <a href="https://vorno.ai/docs/sharing">a page of its own</a> explaining exactly what a share publishes, where it is stored, and how to revoke it.</li>
+</ul>
+<h2>Improvements</h2>
+<ul>
+<li>Agents reference product documentation through the public docs site instead of a built-in documentation MCP source — one less background connection per session (from upstream v0.12.0).</li>
+</ul>
+<h2>Bug Fixes</h2>
+<ul>
+<li><strong>The standalone server&#39;s Docker image builds again.</strong> <code>Dockerfile.server</code> referenced a workspace directory that does not exist in the repository, so the image failed to build on a clean checkout. No CI job builds that image, so nothing caught it.</li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog">All releases</a> · <a href="/changelog/0.16.0/">0.16.0 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>
