@@ -46,7 +46,9 @@ bunx wrangler deploy   # needs CLOUDFLARE_API_TOKEN or `wrangler login`
 
 Deploying does not build. Run `npm run build` first when the content should change; otherwise `wrangler deploy` publishes whatever is committed under `public/`.
 
-The initial deploy (2026-07-26) was performed via the raw Cloudflare REST API (assets-upload-session → asset upload → script PUT → custom-domain PUTs) using the workspace `cloudflare` source token. That token is IP-allowlisted — from an unlisted network every call returns `403 code 9109, "Cannot use the access token from location: <ip>"`. The API client egresses over IPv6, whose privacy address rotates, so an allowlist pinned to a v6 address goes stale on its own.
+The initial deploy (2026-07-26) was performed via the raw Cloudflare REST API (assets-upload-session → asset upload → script PUT → custom-domain PUTs) using the workspace `cloudflare` source token.
+
+If a Cloudflare call ever returns `403 code 9109, "Cannot use the access token from location: <ip>"`, the token has an IP allowlist that no longer matches this machine. That blocked a deploy on 2026-08-17 and the restriction was relaxed the same evening, so it should not recur — but the symptom is worth recognising, because the API client egresses over IPv6 whose privacy address rotates, so any allowlist pinned to a v6 address goes stale on its own without anyone changing anything.
 
 ### Deploying without wrangler credentials
 
