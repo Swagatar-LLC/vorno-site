@@ -129,6 +129,15 @@ function rewriteLinks(body, slug, published, unresolved) {
 function parse(slug, raw) {
   let body = raw.replace(/^﻿/, "");
 
+  // Strip YAML frontmatter if the source guide carries any. Lane E found that
+  // without this the failure is silent and exit code 0: the H1 is no longer the
+  // first thing in the file so it is never dropped (duplicating Starlight's
+  // rendered title), and `firstParagraph` picks up the fence, producing a
+  // description like "--- domains:". Guides ship without frontmatter today —
+  // this is here so the day someone adds it is not the day they find out.
+  const fmMatch = body.match(/^---\r?\n[\s\S]*?\r?\n---[ \t]*\r?\n/);
+  if (fmMatch) body = body.slice(fmMatch[0].length).replace(/^\n+/, "");
+
   const h1 = body.match(/^#\s+(.+?)\s*$/m);
   const title = h1
     ? h1[1].replace(/`/g, "")
