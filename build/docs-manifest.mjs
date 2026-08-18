@@ -72,6 +72,13 @@ export const GROUPS = [
         nav: "Labels",
         blurb: "Boolean and valued labels for tagging sessions and driving automations.",
       },
+      {
+        slug: "sharing",
+        nav: "Sharing a session",
+        authored: true,
+        blurb:
+          "What publishing a session exposes, where the copy is stored and who operates it, and how to revoke it.",
+      },
       { slug: "themes",
         nav: "Themes", blurb: "The six-color theme system, app-wide and per-workspace." },
       { slug: "tool-icons",
