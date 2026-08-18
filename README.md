@@ -46,7 +46,18 @@ bunx wrangler deploy   # needs CLOUDFLARE_API_TOKEN or `wrangler login`
 
 Deploying does not build. Run `npm run build` first when the content should change; otherwise `wrangler deploy` publishes whatever is committed under `public/`.
 
-The initial deploy (2026-07-26) was performed via the raw Cloudflare REST API (assets-upload-session → asset upload → script PUT → custom-domain PUTs) using the workspace `cloudflare` source token. That token is IP-allowlisted — from an unlisted network every call returns `403 code 9109, "Cannot use the access token from location: <ip>"`.
+The initial deploy (2026-07-26) was performed via the raw Cloudflare REST API (assets-upload-session → asset upload → script PUT → custom-domain PUTs) using the workspace `cloudflare` source token. That token is IP-allowlisted — from an unlisted network every call returns `403 code 9109, "Cannot use the access token from location: <ip>"`. The API client egresses over IPv6, whose privacy address rotates, so an allowlist pinned to a v6 address goes stale on its own.
+
+### Deploying without wrangler credentials
+
+`build/deploy-manifest.mjs` and `build/deploy-upload.mjs` exist for the case where the token is reachable through the workspace `cloudflare` source but `wrangler` itself is unauthenticated (`wrangler whoami` → not authenticated) — the source holds the token and never exposes it to the shell. They reproduce wrangler's own upload protocol:
+
+1. `node build/deploy-manifest.mjs` — hashes every file under `public/` the way wrangler does (`blake3(base64(contents) + extensionWithoutDot).hex().slice(0, 32)`) and writes `.content/deploy/manifest.json`.
+2. `POST accounts/:id/workers/scripts/vorno-site/assets-upload-session` with that manifest → returns an upload JWT and hash buckets. Save them to `.content/deploy/jwt.txt` and `buckets.json`.
+3. `node build/deploy-upload.mjs` — uploads each bucket using the **short-lived upload JWT**, not the account token, and saves the completion token.
+4. `PUT accounts/:id/workers/scripts/vorno-site` — multipart body with a `metadata` part (`main_module`, `compatibility_date`, the `ASSETS` binding, and `assets.jwt` = the completion token, plus the `html_handling` / `not_found_handling` / `run_worker_first` config that mirrors `wrangler.jsonc`) and the worker module.
+
+`.content/` is gitignored, so no token is ever written to a tracked file. **`bunx wrangler deploy` remains the normal path** — this is the fallback, and if the two ever disagree, `wrangler.jsonc` is the source of truth.
 
 ### After every deploy, verify over real HTTP
 
