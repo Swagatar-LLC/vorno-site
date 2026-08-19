@@ -1,6 +1,8 @@
 # vorno-site
 
-Source for **[vorno.ai](https://vorno.ai)** — the Vorno marketing site, public documentation, and changelog, deployed as a **Cloudflare Worker with static assets** (free tier) on the Swagatar LLC Cloudflare account (`c3e447a3c0a726801eeb9a1148ff09de`), Worker name `vorno-site`, custom domains `vorno.ai` + `www.vorno.ai` (zone `2725363d3a92fd613c937ec791ffab9a`).
+Source for **[vorno.ai](https://vorno.ai)** — the Vorno marketing site, public documentation, and changelog, deployed as a **Cloudflare Worker with static assets** (free tier) on the Swagatar LLC Cloudflare account, Worker name `vorno-site`, custom domains `vorno.ai` + `www.vorno.ai`.
+
+> **Account, zone, and namespace IDs are deliberately not recorded in this repository.** This repo is public. Look them up in the Cloudflare dashboard, or in the "Vorno Web Presence" page in Notion (IT & Technical Operations). Tooling reads them from the environment (`CLOUDFLARE_ACCOUNT_ID`), never from a tracked file.
 
 ## Layout
 
@@ -76,7 +78,12 @@ The manual trigger is not a convenience afterthought: it makes the pipeline runn
 
 The job builds → deploys → commits the rebuilt `public/` back → verifies over HTTP. The commit lands **after** the deploy on purpose, so this repo records what actually reached the edge rather than what was hoped for; committing first would let a failed deploy leave the repo claiming to be live.
 
-**Required secret — `CLOUDFLARE_API_TOKEN` on this repository** (Settings → Secrets and variables → Actions). Scope it to *Workers Scripts: Edit* on account `c3e447a3c0a726801eeb9a1148ff09de`.
+**Required secrets on this repository** (Settings → Secrets and variables → Actions):
+
+| Secret | Value |
+|---|---|
+| `CLOUDFLARE_API_TOKEN` | a token scoped to *Workers Scripts: Edit* on the Swagatar Cloudflare account |
+| `CLOUDFLARE_ACCOUNT_ID` | the account ID — a secret only so it stays out of this public repo, not because it is a credential |
 
 Mint a **separate token from the workspace `cloudflare` source token**, on least-privilege grounds: this one needs exactly one permission on one account, it lives in a shared CI system rather than a local credential store, and either can then be revoked or rotated without breaking the other. Reusing the interactive token would put a broadly-scoped credential in CI and couple two unrelated blast radii.
 

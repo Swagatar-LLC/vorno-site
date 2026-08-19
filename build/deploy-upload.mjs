@@ -9,7 +9,16 @@ import fs from "node:fs";
 import path from "node:path";
 import { CONTENT_DIR } from "./config.mjs";
 
-const ACCOUNT = "c3e447a3c0a726801eeb9a1148ff09de";
+// Read from the environment, never hardcoded: this repository is public, and
+// account IDs do not belong in a tracked file. Export CLOUDFLARE_ACCOUNT_ID
+// before running (the value is in the Cloudflare dashboard / the "Vorno Web
+// Presence" Notion page).
+const ACCOUNT = process.env.CLOUDFLARE_ACCOUNT_ID;
+if (!ACCOUNT) {
+  throw new Error(
+    "CLOUDFLARE_ACCOUNT_ID is not set — export it before running the REST deploy path.",
+  );
+}
 const DEPLOY = path.join(CONTENT_DIR, "deploy");
 
 const jwt = fs.readFileSync(path.join(DEPLOY, "jwt.txt"), "utf8").trim();

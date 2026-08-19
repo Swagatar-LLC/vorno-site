@@ -100,9 +100,9 @@ jobs:
 
       # -------------------------------------------------------------------
       # Decide whether we can deploy. The Cloudflare token is human-gated
-      # (PLAN-034): until Jeff creates it, this workflow still builds and still
-      # verifies the build — it just cannot publish. That is a warning, not a
-      # failure, so the build leg stays exercisable in the meantime.
+      # (PLAN-034): until it is provisioned, this workflow still builds and
+      # still verifies the build — it just cannot publish. That is a warning,
+      # not a failure, so the build leg stays exercisable in the meantime.
       # -------------------------------------------------------------------
       - name: Check deploy credentials
         id: creds
@@ -127,10 +127,10 @@ jobs:
         if: steps.creds.outputs.can_deploy == 'true'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          # Not a secret: this account ID is already published in this repo's
-          # README. Setting it explicitly avoids wrangler having to guess when
-          # the token can see more than one account.
-          CLOUDFLARE_ACCOUNT_ID: c3e447a3c0a726801eeb9a1148ff09de
+          # Held as a secret so it stays out of this public repository, not
+          # because an account ID is a credential. Setting it explicitly also
+          # avoids wrangler guessing when the token can see several accounts.
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npx wrangler deploy
 
       # -------------------------------------------------------------------
