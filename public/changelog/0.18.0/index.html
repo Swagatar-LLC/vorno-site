@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.18.0 — Changelog</title>
+<meta name="description" content="Idle agent timeout is now a workspace setting — an idle session's warm agent process is released after a configurable number of minutes (default 60; 0 keeps agents alive until quit). The session itself stays fully usable: the next message transparently rest…">
+<link rel="canonical" href="https://vorno.ai/changelog/0.18.0/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.18.0</h1>
+  
+  <p class="date">August 20, 2026</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.18.0">Download 0.18.0 &amp; assets →</a></p>
+  <div class="prose">
+<h2>Features</h2>
+<ul>
+<li><strong>Idle agent timeout is now a workspace setting</strong> — an idle session&#39;s warm agent process is released after a configurable number of minutes (default 60; <code>0</code> keeps agents alive until quit). The session itself stays fully usable: the next message transparently restarts its agent and the conversation resumes where it left off. Find it under Workspace Settings → Advanced. (<a href="https://github.com/Swagatar-LLC/vorno/pull/167">#167</a>, <code>9d6d5549</code>)</li>
+</ul>
+<h2>Improvements</h2>
+<ul>
+<li><strong>Bundled documentation now reconciles on launch instead of only writing.</strong> A setup guide renamed or dropped in a later build no longer lingers from an earlier install — stale guides are pruned, so the agent can&#39;t follow a dead OAuth path or a renamed scope that only fails at credential time. (<a href="https://github.com/Swagatar-LLC/vorno/pull/166">#166</a>, <code>9c0bacdf</code>)</li>
+<li><strong>Releases now publish documentation automatically.</strong> A successful signed release republishes <a href="https://vorno.ai/docs">vorno.ai/docs</a> and appends the version to <a href="https://vorno.ai/changelog">vorno.ai/changelog</a>, with the outcome reported in the release summary. (<a href="https://github.com/Swagatar-LLC/vorno/pull/165">#165</a>, <code>9b3bb04c</code>)</li>
+</ul>
+<h2>Bug Fixes</h2>
+<ul>
+<li><strong>Idle and archived sessions no longer accumulate live agent processes.</strong> Every session kept its agent subprocess alive until the app quit — scheduled automations added ~25–30 leaked processes a day, and archiving a session never released its runtime. Idle sessions past the workspace timeout and archived sessions now release their agent process; sessions with background tasks still running are never interrupted. (<a href="https://github.com/Swagatar-LLC/vorno/pull/167">#167</a>, <code>1cee69f9</code>)</li>
+<li><strong>Revoking or updating a shared session now targets the backend that stores it.</strong> Share update and revoke calls were built from the current service endpoint constant instead of the share&#39;s own persisted URL, which would strand shares created before any future backend move. Both now route by the share&#39;s recorded address. (<a href="https://github.com/Swagatar-LLC/vorno/pull/159">#159</a>, <code>a8ededfd</code>)</li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog">All releases</a> · <a href="/changelog/0.17.0/">0.17.0 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>
