@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.18.1 — Changelog</title>
+<meta name="description" content="None. This is a targeted fix release.">
+<link rel="canonical" href="https://vorno.ai/changelog/0.18.1/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.18.1</h1>
+  <p class="tagline" style="margin:0 0 6px;text-align:left">Published task definitions become board cards</p>
+  <p class="date">August 27, 2026</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.18.1">Download 0.18.1 &amp; assets →</a></p>
+  <div class="prose">
+<h2>Features</h2>
+<ul>
+<li>None. This is a targeted fix release.</li>
+</ul>
+<h2>Improvements</h2>
+<ul>
+<li>None.</li>
+</ul>
+<h2>Bug Fixes</h2>
+<ul>
+<li><p><strong>A published task definition now appears on the board</strong> — A board card <em>is</em> an orchestrator session; <code>tasks/&lt;slug&gt;/task.yaml</code> is only a definition. Publishing wrote the yaml but never minted the orchestrator, so a definition written by any producer outside the app — a script, a sync, an external tool — existed on disk and rendered nowhere. Workspace load now reconciles the tasks directory and adopts any published-but-unbound definition through the same path a fresh create uses, so the card carries its task slug, the reserved Task label, and the spec&#39;s sources, project, and working directory. Reconciliation is idempotent, so a slug that already has a card is left alone across restarts. (<code>aeb62ff8</code>, <code>50e7f52c</code>)</p>
+</li>
+<li><p><strong>One malformed definition can no longer block workspace load</strong> — Reconciliation is fail-soft: an unparseable or invalid <code>task.yaml</code> is skipped with a logged warning while its valid siblings still adopt and the workspace finishes loading. A definition whose id does not match its own directory is refused the same way, rather than minting a fresh duplicate card on every restart. (<code>50e7f52c</code>)</p>
+</li>
+<li><p><strong>Task cards no longer collide across workspaces</strong> — A task slug is only unique within one workspace, so reconciliation now scopes its bound-slug check to the workspace being loaded. Previously a card in one workspace could suppress a same-named task in another indefinitely. (<code>50e7f52c</code>)</p>
+</li>
+</ul>
+<h2>Breaking Changes</h2>
+<ul>
+<li>None. All changes are backward-compatible.</li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog">All releases</a> · <a href="/changelog/0.18.0/">0.18.0 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>
