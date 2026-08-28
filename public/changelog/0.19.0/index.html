@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.19.0 — Changelog</title>
+<meta name="description" content="Headroom context management, per workspace. Workspace settings gain a Headroom section with a master switch, compression engine preferences, verbosity steering, and a statistics toggle. Settings inherit from instance defaults unless the workspace overrides…">
+<link rel="canonical" href="https://vorno.ai/changelog/0.19.0/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.19.0</h1>
+  <p class="tagline" style="margin:0 0 6px;text-align:left">Headroom context management, Moonshot AI (Kimi K3), and Copilot policy-gated models</p>
+  <p class="date">August 28, 2026</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.19.0">Download 0.19.0 &amp; assets →</a></p>
+  <div class="prose">
+<h2>Features</h2>
+<ul>
+<li><strong>Headroom context management, per workspace.</strong> Workspace settings gain a Headroom section with a master switch, compression engine preferences, verbosity steering, and a statistics toggle. Settings inherit from instance defaults unless the workspace overrides them, and each value shows which of the two it came from. Off by default.</li>
+<li><strong>View the original behind any compressed tool output.</strong> Compressed turns carry a badge showing what was saved; clicking it retrieves and displays the original content. When retrieval is not possible, the reason is stated plainly — Headroom off, service unreachable, or the content no longer held — rather than failing silently.</li>
+<li><strong>A Headroom savings report.</strong> A new report shows tokens before and after, tokens saved, items compressed, and originals retrieved, scoped to either the current session or the whole workspace. Every figure is measured and read from Headroom itself; anything Headroom does not report is shown as unknown rather than estimated or interpolated.</li>
+<li><strong>Moonshot AI (Kimi K3) support</strong> (from upstream v0.12.1) — connection presets for Moonshot AI (global and CN endpoints) with the full Kimi model family. Kimi K3 brings a 1M-token context window, always-on reasoning, and image input; Kimi K2.6 serves as the fast summarization model. The existing Kimi (Coding) preset gains <code>k3</code> as well.</li>
+<li><strong>Pi SDK updated to 0.81.1</strong> (from upstream v0.12.1) — refreshed model catalogs across all Pi-backed providers, including Kimi K3 thinking-format and reasoning-effort fixes.</li>
+</ul>
+<h2>Improvements</h2>
+<ul>
+<li>ChatGPT web search failover is sturdier (from upstream v0.12.1): model candidates are bounded, hosted-tool refusals are no longer mistaken for model rejections, and multi-attempt error messages stay readable.</li>
+<li>GitHub Copilot sign-in re-enables policy-gated models (Claude, Grok, and others) from your account&#39;s live model listing, and the Copilot OAuth flows are now app-owned and hardened with network timeouts and standards-compliant polling (from upstream v0.12.1).</li>
+<li>Faster utility-model calls (from upstream v0.12.1): the Pi model runtime is cached across summarization and title-generation requests instead of being rebuilt each time.</li>
+<li>Settings now show proper provider labels for Minimax, Minimax (CN), and Kimi (Coding) connections instead of a generic backend label (from upstream v0.12.1).</li>
+<li>Kimi (Coding) connections pre-fill the current model lineup — <code>k3</code>, <code>kimi-for-coding</code>, <code>kimi-for-coding-highspeed</code> (from upstream v0.12.1).</li>
+<li>Google OAuth setup docs now say to create a <strong>Web application</strong> client with <code>https://thecraftagents.com/auth/callback</code> as an authorized redirect URI, matching the relay redirect URI Vorno actually uses (ADR-0025). The old &quot;Desktop app&quot; guidance failed with <code>redirect_uri_mismatch</code> (from upstream v0.12.1).</li>
+</ul>
+<h2>Bug Fixes</h2>
+<ul>
+<li>ChatGPT web search works again for ChatGPT-account connections (from upstream v0.12.1) — the search request no longer pins a retired model id and follows your active model instead.</li>
+<li>Custom OpenAI-compatible endpoints no longer receive the unsupported <code>store</code> parameter, which broke strict providers (from upstream v0.12.1).</li>
+<li>WhatsApp: messages on LID-migrated accounts now resolve your own identity correctly, so self-sent messages and mentions behave again (from upstream v0.12.1).</li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog">All releases</a> · <a href="/changelog/0.18.1/">0.18.1 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>

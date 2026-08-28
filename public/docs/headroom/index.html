@@ -1,0 +1,383 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-iq7getan"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Headroom — Context Compression | Vorno Docs</title><link rel="canonical" href="https://vorno.ai/docs/headroom/"/><link rel="sitemap" href="/docs/sitemap-index.xml"/><link rel="shortcut icon" href="/docs/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.2.2"/><meta name="generator" content="Starlight v0.41.7"/><meta property="og:title" content="Headroom — Context Compression"/><meta property="og:type" content="article"/><meta property="og:url" content="https://vorno.ai/docs/headroom/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Headroom is an optional integration that compresses the context Vorno sends to a model, so long sessions and long workflow runs cost fewer tokens."/><meta property="og:site_name" content="Vorno Docs"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Headroom is an optional integration that compresses the context Vorno sends to a model, so long sessions and long workflow runs cost fewer tokens."/><meta name="vorno:docs-version" content="v0.19.0"/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/docs/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/docs/_astro/common.C4HA4tJO.css"><script type="module" src="/docs/_astro/page.Dwipeu-R.js"></script></head><body class="astro-iq7getan"><a class="sl-skip-link astro-w2ybjttr" href="#_top">Skip to content</a><div class="page sl-flex astro-pvp2uxa7"><header class="header astro-pvp2uxa7"><div class="header astro-wnnnvmbe"><div class="title-wrapper sl-flex astro-wnnnvmbe"><a href="/docs/" class="site-title sl-flex astro-xcuhqgpl"><img class="astro-xcuhqgpl" alt="Vorno" src="/docs/_astro/logo-mark.DXX26if8.svg" width="1024" height="1024"><span class="astro-xcuhqgpl" translate="no">Vorno Docs</span></a></div><div class="sl-flex print:hidden astro-wnnnvmbe"><site-search class="astro-wnnnvmbe astro-l32ujtap" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-l32ujtap"><svg aria-hidden="true" class="astro-l32ujtap astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-l32ujtap" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-l32ujtap" style="display: none;"><kbd class="astro-l32ujtap">Ctrl</kbd><kbd class="astro-l32ujtap">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-l32ujtap"><div class="dialog-frame sl-flex astro-l32ujtap"><button data-close-modal class="sl-flex md:sl-hidden astro-l32ujtap">Cancel</button><div class="search-container astro-l32ujtap"><div id="starlight__search" class="astro-l32ujtap"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/docs/_astro/Search.astro_astro_type_script_index_0_lang.gnJxMcid.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-wnnnvmbe"><div class="sl-flex social-icons astro-wnnnvmbe"><a href="https://github.com/Swagatar-LLC/vorno" rel="me" class="sl-flex astro-oryjiy2a"><span class="sr-only astro-oryjiy2a">GitHub</span><svg aria-hidden="true" class="astro-oryjiy2a astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-oyzc3j3e"><span class="sr-only astro-oyzc3j3e">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-oyzc3j3e astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-oyzc3j3e"><option value="dark" class="astro-oyzc3j3e">Dark</option><option value="light" class="astro-oyzc3j3e">Light</option><option value="auto" selected class="astro-oyzc3j3e">Auto</option></select><svg aria-hidden="true" class="icon caret astro-oyzc3j3e astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-pvp2uxa7" aria-label="Main"><starlight-menu-button class="print:hidden astro-vigh5bhv"><button aria-expanded="false" aria-label="Menu" aria-controls="starlight__sidebar" class="sl-flex md:sl-hidden astro-vigh5bhv"><svg aria-hidden="true" class="open-menu astro-vigh5bhv astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-vigh5bhv astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg></button></starlight-menu-button><script type="module">var e=class extends HTMLElement{btn=this.querySelector(`button`);constructor(){super(),this.btn.addEventListener(`click`,()=>this.toggleExpanded());let e=this.closest(`nav`);e&&e.addEventListener(`keyup`,e=>this.closeOnEscape(e)),matchMedia(`(min-width: 50em)`).addEventListener(`change`,()=>this.setExpanded(!1))}setExpanded(e){this.setAttribute(`aria-expanded`,String(e)),document.body.toggleAttribute(`data-mobile-menu-expanded`,e),document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}toggleExpanded(){this.setExpanded(this.getAttribute(`aria-expanded`)!==`true`)}closeOnEscape(e){e.code===`Escape`&&(this.setExpanded(!1),this.btn.focus())}};customElements.define(`starlight-menu-button`,e);</script><div id="starlight__sidebar" class="sidebar-pane astro-pvp2uxa7"><div class="sidebar-content sl-flex astro-pvp2uxa7"><sl-sidebar-state-persist data-hash="1s3xolb" class="astro-pshomjbr"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level astro-3dhnchy6"><li class="astro-3dhnchy6"><a href="/docs/" class="large astro-3dhnchy6"><span class="astro-3dhnchy6">Overview</span></a></li><li class="astro-3dhnchy6"><details open class="astro-3dhnchy6"><summary class="astro-3dhnchy6"><span class="group-label astro-3dhnchy6"><span class="large astro-3dhnchy6">Connect your data</span></span><svg aria-hidden="true" class="caret astro-3dhnchy6 astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="astro-3dhnchy6"><li class="astro-3dhnchy6"><a href="/docs/connecting-data/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Connecting a data source</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Sources</span></a></li><li class="astro-3dhnchy6"><a href="/docs/browser-tools/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Browser tools</span></a></li><li class="astro-3dhnchy6"><a href="/docs/llm-tool/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">LLM tool</span></a></li></ul></details></li><li class="astro-3dhnchy6"><details open class="astro-3dhnchy6"><summary class="astro-3dhnchy6"><span class="group-label astro-3dhnchy6"><span class="large astro-3dhnchy6">Shape the workspace</span></span><svg aria-hidden="true" class="caret astro-3dhnchy6 astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="astro-3dhnchy6"><li class="astro-3dhnchy6"><a href="/docs/skills/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Skills</span></a></li><li class="astro-3dhnchy6"><a href="/docs/permissions/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Permissions</span></a></li><li class="astro-3dhnchy6"><a href="/docs/statuses/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Statuses</span></a></li><li class="astro-3dhnchy6"><a href="/docs/labels/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Labels</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sharing/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Sharing a session</span></a></li><li class="astro-3dhnchy6"><a href="/docs/themes/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Themes</span></a></li><li class="astro-3dhnchy6"><a href="/docs/tool-icons/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Tool icons</span></a></li></ul></details></li><li class="astro-3dhnchy6"><details open class="astro-3dhnchy6"><summary class="astro-3dhnchy6"><span class="group-label astro-3dhnchy6"><span class="large astro-3dhnchy6">Automate</span></span><svg aria-hidden="true" class="caret astro-3dhnchy6 astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="astro-3dhnchy6"><li class="astro-3dhnchy6"><a href="/docs/automations/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Automations</span></a></li></ul></details></li><li class="astro-3dhnchy6"><details open class="astro-3dhnchy6"><summary class="astro-3dhnchy6"><span class="group-label astro-3dhnchy6"><span class="large astro-3dhnchy6">Render output</span></span><svg aria-hidden="true" class="caret astro-3dhnchy6 astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="astro-3dhnchy6"><li class="astro-3dhnchy6"><a href="/docs/rendering/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">What Vorno can render</span></a></li><li class="astro-3dhnchy6"><a href="/docs/data-tables/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Data tables</span></a></li><li class="astro-3dhnchy6"><a href="/docs/mermaid/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Mermaid diagrams</span></a></li><li class="astro-3dhnchy6"><a href="/docs/html-preview/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">HTML preview</span></a></li><li class="astro-3dhnchy6"><a href="/docs/markdown-preview/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Markdown preview</span></a></li><li class="astro-3dhnchy6"><a href="/docs/pdf-preview/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">PDF preview</span></a></li><li class="astro-3dhnchy6"><a href="/docs/image-preview/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Image preview</span></a></li></ul></details></li><li class="astro-3dhnchy6"><details open class="astro-3dhnchy6"><summary class="astro-3dhnchy6"><span class="group-label astro-3dhnchy6"><span class="large astro-3dhnchy6">Command line</span></span><svg aria-hidden="true" class="caret astro-3dhnchy6 astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="astro-3dhnchy6"><li class="astro-3dhnchy6"><a href="/docs/vorno-cli/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">CLI</span></a></li></ul></details></li><li class="astro-3dhnchy6"><details class="astro-3dhnchy6"><summary class="astro-3dhnchy6"><span class="group-label astro-3dhnchy6"><span class="large astro-3dhnchy6">Source setup guides</span></span><svg aria-hidden="true" class="caret astro-3dhnchy6 astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="astro-3dhnchy6"><li class="astro-3dhnchy6"><a href="/docs/sources/brave-search/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Brave Search</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/craft/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Craft (documents)</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/filesystem/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Filesystem</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/github/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">GitHub</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/gmail/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Gmail</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/google-calendar/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Google Calendar</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/google-docs/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Google Docs</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/google-drive/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Google Drive</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/google/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Google services — shared setup</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/google-sheets/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Google Sheets</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/linear/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Linear</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/memory/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Memory</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/microsoft-calendar/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Microsoft Calendar</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/microsoft/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Microsoft services — shared setup</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/teams/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Microsoft Teams</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/outlook/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Outlook (Microsoft Mail)</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/sharepoint/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">SharePoint</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/slack/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Slack</span></a></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-77und776"><div class="social-icons astro-77und776"><a href="https://github.com/Swagatar-LLC/vorno" rel="me" class="sl-flex astro-oryjiy2a"><span class="sr-only astro-oryjiy2a">GitHub</span><svg aria-hidden="true" class="astro-oryjiy2a astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-oyzc3j3e"><span class="sr-only astro-oyzc3j3e">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-oyzc3j3e astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-oyzc3j3e"><option value="dark" class="astro-oyzc3j3e">Dark</option><option value="light" class="astro-oyzc3j3e">Light</option><option value="auto" selected class="astro-oyzc3j3e">Auto</option></select><svg aria-hidden="true" class="icon caret astro-oyzc3j3e astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></div></nav><div class="main-frame astro-pvp2uxa7"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-ocrenldr"><aside class="right-sidebar-container print:hidden astro-ocrenldr"><div class="right-sidebar astro-ocrenldr"><div class="lg:sl-hidden astro-ddhq2g76"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-6i6qtgyx"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-6i6qtgyx"><details id="starlight__mobile-toc" class="astro-6i6qtgyx"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-6i6qtgyx"><span class="toggle sl-flex astro-6i6qtgyx">On this page<svg aria-hidden="true" class="caret astro-6i6qtgyx astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-6i6qtgyx"></span></summary><div class="dropdown astro-6i6qtgyx"><ul class="isMobile astro-hqg2utuf" style="--depth: 0;"><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#_top" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Overview</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#overview" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Overview</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#before-it-can-do-anything-the-local-proxy" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Before it can do anything: the local proxy</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#turning-headroom-on-or-off" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Turning Headroom on or off</span></a><ul class="isMobile astro-hqg2utuf" style="--depth: 1;"><li style="--depth: 1;" class="astro-hqg2utuf"><a href="#the-defaults-and-why-they-are-what-they-are" style="--depth: 1;" class="astro-hqg2utuf"><span style="--depth: 1;" class="astro-hqg2utuf">The defaults, and why they are what they are</span></a></li></ul></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#seeing-what-was-compressed-and-getting-the-original-back" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Seeing what was compressed, and getting the original back</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#the-savings-report" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">The savings report</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#what-to-expect-today" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">What to expect today</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#memory" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Memory</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#privacy-what-leaves-your-machine" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Privacy: what leaves your machine</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/docs/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.BcSo_yiZ.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-ddhq2g76"><div class="sl-container astro-ddhq2g76"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-hqg2utuf" style="--depth: 0;"><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#_top" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Overview</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#overview" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Overview</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#before-it-can-do-anything-the-local-proxy" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Before it can do anything: the local proxy</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#turning-headroom-on-or-off" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Turning Headroom on or off</span></a><ul class="astro-hqg2utuf" style="--depth: 1;"><li style="--depth: 1;" class="astro-hqg2utuf"><a href="#the-defaults-and-why-they-are-what-they-are" style="--depth: 1;" class="astro-hqg2utuf"><span style="--depth: 1;" class="astro-hqg2utuf">The defaults, and why they are what they are</span></a></li></ul></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#seeing-what-was-compressed-and-getting-the-original-back" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Seeing what was compressed, and getting the original back</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#the-savings-report" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">The savings report</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#what-to-expect-today" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">What to expect today</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#memory" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Memory</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#privacy-what-leaves-your-machine" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Privacy: what leaves your machine</span></a></li></ul></nav></starlight-toc><script type="module" src="/docs/_astro/TableOfContents.astro_astro_type_script_index_0_lang.Csloo1VZ.js"></script></div></div></div></aside><div class="main-pane astro-ocrenldr"><main data-pagefind-body class="astro-iq7getan" lang="en" dir="ltr"><div class="content-panel astro-eawp2yhn"><div class="sl-container astro-eawp2yhn"><h1 id="_top" class="astro-bxwnb4ih">Headroom — Context Compression</h1></div></div><div class="content-panel astro-eawp2yhn"><div class="sl-container astro-eawp2yhn"><div class="sl-markdown-content"><p>Headroom is an optional integration that compresses the context Vorno sends to a
+model, so long sessions and long workflow runs cost fewer tokens.</p>
+<p><strong>Headroom is off by default, in every workspace.</strong> Nothing on this page happens
+until you turn it on, and turning it on sends nothing off your machine — see
+<a href="#privacy-what-leaves-your-machine">Privacy</a>.</p>
+<p>Headroom is an external open-source project (<a href="https://github.com/headroomlabs-ai/headroom">headroomlabs-ai/headroom</a>,
+Apache-2.0). Vorno integrates it; Vorno does not bundle a compression engine of
+its own.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="overview">Overview</h2><a class="sl-anchor-link" href="#overview"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Overview”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Where you see it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Per-workspace on/off switch and options</td>
+<td>Workspace Settings → <strong>Headroom</strong></td>
+</tr>
+<tr>
+<td>A badge on compressed tool output, and the original behind it</td>
+<td>The session view</td>
+</tr>
+<tr>
+<td>Measured savings, per session and per workspace</td>
+<td>Workspace Settings → <strong>Headroom savings</strong>, and the session info panel</td>
+</tr>
+</tbody>
+</table>
+<p>Two things Headroom does <strong>not</strong> do in Vorno today:</p>
+<ul>
+<li><strong>It does not store memory.</strong> See <a href="#memory">Memory</a>.</li>
+<li><strong>It does not run by itself.</strong> Compression happens in a separate local
+process you install and start yourself. See <a href="#before-it-can-do-anything-the-local-proxy">Before it can do anything</a>.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="before-it-can-do-anything-the-local-proxy">Before it can do anything: the local proxy</h2><a class="sl-anchor-link" href="#before-it-can-do-anything-the-local-proxy"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Before it can do anything: the local proxy”</span></a></div>
+<p>The Headroom package Vorno depends on is an <strong>HTTP client, not a compression
+engine</strong>. The compression itself runs in the Headroom <em>proxy</em> — a separate
+program on your own machine. Vorno never starts, installs, or supervises it.</p>
+<p>Vorno talks to the proxy at <code dir="auto">http://localhost:8787</code>. That address is fixed in
+Vorno’s code and is not configurable from Settings.</p>
+<p>To run the proxy:</p>
+<div class="expressive-code"><link rel="stylesheet" href="/docs/_astro/ec.w36nc.css"><script type="module" src="/docs/_astro/ec.0vx5m.js"></script><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">uv</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">tool</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">install</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--python</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">3.13</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">headroom-ai[proxy]==0.36.5</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">headroom</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">proxy</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="uv tool install --python 3.13 &quot;headroom-ai[proxy]==0.36.5&quot;headroom proxy"><div></div></button></div></figure></div>
+<blockquote>
+<p><strong>Name-collision warning.</strong> <code dir="auto">pip install headroom</code> installs <strong>an unrelated
+package by a different author</strong>. The project Vorno integrates is <code dir="auto">headroom-ai</code>
+on both PyPI and npm.</p>
+</blockquote>
+<p><strong>If the proxy is not running, nothing breaks.</strong> Vorno’s Headroom boundary treats
+an unreachable proxy as an ordinary state: your context passes through untouched,
+uncompressed, and no error is shown. You get exactly the behavior you would get
+with Headroom switched off. The same is true if the request times out or the
+proxy answers with something Vorno cannot verify.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="turning-headroom-on-or-off">Turning Headroom on or off</h2><a class="sl-anchor-link" href="#turning-headroom-on-or-off"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Turning Headroom on or off”</span></a></div>
+<p>Headroom is configured <strong>per workspace</strong>. Go to <strong>Workspace Settings → Headroom</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Enable Headroom</strong></td>
+<td>Master switch. The other options have no effect while this is off.</td>
+</tr>
+<tr>
+<td><strong>Compression engines</strong></td>
+<td>Comma-separated engine ids, most preferred first. Empty means no compression.</td>
+</tr>
+<tr>
+<td><strong>Verbosity</strong></td>
+<td>Terse / Balanced / Verbose — how much detail Headroom keeps when steering context.</td>
+</tr>
+<tr>
+<td><strong>Expose statistics</strong></td>
+<td>Makes Headroom’s context and token statistics available to the rest of the app. Required for the savings report.</td>
+</tr>
+</tbody>
+</table>
+<p>Every field carries a small badge reading either <strong>Workspace override</strong> or
+<strong>Instance default</strong>, telling you where its current value came from. A field this
+workspace sets also shows a <strong>Clear</strong> action, which drops the override and puts
+the field back to the instance default.</p>
+<p>Two workspaces hold completely independent Headroom settings. Turning Headroom on
+in one leaves every other workspace as it was.</p>
+<p><strong>A change applies to sessions started afterwards.</strong> Headroom configuration is
+read once, when a session starts, so a session already open keeps the setting it
+began with. Start a new session to pick up a change.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="the-defaults-and-why-they-are-what-they-are">The defaults, and why they are what they are</h3><a class="sl-anchor-link" href="#the-defaults-and-why-they-are-what-they-are"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “The defaults, and why they are what they are”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enable Headroom</td>
+<td>off</td>
+</tr>
+<tr>
+<td>Compression engines</td>
+<td>empty</td>
+</tr>
+<tr>
+<td>Verbosity</td>
+<td>Balanced</td>
+</tr>
+<tr>
+<td>Expose statistics</td>
+<td>off</td>
+</tr>
+</tbody>
+</table>
+<p>These are not placeholders. They were set from a benchmark against real Vorno
+workloads — see <a href="#what-to-expect-today">What to expect today</a>.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="seeing-what-was-compressed-and-getting-the-original-back">Seeing what was compressed, and getting the original back</h2><a class="sl-anchor-link" href="#seeing-what-was-compressed-and-getting-the-original-back"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Seeing what was compressed, and getting the original back”</span></a></div>
+<p>When a tool output is compressed, its row in the session view carries a badge
+showing the two measured sizes, like <code dir="auto">20.0 KB → 1.0 KB</code>. Hovering it explains
+what happened and how much was saved.</p>
+<p><strong>Click the badge</strong> to open a panel headed <strong>Original, before compression</strong>,
+holding the byte-identical content from before compression. Vorno fetches it on
+demand from the proxy, which still holds it under a retrieval handle.</p>
+<p>Two guarantees worth knowing:</p>
+<ul>
+<li><strong>An uncompressed item shows nothing new.</strong> There is no dormant badge and no
+greyed-out affordance. With Headroom off, the session view is exactly what it
+was before.</li>
+<li><strong>A failed retrieval says so.</strong> Vorno never falls back to showing you the
+compressed text under the word “original”. If the original cannot be produced,
+you get an explicit message naming the reason:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>What you see</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Headroom is off for this workspace, so the original cannot be retrieved.</td>
+<td>The workspace’s switch is off now, even though the item was compressed earlier.</td>
+</tr>
+<tr>
+<td>The Headroom SDK is not available in this build, so the original cannot be retrieved.</td>
+<td>The integration is not present in this build of Vorno.</td>
+</tr>
+<tr>
+<td>The Headroom service did not answer. The original was not retrieved.</td>
+<td>The proxy is not running, or did not respond.</td>
+</tr>
+<tr>
+<td>The Headroom service no longer holds this content. The original was not retrieved.</td>
+<td>The proxy answered, but has no content under that handle any more.</td>
+</tr>
+<tr>
+<td>Retrieval failed. The original was not retrieved.</td>
+<td>The request failed for another reason.</td>
+</tr>
+<tr>
+<td>Retrieving compressed originals is not available here.</td>
+<td>You are looking at a shared session in the web viewer, which has no Headroom service behind it.</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="the-savings-report">The savings report</h2><a class="sl-anchor-link" href="#the-savings-report"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “The savings report”</span></a></div>
+<p><strong>Headroom savings</strong> reports what compression actually saved. It appears in two
+places, showing the same figures at different scopes:</p>
+<ul>
+<li><strong>Workspace Settings → Headroom savings</strong> — the whole workspace.</li>
+<li><strong>The session info panel</strong> — that session’s own slice under <strong>This session</strong>,
+above the <strong>This workspace</strong> total.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tokens before</td>
+<td>Tokens the context held before compression</td>
+</tr>
+<tr>
+<td>Tokens after</td>
+<td>Tokens it held afterwards</td>
+</tr>
+<tr>
+<td>Tokens saved</td>
+<td>The difference</td>
+</tr>
+<tr>
+<td>Items compressed</td>
+<td>How many items were compressed</td>
+</tr>
+<tr>
+<td>Originals retrieved</td>
+<td>How many times an original was fetched back</td>
+</tr>
+</tbody>
+</table>
+<p>Every figure here is read from Headroom itself. <strong>A dash (<code dir="auto">—</code>) means the figure
+was not measured; a <code dir="auto">0</code> always means a measured zero.</strong> Vorno does not estimate,
+interpolate, or fill in a missing number.</p>
+<p>When there is nothing to show, the report says why in one sentence rather than
+displaying a table of zeros:</p>
+<table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No statistics available. Turn on Headroom and “Expose statistics” for this workspace.</td>
+<td>The switch or the statistics option is off.</td>
+</tr>
+<tr>
+<td>Nothing has been compressed yet, so there is nothing measured to report.</td>
+<td>Both are on, but no compression has happened.</td>
+</tr>
+<tr>
+<td>Headroom is not available here, so nothing was measured.</td>
+<td>The integration is not present in this build.</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="what-to-expect-today">What to expect today</h2><a class="sl-anchor-link" href="#what-to-expect-today"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “What to expect today”</span></a></div>
+<p>Vorno benchmarked Headroom on real local workloads before choosing the defaults.
+Two measured results are worth setting your expectations by, because they explain
+why the feature ships off:</p>
+<ul>
+<li><strong>In agent sessions, compression currently has no effect.</strong> Vorno only accepts a
+compressed tool output if the proxy hands back a retrieval handle for the
+original. The pinned proxy issued zero handles across all 240 measured
+compression calls, so <strong>0 of 48</strong> tool outputs were accepted and every one
+passed through uncompressed. You are unlikely to see the compression badge
+described above until that changes upstream.</li>
+<li><strong>In workflow runs, compression is currently irreversible.</strong> The Conductor path
+accepts compressed node context without requiring a handle, so what it
+compresses cannot be recovered. The best measured whole-corpus saving was
+<strong>10.5%</strong>, paid for with 47,811 bytes of node output that could not be
+retrieved back.</li>
+</ul>
+<p>There is also a latency cost when compression does run: negligible at the median
+(+4.4 to +13.1 ms per call), but roughly one call in twenty took
+<strong>1.4–2.1 seconds</strong> against the local proxy.</p>
+<p>Headroom is safe to leave off, and safe to switch on to try — the failure modes
+above are about how much it helps, not about correctness of your data at rest.
+Enabling it on a workflow-heavy workspace is the case to think about, because
+that is the path where compressed content is not recoverable.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="memory">Memory</h2><a class="sl-anchor-link" href="#memory"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Memory”</span></a></div>
+<p>Headroom’s multi-layer memory is <strong>not available in Vorno</strong>, and no Vorno surface
+exposes it.</p>
+<p>Vorno audited the pinned Headroom package for a memory API and found none: no
+memory endpoint, no memory client, and no filesystem access at all. Upstream
+reaches memory only through its own CLI wrapper, its Python client, or tools the
+proxy injects into the model’s tool list — none of which Vorno uses. Whether to
+adopt one of those routes is an open decision, not a shipped feature.</p>
+<p>If you are looking for memory in Vorno today, Headroom is not where it lives.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="privacy-what-leaves-your-machine">Privacy: what leaves your machine</h2><a class="sl-anchor-link" href="#privacy-what-leaves-your-machine"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Privacy: what leaves your machine”</span></a></div>
+<p><strong>Nothing.</strong> With or without Headroom enabled, turning this feature on does not
+send your context, prompts, tool output, or credentials to Headroom Labs or to
+any other third party.</p>
+<p>That is a structural property of the integration, not a policy promise. It rests
+on a supply-chain and network audit Vorno performed against the exact package
+version it ships:</p>
+<ul>
+<li><strong>The package contains no vendor endpoint.</strong> Auditing every URL literal in the
+published package’s shipped code found exactly one distinct address:
+<code dir="auto">http://localhost:8787</code>. There is no analytics host, no error reporter, and no
+update check anywhere in it.</li>
+<li><strong>Every request is relative to one base address</strong>, so the destination of all
+Headroom traffic is whatever that base address is — by default, a process on
+your own machine.</li>
+<li><strong>Vorno pins that address in its own code and ignores the environment.</strong> The
+package would otherwise honor a <code dir="auto">HEADROOM_BASE_URL</code> environment variable.
+Vorno deliberately does not pass it through, because an ambient variable that
+silently redirects where your whole context is sent is not a channel worth
+honoring. There is no Settings field for the address either.</li>
+<li><strong>Vorno calls exactly three operations</strong> — compress, retrieve, and statistics.
+The package also ships convenience helpers that would read <code dir="auto">OPENAI_API_KEY</code> or
+<code dir="auto">ANTHROPIC_API_KEY</code> out of your environment and forward them to the base
+address. Vorno’s boundary never references those helpers, and a check in
+Vorno’s build fails if any code outside that one boundary file touches the
+package at all.</li>
+<li><strong>The package does nothing on its own.</strong> It has no install scripts, no
+background timers, no import-time side effects, and it does not read or write
+files. Every request it makes is the direct result of a call Vorno made.</li>
+</ul>
+<p>Two consequences worth stating plainly:</p>
+<ul>
+<li><strong>The endpoints in Headroom named “telemetry” are not vendor reporting.</strong> They
+read statistics out of the local proxy’s own store. Vorno does not call them,
+and nothing in the package reports usage to Headroom Labs.</li>
+<li><strong>The one thing that could change this is the proxy you run.</strong> Everything above
+concerns the client Vorno ships. If you were to run or point at a Headroom
+proxy that is not on your own machine, your context would go wherever you
+pointed it. Vorno’s default — a fixed <code dir="auto">localhost</code> address with no setting to
+change it — means that cannot happen by accident.</li>
+</ul>
+</div><footer class="sl-flex astro-2i5uf32q"><div class="meta sl-flex astro-2i5uf32q"></div><div class="pagination-links print:hidden astro-l33ciosk" dir="ltr"></div></footer><div class="vorno-footer astro-jo6i4kqk"><p class="astro-jo6i4kqk">© 2026 Swagatar, LLC · <a href="https://vorno.ai/" class="astro-jo6i4kqk">vorno.ai</a> ·<a href="https://vorno.ai/changelog" class="astro-jo6i4kqk">Changelog</a> ·<a href="https://vorno.ai/download" class="astro-jo6i4kqk">Download</a></p><p class="astro-jo6i4kqk">Powered by Claude.</p><p class="astro-jo6i4kqk">Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p></div></div></div></main></div></div></div></div></body></html>
