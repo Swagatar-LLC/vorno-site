@@ -1,0 +1,446 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-iq7getan"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Memory — Durable Facts Across Sessions | Vorno Docs</title><link rel="canonical" href="https://vorno.ai/docs/memory/"/><link rel="sitemap" href="/docs/sitemap-index.xml"/><link rel="shortcut icon" href="/docs/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.2.2"/><meta name="generator" content="Starlight v0.41.7"/><meta property="og:title" content="Memory — Durable Facts Across Sessions"/><meta property="og:type" content="article"/><meta property="og:url" content="https://vorno.ai/docs/memory/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Memory lets Vorno carry a small number of durable facts from one session into the next — a preference you stated, a decision you made, a constraint about your project — without you repeating them."/><meta property="og:site_name" content="Vorno Docs"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Memory lets Vorno carry a small number of durable facts from one session into the next — a preference you stated, a decision you made, a constraint about your project — without you repeating them."/><meta name="vorno:docs-version" content="v0.20.0"/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/docs/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/docs/_astro/common.C4HA4tJO.css"><script type="module" src="/docs/_astro/page.Dwipeu-R.js"></script></head><body class="astro-iq7getan"><a class="sl-skip-link astro-w2ybjttr" href="#_top">Skip to content</a><div class="page sl-flex astro-pvp2uxa7"><header class="header astro-pvp2uxa7"><div class="header astro-wnnnvmbe"><div class="title-wrapper sl-flex astro-wnnnvmbe"><a href="/docs/" class="site-title sl-flex astro-xcuhqgpl"><img class="astro-xcuhqgpl" alt="Vorno" src="/docs/_astro/logo-mark.DXX26if8.svg" width="1024" height="1024"><span class="astro-xcuhqgpl" translate="no">Vorno Docs</span></a></div><div class="sl-flex print:hidden astro-wnnnvmbe"><site-search class="astro-wnnnvmbe astro-l32ujtap" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-l32ujtap"><svg aria-hidden="true" class="astro-l32ujtap astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-l32ujtap" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-l32ujtap" style="display: none;"><kbd class="astro-l32ujtap">Ctrl</kbd><kbd class="astro-l32ujtap">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-l32ujtap"><div class="dialog-frame sl-flex astro-l32ujtap"><button data-close-modal class="sl-flex md:sl-hidden astro-l32ujtap">Cancel</button><div class="search-container astro-l32ujtap"><div id="starlight__search" class="astro-l32ujtap"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/docs/_astro/Search.astro_astro_type_script_index_0_lang.gnJxMcid.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-wnnnvmbe"><div class="sl-flex social-icons astro-wnnnvmbe"><a href="https://github.com/Swagatar-LLC/vorno" rel="me" class="sl-flex astro-oryjiy2a"><span class="sr-only astro-oryjiy2a">GitHub</span><svg aria-hidden="true" class="astro-oryjiy2a astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-oyzc3j3e"><span class="sr-only astro-oyzc3j3e">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-oyzc3j3e astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-oyzc3j3e"><option value="dark" class="astro-oyzc3j3e">Dark</option><option value="light" class="astro-oyzc3j3e">Light</option><option value="auto" selected class="astro-oyzc3j3e">Auto</option></select><svg aria-hidden="true" class="icon caret astro-oyzc3j3e astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-pvp2uxa7" aria-label="Main"><starlight-menu-button class="print:hidden astro-vigh5bhv"><button aria-expanded="false" aria-label="Menu" aria-controls="starlight__sidebar" class="sl-flex md:sl-hidden astro-vigh5bhv"><svg aria-hidden="true" class="open-menu astro-vigh5bhv astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-vigh5bhv astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg></button></starlight-menu-button><script type="module">var e=class extends HTMLElement{btn=this.querySelector(`button`);constructor(){super(),this.btn.addEventListener(`click`,()=>this.toggleExpanded());let e=this.closest(`nav`);e&&e.addEventListener(`keyup`,e=>this.closeOnEscape(e)),matchMedia(`(min-width: 50em)`).addEventListener(`change`,()=>this.setExpanded(!1))}setExpanded(e){this.setAttribute(`aria-expanded`,String(e)),document.body.toggleAttribute(`data-mobile-menu-expanded`,e),document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}toggleExpanded(){this.setExpanded(this.getAttribute(`aria-expanded`)!==`true`)}closeOnEscape(e){e.code===`Escape`&&(this.setExpanded(!1),this.btn.focus())}};customElements.define(`starlight-menu-button`,e);</script><div id="starlight__sidebar" class="sidebar-pane astro-pvp2uxa7"><div class="sidebar-content sl-flex astro-pvp2uxa7"><sl-sidebar-state-persist data-hash="1s3xolb" class="astro-pshomjbr"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level astro-3dhnchy6"><li class="astro-3dhnchy6"><a href="/docs/" class="large astro-3dhnchy6"><span class="astro-3dhnchy6">Overview</span></a></li><li class="astro-3dhnchy6"><details open class="astro-3dhnchy6"><summary class="astro-3dhnchy6"><span class="group-label astro-3dhnchy6"><span class="large astro-3dhnchy6">Connect your data</span></span><svg aria-hidden="true" class="caret astro-3dhnchy6 astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="astro-3dhnchy6"><li class="astro-3dhnchy6"><a href="/docs/connecting-data/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Connecting a data source</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Sources</span></a></li><li class="astro-3dhnchy6"><a href="/docs/browser-tools/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Browser tools</span></a></li><li class="astro-3dhnchy6"><a href="/docs/llm-tool/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">LLM tool</span></a></li></ul></details></li><li class="astro-3dhnchy6"><details open class="astro-3dhnchy6"><summary class="astro-3dhnchy6"><span class="group-label astro-3dhnchy6"><span class="large astro-3dhnchy6">Shape the workspace</span></span><svg aria-hidden="true" class="caret astro-3dhnchy6 astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="astro-3dhnchy6"><li class="astro-3dhnchy6"><a href="/docs/skills/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Skills</span></a></li><li class="astro-3dhnchy6"><a href="/docs/permissions/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Permissions</span></a></li><li class="astro-3dhnchy6"><a href="/docs/statuses/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Statuses</span></a></li><li class="astro-3dhnchy6"><a href="/docs/labels/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Labels</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sharing/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Sharing a session</span></a></li><li class="astro-3dhnchy6"><a href="/docs/themes/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Themes</span></a></li><li class="astro-3dhnchy6"><a href="/docs/tool-icons/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Tool icons</span></a></li></ul></details></li><li class="astro-3dhnchy6"><details open class="astro-3dhnchy6"><summary class="astro-3dhnchy6"><span class="group-label astro-3dhnchy6"><span class="large astro-3dhnchy6">Automate</span></span><svg aria-hidden="true" class="caret astro-3dhnchy6 astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="astro-3dhnchy6"><li class="astro-3dhnchy6"><a href="/docs/automations/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Automations</span></a></li></ul></details></li><li class="astro-3dhnchy6"><details open class="astro-3dhnchy6"><summary class="astro-3dhnchy6"><span class="group-label astro-3dhnchy6"><span class="large astro-3dhnchy6">Render output</span></span><svg aria-hidden="true" class="caret astro-3dhnchy6 astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="astro-3dhnchy6"><li class="astro-3dhnchy6"><a href="/docs/rendering/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">What Vorno can render</span></a></li><li class="astro-3dhnchy6"><a href="/docs/data-tables/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Data tables</span></a></li><li class="astro-3dhnchy6"><a href="/docs/mermaid/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Mermaid diagrams</span></a></li><li class="astro-3dhnchy6"><a href="/docs/html-preview/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">HTML preview</span></a></li><li class="astro-3dhnchy6"><a href="/docs/markdown-preview/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Markdown preview</span></a></li><li class="astro-3dhnchy6"><a href="/docs/pdf-preview/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">PDF preview</span></a></li><li class="astro-3dhnchy6"><a href="/docs/image-preview/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Image preview</span></a></li></ul></details></li><li class="astro-3dhnchy6"><details open class="astro-3dhnchy6"><summary class="astro-3dhnchy6"><span class="group-label astro-3dhnchy6"><span class="large astro-3dhnchy6">Command line</span></span><svg aria-hidden="true" class="caret astro-3dhnchy6 astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="astro-3dhnchy6"><li class="astro-3dhnchy6"><a href="/docs/vorno-cli/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">CLI</span></a></li></ul></details></li><li class="astro-3dhnchy6"><details class="astro-3dhnchy6"><summary class="astro-3dhnchy6"><span class="group-label astro-3dhnchy6"><span class="large astro-3dhnchy6">Source setup guides</span></span><svg aria-hidden="true" class="caret astro-3dhnchy6 astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="astro-3dhnchy6"><li class="astro-3dhnchy6"><a href="/docs/sources/brave-search/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Brave Search</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/craft/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Craft (documents)</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/filesystem/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Filesystem</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/github/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">GitHub</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/gmail/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Gmail</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/google-calendar/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Google Calendar</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/google-docs/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Google Docs</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/google-drive/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Google Drive</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/google/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Google services — shared setup</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/google-sheets/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Google Sheets</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/linear/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Linear</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/memory/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Memory</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/microsoft-calendar/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Microsoft Calendar</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/microsoft/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Microsoft services — shared setup</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/teams/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Microsoft Teams</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/outlook/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Outlook (Microsoft Mail)</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/sharepoint/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">SharePoint</span></a></li><li class="astro-3dhnchy6"><a href="/docs/sources/slack/" class="astro-3dhnchy6"><span class="astro-3dhnchy6">Slack</span></a></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-77und776"><div class="social-icons astro-77und776"><a href="https://github.com/Swagatar-LLC/vorno" rel="me" class="sl-flex astro-oryjiy2a"><span class="sr-only astro-oryjiy2a">GitHub</span><svg aria-hidden="true" class="astro-oryjiy2a astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-oyzc3j3e"><span class="sr-only astro-oyzc3j3e">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-oyzc3j3e astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-oyzc3j3e"><option value="dark" class="astro-oyzc3j3e">Dark</option><option value="light" class="astro-oyzc3j3e">Light</option><option value="auto" selected class="astro-oyzc3j3e">Auto</option></select><svg aria-hidden="true" class="icon caret astro-oyzc3j3e astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></div></nav><div class="main-frame astro-pvp2uxa7"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-ocrenldr"><aside class="right-sidebar-container print:hidden astro-ocrenldr"><div class="right-sidebar astro-ocrenldr"><div class="lg:sl-hidden astro-ddhq2g76"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-6i6qtgyx"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-6i6qtgyx"><details id="starlight__mobile-toc" class="astro-6i6qtgyx"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-6i6qtgyx"><span class="toggle sl-flex astro-6i6qtgyx">On this page<svg aria-hidden="true" class="caret astro-6i6qtgyx astro-i3sxn25l" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-6i6qtgyx"></span></summary><div class="dropdown astro-6i6qtgyx"><ul class="isMobile astro-hqg2utuf" style="--depth: 0;"><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#_top" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Overview</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#what-memory-actually-does" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">What memory actually does</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#the-two-providers" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">The two providers</span></a><ul class="isMobile astro-hqg2utuf" style="--depth: 1;"><li style="--depth: 1;" class="astro-hqg2utuf"><a href="#built-in-markdown--the-default" style="--depth: 1;" class="astro-hqg2utuf"><span style="--depth: 1;" class="astro-hqg2utuf">Built-in (markdown) — the default</span></a></li><li style="--depth: 1;" class="astro-hqg2utuf"><a href="#headroom-mcp" style="--depth: 1;" class="astro-hqg2utuf"><span style="--depth: 1;" class="astro-hqg2utuf">Headroom (MCP)</span></a></li></ul></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#the-three-provider-states" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">The three provider states</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#settings" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Settings</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#how-the-built-in-store-works-on-disk" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">How the built-in store works on disk</span></a><ul class="isMobile astro-hqg2utuf" style="--depth: 1;"><li style="--depth: 1;" class="astro-hqg2utuf"><a href="#a-memory-file" style="--depth: 1;" class="astro-hqg2utuf"><span style="--depth: 1;" class="astro-hqg2utuf">A memory file</span></a></li><li style="--depth: 1;" class="astro-hqg2utuf"><a href="#decay-how-memories-age" style="--depth: 1;" class="astro-hqg2utuf"><span style="--depth: 1;" class="astro-hqg2utuf">Decay: how memories age</span></a></li><li style="--depth: 1;" class="astro-hqg2utuf"><a href="#archiving-never-deleting" style="--depth: 1;" class="astro-hqg2utuf"><span style="--depth: 1;" class="astro-hqg2utuf">Archiving: never deleting</span></a></li><li style="--depth: 1;" class="astro-hqg2utuf"><a href="#the-retrieval-log" style="--depth: 1;" class="astro-hqg2utuf"><span style="--depth: 1;" class="astro-hqg2utuf">The retrieval log</span></a></li></ul></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#privacy-what-leaves-your-machine" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Privacy: what leaves your machine</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#turning-memory-off" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Turning memory off</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/docs/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.BcSo_yiZ.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-ddhq2g76"><div class="sl-container astro-ddhq2g76"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-hqg2utuf" style="--depth: 0;"><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#_top" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Overview</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#what-memory-actually-does" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">What memory actually does</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#the-two-providers" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">The two providers</span></a><ul class="astro-hqg2utuf" style="--depth: 1;"><li style="--depth: 1;" class="astro-hqg2utuf"><a href="#built-in-markdown--the-default" style="--depth: 1;" class="astro-hqg2utuf"><span style="--depth: 1;" class="astro-hqg2utuf">Built-in (markdown) — the default</span></a></li><li style="--depth: 1;" class="astro-hqg2utuf"><a href="#headroom-mcp" style="--depth: 1;" class="astro-hqg2utuf"><span style="--depth: 1;" class="astro-hqg2utuf">Headroom (MCP)</span></a></li></ul></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#the-three-provider-states" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">The three provider states</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#settings" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Settings</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#how-the-built-in-store-works-on-disk" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">How the built-in store works on disk</span></a><ul class="astro-hqg2utuf" style="--depth: 1;"><li style="--depth: 1;" class="astro-hqg2utuf"><a href="#a-memory-file" style="--depth: 1;" class="astro-hqg2utuf"><span style="--depth: 1;" class="astro-hqg2utuf">A memory file</span></a></li><li style="--depth: 1;" class="astro-hqg2utuf"><a href="#decay-how-memories-age" style="--depth: 1;" class="astro-hqg2utuf"><span style="--depth: 1;" class="astro-hqg2utuf">Decay: how memories age</span></a></li><li style="--depth: 1;" class="astro-hqg2utuf"><a href="#archiving-never-deleting" style="--depth: 1;" class="astro-hqg2utuf"><span style="--depth: 1;" class="astro-hqg2utuf">Archiving: never deleting</span></a></li><li style="--depth: 1;" class="astro-hqg2utuf"><a href="#the-retrieval-log" style="--depth: 1;" class="astro-hqg2utuf"><span style="--depth: 1;" class="astro-hqg2utuf">The retrieval log</span></a></li></ul></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#privacy-what-leaves-your-machine" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Privacy: what leaves your machine</span></a></li><li style="--depth: 0;" class="astro-hqg2utuf"><a href="#turning-memory-off" style="--depth: 0;" class="astro-hqg2utuf"><span style="--depth: 0;" class="astro-hqg2utuf">Turning memory off</span></a></li></ul></nav></starlight-toc><script type="module" src="/docs/_astro/TableOfContents.astro_astro_type_script_index_0_lang.Csloo1VZ.js"></script></div></div></div></aside><div class="main-pane astro-ocrenldr"><main data-pagefind-body class="astro-iq7getan" lang="en" dir="ltr"><div class="content-panel astro-eawp2yhn"><div class="sl-container astro-eawp2yhn"><h1 id="_top" class="astro-bxwnb4ih">Memory — Durable Facts Across Sessions</h1></div></div><div class="content-panel astro-eawp2yhn"><div class="sl-container astro-eawp2yhn"><div class="sl-markdown-content"><p>Memory lets Vorno carry a small number of durable facts from one session into
+the next — a preference you stated, a decision you made, a constraint about your
+project — without you repeating them.</p>
+<p><strong>Memory is off by default, in every workspace.</strong> The switch is in <strong>Workspace
+Settings → Memory</strong>. Nothing on this page happens until you turn it on, and with
+it off the prompt Vorno assembles is byte-identical to what it would be if this
+feature did not exist.</p>
+<p>Memory in Vorno is a <strong>capability with providers</strong>, not a feature of any one
+vendor. Two providers ship today: a built-in markdown store (the default) and
+Headroom’s memory server. Which one answers is a setting; nothing else changes.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="what-memory-actually-does">What memory actually does</h2><a class="sl-anchor-link" href="#what-memory-actually-does"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “What memory actually does”</span></a></div>
+<p>Two things happen, both <strong>host-invoked</strong> — Vorno performs them at fixed points
+in a turn’s lifecycle. They do not happen because the model decided to call a
+tool, and there is no memory tool in the model’s tool list.</p>
+<table>
+<thead>
+<tr>
+<th>When</th>
+<th>What happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Before every turn</strong>, once your message is composed</td>
+<td>Vorno searches memory using <strong>your message as the query</strong> and splices what it finds into that turn’s context, under a <code dir="auto">&lt;memory&gt;</code> block.</td>
+</tr>
+<tr>
+<td><strong>After every turn</strong>, once the reply is finished</td>
+<td>Vorno asks a small model to extract at most <strong>three durable facts</strong> from the exchange and saves them.</td>
+</tr>
+</tbody>
+</table>
+<p>Two consequences worth knowing:</p>
+<ul>
+<li><strong>The search query is your message, verbatim.</strong> Vorno cannot know what a turn
+will need before the turn runs, and inventing a richer query would mean
+guessing. Short or vague messages retrieve little.</li>
+<li><strong>The save runs after the reply, and is not waited on.</strong> It costs one small
+model call per turn. “Nothing was worth remembering” is the common outcome and
+is not a failure — the extraction prompt explicitly allows the model to answer
+with nothing at all.</li>
+</ul>
+<p>Retrieved memories are added as context, not as quotations. The block tells the
+model to use them and not to cite them unless asked. A single memory is
+truncated at 1,000 characters, and the whole block is capped at 8,000
+characters, so memory can never crowd out your actual request.</p>
+<p><strong>Automatically saved memories are unscoped</strong>, which is what makes them useful:
+a fact saved in one session is findable from every later session in that
+workspace. (The scope machinery exists — a memory can be pinned to a session,
+agent, or turn — but the automatic path deliberately does not use it, because a
+session-scoped memory would only ever be found by the session that wrote it.)</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="the-two-providers">The two providers</h2><a class="sl-anchor-link" href="#the-two-providers"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “The two providers”</span></a></div>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Built-in (markdown)</strong></th>
+<th><strong>Headroom (MCP)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Setup</td>
+<td>None</td>
+<td>Install Headroom, then a one-time model download</td>
+</tr>
+<tr>
+<td>Search</td>
+<td><strong>Lexical</strong> — words, tags, recency</td>
+<td><strong>Semantic</strong> — embeddings</td>
+</tr>
+<tr>
+<td>Scoping</td>
+<td>user / session / agent / turn</td>
+<td>user only</td>
+</tr>
+<tr>
+<td>Reads</td>
+<td>Structured records</td>
+<td>Formatted text</td>
+</tr>
+<tr>
+<td>Decay + archive</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Retrieval log</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>What leaves your machine</td>
+<td>Nothing</td>
+<td>A one-time ~86 MB model download</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h3"><h3 id="built-in-markdown--the-default">Built-in (markdown) — the default</h3><a class="sl-anchor-link" href="#built-in-markdown--the-default"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Built-in (markdown) — the default”</span></a></div>
+<p>Plain markdown files with frontmatter, under your workspace’s <code dir="auto">memory/</code> folder.
+Browsable in Finder, greppable from a shell, editable by hand. <strong>No Python, no
+downloads, no keys, and no network access at any point in its lifecycle</strong> — it
+uses <code dir="auto">node:fs</code> and nothing else.</p>
+<p><strong>Its retrieval is lexical, not semantic, and that is the deal.</strong> There is no
+embedding index and there will not be one. It scores a memory by what fraction
+of your query’s distinct words it accounts for, with tag matches worth more than
+body matches and a bonus for containing your query verbatim. Words shorter than
+two characters and a short list of English stop words are dropped.</p>
+<p>Concretely: ask it <em>“what did we decide about branching?”</em> and it will <strong>not</strong>
+find a memory that reads <em>“one topic branch per plan”</em>. <code dir="auto">branching</code> and <code dir="auto">branch</code>
+are different tokens, <code dir="auto">decide</code> appears in neither, and nothing else overlaps. A
+semantic index would catch that paraphrase; this one cannot. If that matters to
+you more than zero setup does, the Headroom provider is the alternative.</p>
+<p>A memory also has to clear a minimum match score before it appears at all,
+however fresh or important it is. Without that floor, a query that matched
+nothing well would still promote <em>irrelevant</em> memories into your context, and a
+memory system whose failure mode is confidently supplying the wrong context is
+worse than one that supplies none.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="headroom-mcp">Headroom (MCP)</h3><a class="sl-anchor-link" href="#headroom-mcp"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Headroom (MCP)”</span></a></div>
+<p>Semantic search over Headroom’s own local store, reached by running Headroom’s
+memory MCP server as a subprocess. It has real prerequisites:</p>
+<div class="expressive-code"><link rel="stylesheet" href="/docs/_astro/ec.w36nc.css"><script type="module" src="/docs/_astro/ec.0vx5m.js"></script><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">uv</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">tool</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">install</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">headroom-ai</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="uv tool install headroom-ai"><div></div></button></div></figure></div>
+<p>Vorno looks for Headroom’s interpreter under
+<code dir="auto">~/.local/share/uv/tools/headroom-ai/bin/</code>, or at whatever you set
+<code dir="auto">VORNO_HEADROOM_PYTHON</code> to.</p>
+<p>Installing is not enough. The embedder needs a model (~86 MB) fetched once from
+HuggingFace, and Vorno runs the server with offline mode on, so it will not
+fetch it for you. Run <code dir="auto">headroom memory stats</code> once with network access to pull
+it down.</p>
+<blockquote>
+<p><strong>Name-collision warning.</strong> <code dir="auto">pip install headroom</code> installs <strong>an unrelated
+package by a different author</strong>. The project Vorno integrates is <code dir="auto">headroom-ai</code>.</p>
+</blockquote>
+<p>Two limits of this surface, reported by the provider itself rather than
+discovered by you:</p>
+<ul>
+<li><strong>Scoping collapses to a single user layer.</strong> Vorno’s memory interface can
+express four layers; this surface writes only the user layer, so memories are
+not separated per session, agent, or turn.</li>
+<li><strong>Reads come back as text, not records.</strong> Results arrive as formatted lines
+like <code dir="auto">1. [relevance=0.50] &lt;content&gt;</code>, so tags, timestamps, and importance are
+<strong>not available on reads</strong> — only the content and a relevance number.</li>
+</ul>
+<p>Any single operation that takes longer than 20 seconds is treated as
+unavailable.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="the-three-provider-states">The three provider states</h2><a class="sl-anchor-link" href="#the-three-provider-states"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “The three provider states”</span></a></div>
+<p>A provider reports one of three states, and the distinction between the last two
+is the whole reason there are three:</p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>What it means</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ready</strong></td>
+<td>The provider works.</td>
+<td>Nothing.</td>
+</tr>
+<tr>
+<td><strong>Installed, but not set up</strong></td>
+<td>The software is present and starts correctly, but calls into it fail because a setup step is missing.</td>
+<td>Finish the setup step — do not reinstall.</td>
+</tr>
+<tr>
+<td><strong>Not available</strong></td>
+<td>The software is missing on this machine.</td>
+<td>Install it, or pick the other provider.</td>
+</tr>
+</tbody>
+</table>
+<p>“Installed but not set up” is shown separately because collapsing it into “not
+available” produces actively bad advice. Headroom’s memory server in that state
+starts, completes its handshake, and advertises both of its tools — while every
+call fails for want of the embedding model. Telling someone that is “not
+available” sends them to reinstall a thing that is already installed and
+working, and the reinstall will not fix it.</p>
+<p>Vorno distinguishes the two by actually calling the provider once, not by
+checking whether it launched. A capability check that stopped at “the server
+advertised its tools” would report <em>ready</em> for a provider on which everything
+fails.</p>
+<p>The built-in provider <strong>cannot</strong> occupy the middle state. There is nothing to
+provision. That is the entire argument for it being the default.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="settings">Settings</h2><a class="sl-anchor-link" href="#settings"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Settings”</span></a></div>
+<p>Memory is configured <strong>per workspace</strong>, at <strong>Workspace Settings → Memory</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Config field</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enable memory</td>
+<td><code dir="auto">enabled</code></td>
+<td><strong>off</strong></td>
+<td>Master switch. Nothing else has any effect while this is off.</td>
+</tr>
+<tr>
+<td>Provider</td>
+<td><code dir="auto">provider</code></td>
+<td><code dir="auto">builtin-markdown</code></td>
+<td><code dir="auto">builtin-markdown</code> or <code dir="auto">headroom-mcp</code>.</td>
+</tr>
+<tr>
+<td>Results per search</td>
+<td><code dir="auto">topK</code></td>
+<td><code dir="auto">5</code></td>
+<td>How many memories a search may return. 1–50.</td>
+</tr>
+<tr>
+<td>Search memory automatically</td>
+<td><code dir="auto">autoLoad</code></td>
+<td>on</td>
+<td>Whether Vorno searches memory and splices results into context at the start of a turn. Off means memory accumulates but nothing reads it automatically.</td>
+</tr>
+<tr>
+<td>Save after each turn</td>
+<td><code dir="auto">autoSave</code></td>
+<td>on</td>
+<td>Whether Vorno mines finished turns for durable facts.</td>
+</tr>
+<tr>
+<td>Memory half-life (days)</td>
+<td><code dir="auto">decayHalfLifeDays</code></td>
+<td><code dir="auto">60</code></td>
+<td>Recency weighting, for providers that support decay. 1–3650.</td>
+</tr>
+<tr>
+<td>Include archived</td>
+<td><code dir="auto">includeArchived</code></td>
+<td>off</td>
+<td>Whether searches reach into cold storage.</td>
+</tr>
+</tbody>
+</table>
+<p><code dir="auto">autoLoad</code> and <code dir="auto">autoSave</code> default <strong>on</strong> underneath the master switch, on
+purpose. A memory feature whose reads and writes were separately off by default
+would be enabled-but-inert, and “enabled did nothing” is a worse first
+experience than “enabled did something you can turn off”.</p>
+<p><code dir="auto">includeArchived</code> defaults <strong>off</strong>, and that default is load-bearing rather than
+merely conservative: an archive that still loads is not an archive, it is a
+rename.</p>
+<p>The panel also shows the selected provider’s <strong>state</strong> — ready, installed but
+not set up, or not available — alongside the provider’s own notes about what it
+can and cannot do. Those notes come from the provider itself rather than from a
+list maintained beside it, so they cannot quietly go out of date.</p>
+<p>Like the Headroom section, every field carries a small badge reading either
+<strong>Workspace override</strong> or <strong>Instance default</strong>, telling you where its current
+value came from, and a field this workspace sets also offers a <strong>Clear</strong> action
+that drops the override and reverts to the instance default. Two workspaces hold
+completely independent memory settings.</p>
+<p>Underneath the panel these are two ordinary config layers, editable by hand:</p>
+<ul>
+<li><strong>Per workspace</strong> — <code dir="auto">&lt;workspace&gt;/config.json</code>, under <code dir="auto">defaults.memory</code>.</li>
+<li><strong>Instance-wide base</strong> — the app’s <code dir="auto">config.json</code>, under <code dir="auto">memory</code>.</li>
+</ul>
+<p>A workspace value wins over the instance value, field by field; anything neither
+layer sets falls through to the defaults in the table above.</p>
+<p>Two rules about how these files are read, both of which can surprise you:</p>
+<ul>
+<li><strong>A layer with a bad value is discarded whole.</strong> A wrong type, an unknown
+provider name, or a number outside its range rejects that entire layer rather
+than half-trusting a file we know is corrupt. Memory then falls through to the
+layer below — ultimately, to off.</li>
+<li><strong>An unknown key is ignored, and the layer still works.</strong> A key written by a
+newer build must not disable the feature on an older one.</li>
+</ul>
+<p><strong>A change applies to sessions started afterwards.</strong> Memory configuration is
+read once, when a session starts.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="how-the-built-in-store-works-on-disk">How the built-in store works on disk</h2><a class="sl-anchor-link" href="#how-the-built-in-store-works-on-disk"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “How the built-in store works on disk”</span></a></div>
+<p>Inside your workspace:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">&lt;workspace&gt;/memory/</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">entries/*.md          hot — searched by default</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">archive/*.md          cold storage — reached only on purpose</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">retrieval-log.jsonl   one line per retrieval</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="<workspace>/memory/  entries/*.md          hot — searched by default  archive/*.md          cold storage — reached only on purpose  retrieval-log.jsonl   one line per retrieval"><div></div></button></div></figure></div>
+<p>These directories are created on the first save, not when you select the
+provider, so merely choosing it does not scatter empty folders through your
+workspace.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="a-memory-file">A memory file</h3><a class="sl-anchor-link" href="#a-memory-file"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “A memory file”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">---</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">id</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">20260828T193000-a1b2c3d4</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">created</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#82AAFF;--1:#3B61B0">2026-08-28T19:30:00.000Z</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">updated</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#82AAFF;--1:#3B61B0">2026-08-28T19:30:00.000Z</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">importance</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#F78C6C;--1:#AA0982">0.5</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">tags</span><span style="--0:#D6DEEB;--1:#403F53">: [</span><span style="--0:#ECC48D;--1:#3B61B0">roadmap</span><span style="--0:#D6DEEB;--1:#403F53">, </span><span style="--0:#ECC48D;--1:#3B61B0">headroom</span><span style="--0:#D6DEEB;--1:#403F53">]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">citations</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#F78C6C;--1:#AA0982">3</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">last-cited</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#82AAFF;--1:#3B61B0">2026-08-29T08:00:00.000Z</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">---</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">Jeff runs upstream Craft stable side-by-side with Vorno, so the fork must keep</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">its own branding and config directory.</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="---id: 20260828T193000-a1b2c3d4created: 2026-08-28T19:30:00.000Zupdated: 2026-08-28T19:30:00.000Zimportance: 0.5tags: [roadmap, headroom]citations: 3last-cited: 2026-08-29T08:00:00.000Z---Jeff runs upstream Craft stable side-by-side with Vorno, so the fork must keepits own branding and config directory."><div></div></button></div></figure></div>
+<p>Every field is optional except <code dir="auto">id</code> — a key with no value is omitted rather than
+written empty, so a file says only what is true about it. A file the parser
+cannot read is skipped, not fatal: one bad file must never take out every search
+in the workspace.</p>
+<p><code dir="auto">importance</code> is a 0–1 hint. Facts saved automatically get <code dir="auto">0.5</code>; you can edit it
+by hand. <code dir="auto">tags</code> are indexed and weighted more heavily than body text, which
+makes hand-tagging a memory a genuinely effective way to make it findable — the
+automatic path does not add tags.</p>
+<p><code dir="auto">citations</code> and <code dir="auto">last-cited</code> are written by retrieval, not by you. Being read is
+not being edited, so retrieval updates <code dir="auto">last-cited</code> and leaves <code dir="auto">updated</code> alone.</p>
+<p>A file’s directory is the authority on whether it is archived, not its
+frontmatter. Moving a file by hand between <code dir="auto">entries/</code> and <code dir="auto">archive/</code> does the
+right thing.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="decay-how-memories-age">Decay: how memories age</h3><a class="sl-anchor-link" href="#decay-how-memories-age"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Decay: how memories age”</span></a></div>
+<p>Each memory has a decay score of <code dir="auto">0.5 ^ (age / half-life)</code>. At exactly one
+half-life it is 0.5; at zero age it is 1.0. Age is measured from the <strong>most
+recent</strong> of the memory’s <code dir="auto">updated</code> and <code dir="auto">last-cited</code> stamps, falling back to
+<code dir="auto">created</code>.</p>
+<p>Three things follow, and they are the whole model:</p>
+<ul>
+<li><strong>Importance changes the half-life, not the score.</strong> Importance at or above
+<code dir="auto">0.7</code> <strong>doubles</strong> the effective half-life; at or below <code dir="auto">0.3</code> it <strong>halves</strong> it.
+An important memory decays slower <em>forever</em>, rather than merely starting from
+a higher number.</li>
+<li><strong>Importance at or above <code dir="auto">0.9</code> is pinned</strong> and never decays or archives at
+all. “This matters indefinitely” is a different statement from “this matters
+twice as long”, so it gets a different mechanism.</li>
+<li><strong>Being retrieved resets the clock.</strong> Every memory a search returns has its
+<code dir="auto">last-cited</code> stamp refreshed and its citation count bumped. A memory that
+keeps earning its place stays fresh; one nobody has wanted in a year ages out
+honestly. (Archived memories are exempt: a deliberate lookup into cold storage
+does not quietly resurrect what it found.)</li>
+</ul>
+<p>Below a score of 0.25 — two half-lives, so about 120 days at the default for an
+ordinary memory — a memory becomes an archive candidate. Decay and importance
+also nudge ranking among results that match your query comparably well, but they
+have floors: they <em>reorder</em> comparable matches, they never suppress a strong one
+entirely.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="archiving-never-deleting">Archiving: never deleting</h3><a class="sl-anchor-link" href="#archiving-never-deleting"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Archiving: never deleting”</span></a></div>
+<p>When a memory decays out, its file <strong>moves</strong> from <code dir="auto">entries/</code> to <code dir="auto">archive/</code>. It
+is not deleted. Nothing in this feature deletes a memory file, ever.</p>
+<p>The sweep that does this runs when a memory is saved, not when one is searched —
+a save is already a write, and sweeping on every search would make retrieval get
+slower as your store grows.</p>
+<p>An archived file carries a banner as the first line of its body:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="markdown"><code><div class="ec-line"><div class="code"><span style="--0:#969BB7;--1:#5C6285">&gt; </span><span style="--0:#C5E478;--1:#3B61B0">**</span><span style="--0:#C5E478;--0fw:bold;--1:#3B61B0;--1fw:bold">⚠️ From cold storage — this was true at one time, but it may not be true now.</span><span style="--0:#C5E478;--1:#3B61B0">**</span></div></div><div class="ec-line"><div class="code"><span style="--0:#969BB7;--1:#5C6285">&gt; Archived 2026-08-28T19:30:00.000Z; unverified since. Reason: decayed out (score 0.198 after 141d).</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="> **⚠️ From cold storage — this was true at one time, but it may not be true now.**> Archived 2026-08-28T19:30:00.000Z; unverified since. Reason: decayed out (score 0.198 after 141d)."><div></div></button></div></figure></div>
+<p>That banner is mandatory and it travels with the content everywhere it goes,
+including into the model’s context, where an archived memory is prefixed with
+its own cold-storage warning. Cold content may never be restated as a current
+fact: it was true at one time, and nothing has verified it since.</p>
+<p>Archived memories are excluded from searches unless <code dir="auto">includeArchived</code> is on.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="the-retrieval-log">The retrieval log</h3><a class="sl-anchor-link" href="#the-retrieval-log"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “The retrieval log”</span></a></div>
+<p><code dir="auto">memory/retrieval-log.jsonl</code> gets one JSON line per search:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">{</span><span style="--0:#7FDBCA;--1:#096E72">"ts"</span><span style="--0:#D6DEEB;--1:#403F53">:</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C789D6;--1:#7C5686">2026-08-28T19:31:00.000Z</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">,</span><span style="--0:#7FDBCA;--1:#096E72">"query"</span><span style="--0:#D6DEEB;--1:#403F53">:</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C789D6;--1:#7C5686">branching policy</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">,</span><span style="--0:#7FDBCA;--1:#096E72">"provider"</span><span style="--0:#D6DEEB;--1:#403F53">:</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C789D6;--1:#7C5686">builtin-markdown</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">,</span><span style="--0:#7FDBCA;--1:#096E72">"target"</span><span style="--0:#D6DEEB;--1:#403F53">:{</span><span style="--0:#7FDBCA;--1:#096E72">"scope"</span><span style="--0:#D6DEEB;--1:#403F53">:{},</span><span style="--0:#7FDBCA;--1:#096E72">"destination"</span><span style="--0:#D6DEEB;--1:#403F53">:</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C789D6;--1:#7C5686">main-context</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">},</span><span style="--0:#7FDBCA;--1:#096E72">"loaded"</span><span style="--0:#D6DEEB;--1:#403F53">:</span><span style="--0:#F78C6C;--1:#AA0982">42</span><span style="--0:#D6DEEB;--1:#403F53">,</span><span style="--0:#7FDBCA;--1:#096E72">"trimmed"</span><span style="--0:#D6DEEB;--1:#403F53">:</span><span style="--0:#F78C6C;--1:#AA0982">39</span><span style="--0:#D6DEEB;--1:#403F53">,</span><span style="--0:#7FDBCA;--1:#096E72">"kept"</span><span style="--0:#D6DEEB;--1:#403F53">:[</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C789D6;--1:#7C5686">20260828T193000-a1b2c3d4</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">]}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{&quot;ts&quot;:&quot;2026-08-28T19:31:00.000Z&quot;,&quot;query&quot;:&quot;branching policy&quot;,&quot;provider&quot;:&quot;builtin-markdown&quot;,&quot;target&quot;:{&quot;scope&quot;:{},&quot;destination&quot;:&quot;main-context&quot;},&quot;loaded&quot;:42,&quot;trimmed&quot;:39,&quot;kept&quot;:[&quot;20260828T193000-a1b2c3d4&quot;]}"><div></div></button></div></figure></div>
+<p>It records the timestamp, the query, how many memories were loaded, how many
+were trimmed, and the <strong>ids</strong> of the ones kept. It <strong>never records memory
+content</strong> — a log that duplicated the corpus would be a second copy of it with
+none of its archiving discipline.</p>
+<p>It exists so that “what did memory put in front of the model, and when” is
+answerable from a file you can read, without instrumenting the app.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="privacy-what-leaves-your-machine">Privacy: what leaves your machine</h2><a class="sl-anchor-link" href="#privacy-what-leaves-your-machine"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Privacy: what leaves your machine”</span></a></div>
+<p><strong>With the built-in provider: nothing.</strong> Not your memories, not your queries,
+not your prompts.</p>
+<p>That is a structural property, not a policy promise. Every byte of I/O the
+built-in provider performs lives in one file, and that file imports <code dir="auto">node:fs</code>
+and nothing else — no HTTP client, no subprocess, no dynamic import, no
+environment variable that could redirect it. There is no address to configure
+because there is no request to send.</p>
+<p><strong>With the Headroom provider: one disclosed exception.</strong> Enabling it downloads
+an embedding model (~86 MB) from HuggingFace, once. That is the whole of it:
+after the model is present, memory operations run against a local subprocess and
+a local store. Vorno starts that subprocess with offline mode set explicitly
+rather than inherited, so which state you are in is a property of Vorno’s
+invocation and not of whatever happened to be in your shell.</p>
+<p>Your memory content is not exempt from the ordinary rule that context goes to
+whichever model you are talking to. Memory splices facts into the prompt — that
+is what it is for — so anything you let it remember will be sent to your model
+provider on turns where it matches. If a fact should never reach a model, it
+should not be in memory. Delete or edit the file; it is plain markdown.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="turning-memory-off">Turning memory off</h2><a class="sl-anchor-link" href="#turning-memory-off"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Turning memory off”</span></a></div>
+<p>Turn off <strong>Enable memory</strong> in <strong>Workspace Settings → Memory</strong> (or set <code dir="auto">enabled</code>
+to <code dir="auto">false</code> by hand). From the next session onward, nothing is searched and
+nothing is saved, and the assembled prompt goes back to being byte-identical to
+what it would be with the feature absent.</p>
+<p><strong>Your existing memories are untouched.</strong> The files stay exactly where they are,
+under <code dir="auto">&lt;workspace&gt;/memory/</code>, and are still browsable, greppable, and editable.
+Turning memory back on picks up right where it left off. If you want a memory
+gone, delete its file — that is the only thing that removes one.</p>
+</div><footer class="sl-flex astro-2i5uf32q"><div class="meta sl-flex astro-2i5uf32q"></div><div class="pagination-links print:hidden astro-l33ciosk" dir="ltr"></div></footer><div class="vorno-footer astro-jo6i4kqk"><p class="astro-jo6i4kqk">© 2026 Swagatar, LLC · <a href="https://vorno.ai/" class="astro-jo6i4kqk">vorno.ai</a> ·<a href="https://vorno.ai/changelog" class="astro-jo6i4kqk">Changelog</a> ·<a href="https://vorno.ai/download" class="astro-jo6i4kqk">Download</a></p><p class="astro-jo6i4kqk">Powered by Claude.</p><p class="astro-jo6i4kqk">Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p></div></div></div></main></div></div></div></div></body></html>

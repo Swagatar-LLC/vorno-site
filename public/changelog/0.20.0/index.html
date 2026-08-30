@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.20.0 — Changelog</title>
+<meta name="description" content="Memory is now a capability with providers, not a feature of Headroom. A new vendor-neutral MemoryProvider seam (search / save / describe) sits between the agent and whatever stores its memories. Headroom becomes one selectable provider behind the seam rathe…">
+<link rel="canonical" href="https://vorno.ai/changelog/0.20.0/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.20.0</h1>
+  <p class="tagline" style="margin:0 0 6px;text-align:left">Pluggable memory: a vendor-neutral provider seam with a built-in default</p>
+  <p class="date">August 30, 2026</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.20.0">Download 0.20.0 &amp; assets →</a></p>
+  <div class="prose">
+<h2>Features</h2>
+<ul>
+<li><strong>Memory is now a capability with providers, not a feature of Headroom.</strong> A new vendor-neutral <code>MemoryProvider</code> seam (search / save / describe) sits between the agent and whatever stores its memories. Headroom becomes one selectable provider behind the seam rather than the only way to have memory. Results are measured-or-absent, and a provider that isn&#39;t ready reports <em>why</em> — &quot;nothing found&quot; and &quot;not provisioned&quot; stay distinguishable.</li>
+<li><strong>A built-in memory provider that needs zero provisioning.</strong> <code>builtin-markdown</code> is the default: no model downloads, no external services. It ships with real depth — half-life decay modulated by importance, pinned memories exempt from decay, and citation-as-reinforcement (retrieving a memory resets its decay clock). Decayed memories are archived to cold storage rather than deleted, and excluded from search unless deliberately requested.</li>
+<li><strong>Scope-aware retrieval.</strong> An unscoped memory travels anywhere; a scoped one stays where it belongs. Retrieval is logged — queries, counts, and kept ids, never memory content — and the built-in provider makes no network egress.</li>
+<li><strong>Memory documentation.</strong> A new <a href="https://vorno.ai/docs">memory guide</a> covers the provider seam, configuration, and the built-in provider&#39;s behavior; the Headroom guide is updated to reflect its new position as one provider among others.</li>
+</ul>
+<h2>Improvements</h2>
+<ul>
+<li>Memory configuration lives beside Headroom&#39;s, not inside it — turning Headroom off no longer implies memory is off.</li>
+<li>With memory disabled, the assembled prompt is byte-identical to previous releases — the seam adds nothing until you opt in.</li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog">All releases</a> · <a href="/changelog/0.19.0/">0.19.0 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>

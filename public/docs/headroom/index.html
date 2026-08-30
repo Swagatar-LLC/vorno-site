@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-iq7getan"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Headroom — Context Compression | Vorno Docs</title><link rel="canonical" href="https://vorno.ai/docs/headroom/"/><link rel="sitemap" href="/docs/sitemap-index.xml"/><link rel="shortcut icon" href="/docs/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.2.2"/><meta name="generator" content="Starlight v0.41.7"/><meta property="og:title" content="Headroom — Context Compression"/><meta property="og:type" content="article"/><meta property="og:url" content="https://vorno.ai/docs/headroom/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Headroom is an optional integration that compresses the context Vorno sends to a model, so long sessions and long workflow runs cost fewer tokens."/><meta property="og:site_name" content="Vorno Docs"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Headroom is an optional integration that compresses the context Vorno sends to a model, so long sessions and long workflow runs cost fewer tokens."/><meta name="vorno:docs-version" content="v0.19.0"/><script>
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-iq7getan"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Headroom — Context Compression | Vorno Docs</title><link rel="canonical" href="https://vorno.ai/docs/headroom/"/><link rel="sitemap" href="/docs/sitemap-index.xml"/><link rel="shortcut icon" href="/docs/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.2.2"/><meta name="generator" content="Starlight v0.41.7"/><meta property="og:title" content="Headroom — Context Compression"/><meta property="og:type" content="article"/><meta property="og:url" content="https://vorno.ai/docs/headroom/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Headroom is an optional integration that compresses the context Vorno sends to a model, so long sessions and long workflow runs cost fewer tokens."/><meta property="og:site_name" content="Vorno Docs"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Headroom is an optional integration that compresses the context Vorno sends to a model, so long sessions and long workflow runs cost fewer tokens."/><meta name="vorno:docs-version" content="v0.20.0"/><script>
 	window.StarlightThemeProvider = (() => {
 		const storedTheme =
 			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
@@ -101,9 +101,12 @@ its own.</p>
 </tr>
 </tbody>
 </table>
-<p>Two things Headroom does <strong>not</strong> do in Vorno today:</p>
+<p>Two things worth knowing about Headroom’s shape in Vorno today:</p>
 <ul>
-<li><strong>It does not store memory.</strong> See <a href="#memory">Memory</a>.</li>
+<li><strong>Compression and memory are separate features.</strong> The package Vorno compresses
+with has no memory API at all; Headroom’s memory is a different program with
+its own prerequisites, and it is one of two providers behind Vorno’s own
+memory capability. See <a href="#memory">Memory</a>.</li>
 <li><strong>It does not run by itself.</strong> Compression happens in a separate local
 process you install and start yourself. See <a href="#before-it-can-do-anything-the-local-proxy">Before it can do anything</a>.</li>
 </ul>
@@ -331,14 +334,22 @@ above are about how much it helps, not about correctness of your data at rest.
 Enabling it on a workflow-heavy workspace is the case to think about, because
 that is the path where compressed content is not recoverable.</p>
 <div class="sl-heading-wrapper level-h2"><h2 id="memory">Memory</h2><a class="sl-anchor-link" href="#memory"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Memory”</span></a></div>
-<p>Headroom’s multi-layer memory is <strong>not available in Vorno</strong>, and no Vorno surface
-exposes it.</p>
-<p>Vorno audited the pinned Headroom package for a memory API and found none: no
-memory endpoint, no memory client, and no filesystem access at all. Upstream
-reaches memory only through its own CLI wrapper, its Python client, or tools the
-proxy injects into the model’s tool list — none of which Vorno uses. Whether to
-adopt one of those routes is an open decision, not a shipped feature.</p>
-<p>If you are looking for memory in Vorno today, Headroom is not where it lives.</p>
+<p><strong>Vorno has memory, and it is not a Headroom feature.</strong> It is a separate
+capability with providers, and Headroom is one of the two.</p>
+<ul>
+<li><strong>Built-in (markdown)</strong> — the default. Plain markdown files in your workspace,
+lexical search, no setup and no egress.</li>
+<li><strong>Headroom (MCP)</strong> — semantic search, reached by running Headroom’s memory MCP
+server. It needs Headroom installed plus a one-time ~86 MB embedding-model
+download.</li>
+</ul>
+<p>None of this runs through the compression proxy this page describes, and the
+Headroom package Vorno compresses with has no memory API — memory ships in the
+matched Python half of the product as a separate stdio server. Turning Headroom
+compression on does not turn memory on, and vice versa.</p>
+<p>Memory is off by default, like compression. <strong>See <a href="/docs/memory/">Memory</a></strong> for what
+it stores, where it stores it, how to choose a provider, and what leaves your
+machine.</p>
 <div class="sl-heading-wrapper level-h2"><h2 id="privacy-what-leaves-your-machine">Privacy: what leaves your machine</h2><a class="sl-anchor-link" href="#privacy-what-leaves-your-machine"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Privacy: what leaves your machine”</span></a></div>
 <p><strong>Nothing.</strong> With or without Headroom enabled, turning this feature on does not
 send your context, prompts, tool output, or credentials to Headroom Labs or to
