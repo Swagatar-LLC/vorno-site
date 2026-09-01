@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.21.0 — Changelog</title>
+<meta name="description" content="Per-session browser isolation: each agent session's browser window now has its own private storage partition (cookies, logins, storage), so concurrent sessions can hold different logins on the same site. Manual windows keep the shared partition. Note: sessi…">
+<link rel="canonical" href="https://vorno.ai/changelog/0.21.0/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.21.0</h1>
+  
+  <p class="date">September 1, 2026</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.21.0">Download 0.21.0 &amp; assets →</a></p>
+  <div class="prose">
+<h2>Features</h2>
+<ul>
+<li>Per-session browser isolation: each agent session&#39;s browser window now has its own private storage partition (cookies, logins, storage), so concurrent sessions can hold different logins on the same site. Manual windows keep the shared partition. Note: session browsers start logged out.</li>
+<li>Idle browser window reaping: hidden, unbound session browser windows are destroyed after a per-workspace idle TTL (Workspace Settings → Advanced, default 60 minutes, 0 disables). User-opened windows are never reaped.</li>
+</ul>
+<h2>Improvements</h2>
+<ul>
+<li>Browser windows are session-sticky across turns: a session re-binds the same window it used last turn and never adopts another session&#39;s window.</li>
+</ul>
+<h2>Bug Fixes</h2>
+<ul>
+<li>Commands against a closed browser window now return a clear &quot;Browser window was closed&quot; error instead of Electron&#39;s raw &quot;Object has been destroyed&quot; or &quot;[object Object]&quot;.</li>
+<li>The session Info popover now scrolls instead of clipping the Headroom stats and files list.</li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog">All releases</a> · <a href="/changelog/0.20.0/">0.20.0 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>
