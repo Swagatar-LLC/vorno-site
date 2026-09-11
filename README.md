@@ -8,7 +8,7 @@ Source for **[vorno.ai](https://vorno.ai)** — the Vorno marketing site, public
 
 - `public/` — everything the Workers assets pipeline serves. Both hand-written and generated pages live here, and **the generated output is committed**, so a bare `bunx wrangler deploy` from a clean clone always publishes a complete site.
   - **Hand-written:** `/` landing, `/download` fallback, `/links` link-in-bio hub, `/blog`, `404.html`, `assets/`
-  - **Generated — do not edit:** `docs/` (Astro Starlight), `changelog/` (index + a page per version). Each has a `BUILD.txt` saying so.
+  - **Generated — do not edit:** `docs/` (Astro Starlight), `changelog/` (index + a page per version), and `/privacy/` (from `site-src/privacy.md`). Each has a `BUILD.txt` saying so.
   - `assets/logo-mark.svg` — the vortex-"V" mark, copied verbatim from `craft-agents-oss/apps/electron/src/renderer/assets/logo_mark.svg` (do not fork the design; re-copy on change). `docs-src/src/assets/logo-mark.svg` is the same file for the Starlight header.
 - `worker/index.js` — edge logic: `www` → apex 301, OS-aware `/download` (macOS UA → 302 to the latest `.dmg` from the `Swagatar-LLC/vorno-releases` GitHub releases API, edge-cached 5 min; everyone else falls through to the static asset listing page)
 - `wrangler.jsonc` — config; `run_worker_first: true` so the Worker sees every request before assets
@@ -25,13 +25,14 @@ npm run build              # defaults to the tag in build/config.mjs
 VORNO_TAG=v0.17.0 npm run build
 ```
 
-`npm run build` runs four steps, each also runnable alone:
+`npm run build` runs five steps, each also runnable alone:
 
 | Step | Script | What it does |
 |---|---|---|
 | `fetch` | `build/fetch-content.mjs` | Streams the repo tarball at `VORNO_TAG`, extracting only `apps/electron/resources/{docs,release-notes}`. Pulls the release feed. Backfills release notes for shipped versions whose notes file no longer exists at the tag (`0.11.4` is the known case). |
 | `docs` | `build/build-docs.mjs` | Stages the guides into the Starlight collection and runs `astro build` → `public/docs/`. |
 | `changelog` | `build/build-changelog.mjs` | Renders `public/changelog/` — index + a page per version. |
+| `privacy` | `build/build-privacy.mjs` | Renders `public/privacy/` from the reviewed source policy. |
 | `verify` | `build/verify.mjs` | Gates the output. See below. |
 
 **The guides are published verbatim.** The only transformations are mechanical: inject Starlight frontmatter, drop the duplicated leading `# Title`, and rewrite in-repo relative links (`./vorno-cli.md`) to site routes. If a guide reads badly for a human, add framing to `docs-src/landing/index.md` — never diff against the source of truth, which is what the shipped app actually loads.
