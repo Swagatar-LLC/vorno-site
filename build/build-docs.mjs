@@ -29,6 +29,7 @@ import {
   BLURBS,
   GROUPS,
   subdirLabel,
+  validateFetchedGuides,
 } from "./docs-manifest.mjs";
 
 const AUTHORED_DIR = path.join(ASTRO_ROOT, "pages");
@@ -168,14 +169,7 @@ const available = fs
   .filter((f) => f.endsWith(".md"))
   .map((f) => f.replace(/\.md$/, ""));
 
-const unlisted = available.filter((s) => !ALL_SLUGS.includes(s));
-const missing = ALL_SLUGS.filter((s) => !available.includes(s));
-if (unlisted.length) {
-  console.warn(`[docs] ! guides not in the manifest, appended ungrouped: ${unlisted.join(", ")}`);
-}
-if (missing.length) {
-  throw new Error(`manifest lists guides absent at ${REF_LABEL}: ${missing.join(", ")}`);
-}
+const listed = validateFetchedGuides(available, REF_LABEL);
 
 const subdirs = fs
   .readdirSync(DOCS_SRC, { withFileTypes: true })
@@ -187,7 +181,7 @@ const subdirs = fs
 const pages = new Map();
 const titles = {};
 
-for (const slug of [...ALL_SLUGS, ...unlisted]) {
+for (const slug of listed) {
   const raw = fs.readFileSync(path.join(DOCS_SRC, `${slug}.md`), "utf8");
   const p = parse(slug, raw);
   pages.set(slug, { ...p, authored: false });
@@ -299,6 +293,7 @@ if (unresolved.length) {
 const intro = fs.readFileSync(path.join(ASTRO_ROOT, "landing", "index.md"), "utf8");
 const cards = GROUPS.map((g) => {
   const items = g.pages
+    .filter((p) => !p.optional || pages.has(p.slug))
     .map((p) => `  <li><a href="/docs/${p.slug}/">${titles[p.slug]}</a><p>${escapeHtml(p.blurb)}</p></li>`)
     .join("\n");
   return `### ${g.label}\n\n<ul class="vorno-cards">\n${items}\n</ul>`;
@@ -329,7 +324,7 @@ fs.writeFileSync(
 
 fs.writeFileSync(
   path.join(ASTRO_ROOT, "src", "generated-nav.json"),
-  JSON.stringify(discovered, null, 2),
+  JSON.stringify({ discovered, available: [...pages.keys()] }, null, 2),
 );
 
 // ---------------------------------------------------------------------------

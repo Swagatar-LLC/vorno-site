@@ -6,12 +6,12 @@ import { buildSidebar } from "../build/docs-manifest.mjs";
 
 const TAG = process.env.VORNO_TAG || "v0.16.0";
 
-// Written by build/build-docs.mjs immediately before `astro build`, listing the
-// guides it found in subdirectories of the fetched docs (see docs-manifest.mjs).
-// Absent on a bare `astro build`, which is fine — the curated groups still render.
-const discovered = fs.existsSync(new URL("./src/generated-nav.json", import.meta.url))
+// Written by build/build-docs.mjs immediately before `astro build`, listing
+// fetched top-level guides plus discovered subdirectory guides. This keeps
+// future optional manifest entries out of older-tag navigation.
+const navigation = fs.existsSync(new URL("./src/generated-nav.json", import.meta.url))
   ? JSON.parse(fs.readFileSync(new URL("./src/generated-nav.json", import.meta.url), "utf8"))
-  : {};
+  : { discovered: {}, available: [] };
 
 // Served from the existing vorno.ai Worker at /docs — not a separate host
 // (ADR-0023). `base` must match, or every internal link 404s.
@@ -45,7 +45,7 @@ export default defineConfig({
       editLink: {},
       lastUpdated: false,
       pagination: true,
-      sidebar: buildSidebar(discovered),
+      sidebar: buildSidebar(navigation.discovered, navigation.available),
       head: [
         {
           tag: "meta",

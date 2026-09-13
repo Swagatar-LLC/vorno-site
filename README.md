@@ -37,7 +37,7 @@ VORNO_TAG=v0.17.0 npm run build
 
 **The guides are published verbatim.** The only transformations are mechanical: inject Starlight frontmatter, drop the duplicated leading `# Title`, and rewrite in-repo relative links (`./vorno-cli.md`) to site routes. If a guide reads badly for a human, add framing to `docs-src/landing/index.md` — never diff against the source of truth, which is what the shipped app actually loads.
 
-Ordering, sidebar labels, and landing-page blurbs live in `build/docs-manifest.mjs`. A guide present at the tag but missing from the manifest is published ungrouped with a warning; a manifest entry missing at the tag fails the build.
+Ordering, sidebar labels, and landing-page blurbs live in `build/docs-manifest.mjs`. A guide present at the tag but missing from the manifest fails the build. A required manifest entry missing at the tag also fails; a declared optional entry exists only for forward compatibility with a newer release and appears only when fetched.
 
 `/changelog` covers Vorno's own release line only (**≥ 0.11.2**). Versions at or below 0.11.1 are shared history with the upstream project: the release feed has no Vorno build for any of them, and their notes describe a differently-named product, so republishing them here would be both unusable and an affiliation claim the footer explicitly disclaims. The index links out instead.
 

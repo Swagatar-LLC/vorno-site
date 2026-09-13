@@ -9,6 +9,7 @@
     "privacy": "node build/build-privacy.mjs",
     "verify:publish-tag": "node build/verify-publish-tag.mjs",
     "test:publish-tag": "node build/verify-publish-tag.test.mjs",
+    "test:docs-manifest": "node build/docs-manifest.test.mjs",
     "verify": "node build/verify.mjs",
     "verify:live": "node build/verify-live.mjs",
     "build": "npm run fetch && npm run docs && npm run changelog && npm run privacy && npm run verify",

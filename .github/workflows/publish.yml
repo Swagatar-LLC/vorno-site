@@ -82,8 +82,10 @@ jobs:
           node-version: "24"
           cache: npm
 
-      - name: Test publish tag guard
-        run: npm run test:publish-tag
+      - name: Test publishing guards
+        run: |
+          npm run test:publish-tag
+          npm run test:docs-manifest
 
       - name: Install
         run: npm ci
