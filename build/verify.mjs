@@ -39,6 +39,15 @@ import { FOOTER_DISCLAIMER, FOOTER_POWERED, IS_PREVIEW, PUBLIC_DIR, REF_LABEL } 
 // exactly as legitimate as the Linear and GitHub examples beside it.)
 const UPSTREAM_DOMAINS = ["thecraftagents.com", "agents.craft.do"];
 
+// The Pages service is a user-data surface. Keep its approved deletion and
+// logging commitments load-bearing in the same output gate as the footer.
+const PRIVACY_REQUIREMENTS = [
+  "30 days after its most recent successful content or password update",
+  "clearing a password successfully renews the stored content and any opted-in snapshot",
+  "immediately revoke public access to the Page",
+  "Keep operational logs for no more than <strong>90 days</strong>",
+];
+
 // Declared, reviewed prose mentions. Keyed by `<page>|<domain>`.
 const PROSE_EXCEPTIONS = {
   "docs/sharing/index.html|agents.craft.do":
@@ -85,6 +94,13 @@ for (const p of pages) {
 
   for (const line of [FOOTER_DISCLAIMER, FOOTER_POWERED]) {
     if (!html.includes(line)) failures.push(`${rel}: missing footer line "${line}"`);
+  }
+  if (rel === "privacy/index.html") {
+    for (const commitment of PRIVACY_REQUIREMENTS) {
+      if (!html.includes(commitment)) {
+        failures.push(`${rel}: missing approved policy commitment "${commitment}"`);
+      }
+    }
   }
 
   for (const domain of UPSTREAM_DOMAINS) {

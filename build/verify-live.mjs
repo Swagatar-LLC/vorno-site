@@ -76,6 +76,17 @@ const CHECKS = [
   { path: "/download/", status: 200, contains: [FOOTER_DISCLAIMER] },
   { path: "/links/", status: 200, contains: [FOOTER_DISCLAIMER] },
   { path: "/blog/", status: 200, contains: [FOOTER_DISCLAIMER] },
+  {
+    path: "/privacy/",
+    status: 200,
+    contains: [
+      "Privacy policy for Vorno Pages",
+      "30 days after its most recent successful content or password update",
+      "clearing a password successfully renews the stored content and any opted-in snapshot",
+      "operational logs for no more than <strong>90 days</strong>",
+      FOOTER_DISCLAIMER,
+    ],
+  },
 
   // A path that must NOT exist. Guards against the opposite failure: a
   // misconfigured not_found_handling that answers 200 to everything would make

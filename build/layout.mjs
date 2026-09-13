@@ -11,12 +11,13 @@ export const NAV = `<nav class="nav">
     <a href="/docs">Docs</a>
     <a href="/changelog">Changelog</a>
     <a href="/blog">Blog</a>
+    <a href="/privacy">Privacy</a>
     <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
   </div>
 </nav>`;
 
 export const FOOTER = `<footer>
-  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/links">All links</a></p>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/privacy">Privacy</a> · <a href="/links">All links</a></p>
   <p>Powered by Claude.</p>
   <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
 </footer>`;

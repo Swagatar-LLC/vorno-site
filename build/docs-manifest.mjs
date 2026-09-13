@@ -79,6 +79,25 @@ export const GROUPS = [
         blurb:
           "What publishing a session exposes, where the copy is stored and who operates it, and how to revoke it.",
       },
+      {
+        slug: "pages",
+        nav: "Pages",
+        optional: true,
+        blurb:
+          "Persistent workspace HTML mini apps: data, refreshes, grants, and optional public sharing.",
+      },
+      {
+        slug: "memory",
+        nav: "Memory",
+        blurb:
+          "Durable workspace facts, with built-in markdown and optional Headroom providers.",
+      },
+      {
+        slug: "headroom",
+        nav: "Headroom",
+        blurb:
+          "Optional local context compression for long-running sessions and workflows.",
+      },
       { slug: "themes",
         nav: "Themes", blurb: "The six-color theme system, app-wide and per-workspace." },
       { slug: "tool-icons",
@@ -131,8 +150,28 @@ export const GROUPS = [
 
 export const ALL_PAGES = GROUPS.flatMap((g) => g.pages);
 
-/** Slugs fetched from the vorno repo — these must exist at the build tag. */
+/** Every fetched guide this site intentionally recognizes. */
 export const ALL_SLUGS = ALL_PAGES.filter((p) => !p.authored).map((p) => p.slug);
+
+/** Fetched-guide manifest entries that must exist at every supported tag. */
+export const REQUIRED_SLUGS = ALL_PAGES.filter((p) => !p.authored && !p.optional).map((p) => p.slug);
+
+/**
+ * Fail closed on fetched guide coverage. Optional entries are deliberate forward
+ * compatibility for a guide that has not shipped at an older supported tag;
+ * any guide the fetch actually returns still must be listed above.
+ */
+export function validateFetchedGuides(available, refLabel) {
+  const unlisted = available.filter((slug) => !ALL_SLUGS.includes(slug));
+  if (unlisted.length) {
+    throw new Error(`guides fetched at ${refLabel} are not in the manifest: ${unlisted.join(", ")}`);
+  }
+  const missing = REQUIRED_SLUGS.filter((slug) => !available.includes(slug));
+  if (missing.length) {
+    throw new Error(`manifest lists required guides absent at ${refLabel}: ${missing.join(", ")}`);
+  }
+  return ALL_SLUGS.filter((slug) => available.includes(slug));
+}
 
 /** Slugs written for this site, sourced from `docs-src/pages/`. */
 export const AUTHORED_SLUGS = ALL_PAGES.filter((p) => p.authored).map((p) => p.slug);
@@ -167,12 +206,15 @@ export function subdirLabel(dir) {
  * Starlight `sidebar` config.
  * `discovered` is `{ <dir>: [{ slug, nav }] }` from build-docs.mjs.
  */
-export function buildSidebar(discovered = {}) {
+export function buildSidebar(discovered = {}, available = []) {
+  const fetched = new Set(available);
   return [
     { label: "Overview", link: "/" },
     ...GROUPS.map((g) => ({
       label: g.label,
-      items: g.pages.map((p) => ({ slug: p.slug, label: p.nav })),
+      items: g.pages
+        .filter((p) => !p.optional || fetched.has(p.slug))
+        .map((p) => ({ slug: p.slug, label: p.nav })),
     })),
     ...Object.entries(discovered)
       .sort(([a], [b]) => a.localeCompare(b))
