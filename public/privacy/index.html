@@ -33,7 +33,7 @@
 <h2>Public access and passwords</h2>
 <p>A Page link is world-readable by anyone who receives it, unless the publisher enables password protection. A password reduces accidental access; it does not make a Page private. Anyone with the link and password can share them, and people can copy, save, screenshot, or archive content while it is available.</p>
 <h2>Retention and deletion</h2>
-<p>Published Page content is retained for <strong>30 days after its last content update</strong> (<code>contentUpdatedAt</code>), unless it is unpublished first. Changing Page metadata or manifest, or setting, changing, or clearing a password, does not extend that period.</p>
+<p>Published Page content is retained for <strong>30 days after its most recent successful content or password update</strong>, unless it is unpublished first. Setting, changing, or clearing a password successfully renews the stored content and any opted-in snapshot and restarts this 30-day period.</p>
 <ul>
 <li>On unpublish, immediately revoke public access to the Page.</li>
 <li>Delete the stored content immediately when possible. If physical deletion fails, retry it and warn the publisher; the Page remains logically revoked while that work is retried.</li>

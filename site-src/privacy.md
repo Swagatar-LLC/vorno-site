@@ -18,7 +18,7 @@ A Page link is world-readable by anyone who receives it, unless the publisher en
 
 ## Retention and deletion
 
-Published Page content is retained for **30 days after its last content update** (`contentUpdatedAt`), unless it is unpublished first. Changing Page metadata or manifest, or setting, changing, or clearing a password, does not extend that period.
+Published Page content is retained for **30 days after its most recent successful content or password update**, unless it is unpublished first. Setting, changing, or clearing a password successfully renews the stored content and any opted-in snapshot and restarts this 30-day period.
 
 - On unpublish, immediately revoke public access to the Page.
 - Delete the stored content immediately when possible. If physical deletion fails, retry it and warn the publisher; the Page remains logically revoked while that work is retried.

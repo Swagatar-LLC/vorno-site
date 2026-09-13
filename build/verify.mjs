@@ -42,9 +42,8 @@ const UPSTREAM_DOMAINS = ["thecraftagents.com", "agents.craft.do"];
 // The Pages service is a user-data surface. Keep its approved deletion and
 // logging commitments load-bearing in the same output gate as the footer.
 const PRIVACY_REQUIREMENTS = [
-  "30 days after its last content update",
-  "<code>contentUpdatedAt</code>",
-  "clearing a password, does not extend that period",
+  "30 days after its most recent successful content or password update",
+  "clearing a password successfully renews the stored content and any opted-in snapshot",
   "immediately revoke public access to the Page",
   "Keep operational logs for no more than <strong>90 days</strong>",
 ];
