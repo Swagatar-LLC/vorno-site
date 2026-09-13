@@ -1,6 +1,6 @@
 # Privacy policy for Vorno Pages
 
-**Status: proposed for the planned Vorno Pages publishing service.** Vorno Pages is not deployed as of September 10, 2026. This policy will apply before Swagatar, LLC makes that service available. It does not change how the current, third-party session-sharing feature is operated.
+**Status: the retention policy below is approved for the planned Vorno Pages publishing service.** Vorno Pages is not deployed as of September 13, 2026. This policy will apply before Swagatar, LLC makes that service available. It does not change how the current, third-party session-sharing feature is operated.
 
 ## Who operates the service
 
@@ -16,14 +16,13 @@ Do not publish information you would not want a recipient to copy or redistribut
 
 A Page link is world-readable by anyone who receives it, unless the publisher enables password protection. A password reduces accidental access; it does not make a Page private. Anyone with the link and password can share them, and people can copy, save, screenshot, or archive content while it is available.
 
-## Proposed retention and deletion
+## Retention and deletion
 
-**Retention is proposed and awaits Jeff Hampton’s approval before service deployment or beta tagging.** The proposal is:
+Published Page content is retained for **30 days after its most recent update**, unless it is unpublished first.
 
-- Keep published content until its publisher unpublishes it.
 - On unpublish, immediately revoke public access to the Page.
 - Delete the stored content immediately when possible. If physical deletion fails, retry it and warn the publisher; the Page remains logically revoked while that work is retried.
-- Keep operational logs for no more than 30 days.
+- Keep operational logs for no more than **90 days**.
 
 Unpublishing cannot retrieve material another person already copied while it was available. If you cannot unpublish a Page you control, contact us at [hello@vorno.ai](mailto:hello@vorno.ai) with the Page URL and enough information for us to verify your request.
 
