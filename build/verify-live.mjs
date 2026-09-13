@@ -81,7 +81,9 @@ const CHECKS = [
     status: 200,
     contains: [
       "Privacy policy for Vorno Pages",
-      "30 days after its most recent update",
+      "30 days after its last content update",
+      "<code>contentUpdatedAt</code>",
+      "clearing a password, does not extend that period",
       "operational logs for no more than <strong>90 days</strong>",
       FOOTER_DISCLAIMER,
     ],
