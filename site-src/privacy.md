@@ -1,10 +1,10 @@
 # Privacy policy for Vorno Pages
 
-**Status: the retention policy below is approved for the planned Vorno Pages publishing service.** Vorno Pages is not deployed as of September 13, 2026. This policy will apply before Swagatar, LLC makes that service available. It does not change how the current, third-party session-sharing feature is operated.
+**Status: the retention policy below is in effect for the live Vorno Pages publishing service.** Vorno Pages is deployed as of September 13, 2026. This policy applies to that service. It does not change how the current, third-party session-sharing feature is operated.
 
 ## Who operates the service
 
-Swagatar, LLC operates the planned Pages publishing service and is the controller of the personal data described here. Contact us at [hello@vorno.ai](mailto:hello@vorno.ai) for privacy, deletion, or abuse reports.
+Swagatar, LLC operates the Pages publishing service and is the controller of the personal data described here. Contact us at [hello@vorno.ai](mailto:hello@vorno.ai) for privacy, deletion, or abuse reports.
 
 ## What a published Page can contain
 
@@ -28,14 +28,14 @@ Unpublishing cannot retrieve material another person already copied while it was
 
 ## Service providers
 
-The planned service uses Cloudflare’s Workers and R2 infrastructure to process and store published Pages and limited operational data. Cloudflare acts as an infrastructure service provider for Swagatar, LLC. We will update this policy before adding a different material subprocessor for Page content.
+The service uses Cloudflare’s Workers and R2 infrastructure to process and store published Pages and limited operational data. Cloudflare acts as an infrastructure service provider for Swagatar, LLC. We will update this policy before adding a different material subprocessor for Page content.
 
 ## Security
 
-The planned service is designed to keep Page publication separate from the Vorno marketing site and from session sharing. It will use a distinct Pages origin, scoped administrative credentials, secret scanning before publication, request size and rate limits, no-store responses, and an opaque sandboxed frame with a restrictive content-security policy. These measures reduce risk; they cannot prevent a recipient from copying content that a publisher makes available.
+The service keeps Page publication separate from the Vorno marketing site and from session sharing. It uses a distinct Pages origin, scoped administrative credentials, secret scanning before publication, request size and rate limits, no-store responses, and an opaque sandboxed frame with a restrictive content-security policy. These measures reduce risk; they cannot prevent a recipient from copying content that a publisher makes available.
 
 ## Your choices
 
 Publishing is opt-in. You can choose not to publish a Page, omit a session snapshot, password-protect a Page, update it, or unpublish it. For questions, deletion requests, or abuse reports, email [hello@vorno.ai](mailto:hello@vorno.ai).
 
-We may update this policy before the Pages service launches. Material changes will be published at this URL.
+We may update this policy as the Pages service evolves. Material changes will be published at this URL.

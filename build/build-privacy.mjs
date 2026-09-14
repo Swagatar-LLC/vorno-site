@@ -16,7 +16,7 @@ fs.writeFileSync(
   out,
   layout({
     title: "Vorno — Privacy policy",
-    description: "How Swagatar, LLC will handle data published through Vorno Pages.",
+    description: "How Swagatar, LLC handles data published through Vorno Pages.",
     canonical: "https://vorno.ai/privacy/",
     main: `<article class="prose policy">\n${marked.parse(fs.readFileSync(source, "utf8"))}\n</article>`,
   }),
