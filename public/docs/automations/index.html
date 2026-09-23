@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-iq7getan"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Automations Configuration Guide | Vorno Docs</title><link rel="canonical" href="https://vorno.ai/docs/automations/"/><link rel="sitemap" href="/docs/sitemap-index.xml"/><link rel="shortcut icon" href="/docs/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.2.2"/><meta name="generator" content="Starlight v0.41.7"/><meta property="og:title" content="Automations Configuration Guide"/><meta property="og:type" content="article"/><meta property="og:url" content="https://vorno.ai/docs/automations/"/><meta property="og:locale" content="en"/><meta property="og:description" content="This guide explains how to configure automations in Vorno to automate workflows based on events."/><meta property="og:site_name" content="Vorno Docs"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="This guide explains how to configure automations in Vorno to automate workflows based on events."/><meta name="vorno:docs-version" content="v0.22.0-beta.3"/><script>
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-iq7getan"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Automations Configuration Guide | Vorno Docs</title><link rel="canonical" href="https://vorno.ai/docs/automations/"/><link rel="sitemap" href="/docs/sitemap-index.xml"/><link rel="shortcut icon" href="/docs/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.2.2"/><meta name="generator" content="Starlight v0.41.7"/><meta property="og:title" content="Automations Configuration Guide"/><meta property="og:type" content="article"/><meta property="og:url" content="https://vorno.ai/docs/automations/"/><meta property="og:locale" content="en"/><meta property="og:description" content="This guide explains how to configure automations in Vorno to automate workflows based on events."/><meta property="og:site_name" content="Vorno Docs"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="This guide explains how to configure automations in Vorno to automate workflows based on events."/><meta name="vorno:docs-version" content="v0.22.0-beta.4"/><script>
 	window.StarlightThemeProvider = (() => {
 		const storedTheme =
 			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
@@ -144,8 +144,25 @@
 <td>An inbound HTTP request hit a registered hook</td>
 <td>Configurable via <code dir="auto">matchField</code> (default: the whole body)</td>
 </tr>
+<tr>
+<td><code dir="auto">ContextThresholdReached</code></td>
+<td>A session’s context usage first crossed a token-limit threshold (Settings → AI → Token limits)</td>
+<td>The crossed level: <code dir="auto">warn</code> or <code dir="auto">danger</code></td>
+</tr>
 </tbody>
 </table>
+<blockquote>
+<p><strong>Automatic handoff.</strong> <code dir="auto">ContextThresholdReached</code> also drives a built-in behavior you do not
+need an automation for: Settings → AI → Token limits → <em>Automatic handoff</em> (per workspace,
+off by default). When enabled, the first <code dir="auto">warn</code> crossing of an interactive session delivers
+your handoff prompt into that session — skills mentioned as <code dir="auto">[skill:slug]</code> or <code dir="auto">@slug</code> are
+enabled — through the same mid-turn path as the composer, so it behaves exactly like typing a
+message while the agent is working: with the connection’s <code dir="auto">queue</code> setting it waits for the
+turn to end; with <code dir="auto">steer</code> it lands at the next tool call, falling back to the composer’s
+redirect-and-replay if the backend cannot steer. Once the handoff turn completes, an optional
+status is applied and the session can be archived. Hidden, Task, and automation-created
+sessions are excluded from both the event and the handoff.</p>
+</blockquote>
 <blockquote>
 <p><strong>Note:</strong> <code dir="auto">TodoStateChange</code> is a deprecated alias for <code dir="auto">SessionStatusChange</code>. Existing configs using the old name will continue to work but will show a deprecation warning during validation.</p>
 </blockquote>
@@ -839,6 +856,11 @@ stopped firing, that log is the first place to look.</p>
 <td><code dir="auto">SessionStatusChange</code></td>
 <td><code dir="auto">$CRAFT_OLD_STATE</code>, <code dir="auto">$CRAFT_NEW_STATE</code></td>
 <td>Previous and new status</td>
+</tr>
+<tr>
+<td><code dir="auto">ContextThresholdReached</code></td>
+<td><code dir="auto">$CRAFT_LEVEL</code>, <code dir="auto">$CRAFT_FRACTION</code>, <code dir="auto">$CRAFT_USED_TOKENS</code>, <code dir="auto">$CRAFT_CONTEXT_WINDOW</code>, <code dir="auto">$CRAFT_WARN_THRESHOLD</code>, <code dir="auto">$CRAFT_DANGER_THRESHOLD</code>, <code dir="auto">$CRAFT_MODEL</code>, <code dir="auto">$CRAFT_PROVIDER_TYPE</code></td>
+<td>The crossed level (<code dir="auto">warn</code>/<code dir="auto">danger</code>), usage fraction, token counts, the thresholds in effect, and the session’s model/provider</td>
 </tr>
 <tr>
 <td><code dir="auto">SchedulerTick</code></td>

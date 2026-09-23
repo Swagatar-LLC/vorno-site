@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.22.0-beta.4 — Changelog</title>
+<meta name="description" content="Automatic handoff on the context warning threshold — A new per-workspace setting (Settings → AI → Token limits → Automatic handoff, off by default). When an interactive session first crosses its warning threshold, Vorno delivers your handoff prompt into it…">
+<link rel="canonical" href="https://vorno.ai/changelog/0.22.0-beta.4/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="/privacy">Privacy</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.22.0-beta.4</h1>
+  
+  <p class="date">September 23, 2026 · pre-release</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.22.0-beta.4">Download 0.22.0-beta.4 &amp; assets →</a></p>
+  <div class="prose">
+<h2>Features</h2>
+<ul>
+<li><strong>Automatic handoff on the context warning threshold</strong> — A new per-workspace setting (Settings → AI → Token limits → <em>Automatic handoff</em>, off by default). When an interactive session first crosses its warning threshold, Vorno delivers your handoff prompt into it — skills mentioned as <code>[skill:slug]</code> or <code>@slug</code> are enabled — the same way a message typed mid-turn is delivered (queued for the next turn, or steered into the current one, per the connection&#39;s mid-stream setting). Once the handoff turn completes, an optional status is applied and the session can be archived. PLAN-055 / SUV-0072 (#220, <code>38537d92</code>).</li>
+<li><strong><code>ContextThresholdReached</code> automation event</strong> — Fires once when an interactive session&#39;s context usage first crosses the workspace&#39;s warning threshold and once more at the danger threshold, so automations can react — for example, post a webhook or prompt a handoff. Matches on the level (<code>warn</code> / <code>danger</code>) and exposes <code>$CRAFT_LEVEL</code>, <code>$CRAFT_FRACTION</code>, <code>$CRAFT_USED_TOKENS</code>, and <code>$CRAFT_CONTEXT_WINDOW</code>. PLAN-055 / SUV-0071 (#219, <code>48a38e73</code>).</li>
+</ul>
+<h2>Improvements</h2>
+<ul>
+<li><strong>Automatic handoff settings card</strong> — Settings → AI → Token limits gains an <em>Automatic handoff</em> card per workspace: enable it, edit the handoff prompt (with <code>[skill:slug]</code> or <code>@slug</code> mentions), choose a status to apply afterwards, and optionally archive the session once the handoff turn completes. PLAN-055 / SUV-0073 (#221, <code>5694f721</code>).</li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog">All releases</a> · <a href="/changelog/0.22.0-beta.3/">0.22.0-beta.3 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/privacy">Privacy</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>
