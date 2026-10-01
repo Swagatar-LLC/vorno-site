@@ -41,6 +41,12 @@ export const GROUPS = [
           "Drive the built-in browser: snapshots, clicks, form fill, downloads, and the console/network inspectors.",
       },
       {
+        slug: "decisions",
+        nav: "Decision model",
+        optional: true,
+        blurb: "Opt-in classification and scoring with the decide tool. Results do not grant permissions.",
+      },
+      {
         slug: "llm-tool",
         nav: "LLM tool",
         blurb:
