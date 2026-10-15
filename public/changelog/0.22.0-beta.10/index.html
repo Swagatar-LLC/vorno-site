@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.22.0-beta.10 — Changelog</title>
+<meta name="description" content="Large tool results can retain the parts relevant to the agent's stated purpose instead of summarizing them. This optional decision-layer feature sends the full oversized result in parts, plus the agent's purpose, to the configured decision provider. Previou…">
+<link rel="canonical" href="https://vorno.ai/changelog/0.22.0-beta.10/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="/privacy">Privacy</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.22.0-beta.10</h1>
+  
+  <p class="date">October 15, 2026 · pre-release</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.22.0-beta.10">Download 0.22.0-beta.10 &amp; assets →</a></p>
+  <div class="prose">
+<h2>Improvements</h2>
+<ul>
+<li>Large tool results can retain the parts relevant to the agent&#39;s stated purpose instead of summarizing them. This optional decision-layer feature sends the full oversized result in parts, plus the agent&#39;s purpose, to the configured decision provider. Previously it sent at most the first 3,000 characters. The saved result file remains available. (from upstream v0.14.1)</li>
+<li>Source tool calls include a one-line purpose for the large-result filter. (from upstream v0.14.1)</li>
+<li>Optional adaptive thinking also considers up to 1,200 characters of the last assistant reply and attachment names, types and sizes, but not attachment contents. This context goes to the configured decision provider when enabled. (from upstream v0.14.1)</li>
+<li>Decision model settings show seven-day usage and failure counts by feature. (from upstream v0.14.1)</li>
+</ul>
+<h2>Bug fixes</h2>
+<ul>
+<li>Guarded mode prompts when its risk check times out, fails or gives an invalid verdict. It no longer runs the unchecked call as Execute. (from upstream v0.14.1)</li>
+<li>A decision check after 30 seconds without a provider answer uses a longer deadline, up to 2.8 seconds. (from upstream v0.14.1)</li>
+<li>Authentication retries reuse the turn&#39;s decision checks rather than running them twice. Background-task notices do not change thinking level. (from upstream v0.14.1)</li>
+<li>Long sidebar labels truncate on one line and show the full name on hover. (from upstream v0.14.1)</li>
+<li>The large-result filter gives up after 60 seconds for the whole result, before the Pi backend stops waiting, and keeps excerpts within their size budget including gap markers. Follow-up records stay open across an authentication retry. <a href="https://github.com/Swagatar-LLC/vorno/pull/234">#234</a></li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog/0.22.0-beta.2/">← 0.22.0-beta.2</a> · <a href="/changelog">All releases</a> · <a href="/changelog/0.22.0-beta.1/">0.22.0-beta.1 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/privacy">Privacy</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>
