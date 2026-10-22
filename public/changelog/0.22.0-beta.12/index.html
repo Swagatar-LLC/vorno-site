@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorno 0.22.0-beta.12 — Changelog</title>
+<meta name="description" content="When &quot;Run API sessions in the desktop app&quot; is on, POST /api/sessions accepts three optional fields: name sets the session's title in the session list, projectId puts the session in a project (it inherits the project's working directory), and llmConnection p…">
+<link rel="canonical" href="https://vorno.ai/changelog/0.22.0-beta.12/">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="/" style="display:flex;align-items:center;gap:10px"><img src="/assets/logo-mark.svg" alt="Vorno mark">Vorno</a>
+  <div class="links">
+    <a href="/download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/changelog">Changelog</a>
+    <a href="/blog">Blog</a>
+    <a href="/privacy">Privacy</a>
+    <a href="https://github.com/Swagatar-LLC/vorno">GitHub</a>
+  </div>
+</nav>
+<main>
+  <p class="crumb"><a href="/changelog">Changelog</a></p>
+  <h1>Vorno 0.22.0-beta.12</h1>
+  
+  <p class="date">October 22, 2026 · pre-release</p>
+  <p style="margin-top:14px"><a class="btn btn-ghost" href="https://github.com/Swagatar-LLC/vorno-releases/releases/tag/v0.22.0-beta.12">Download 0.22.0-beta.12 &amp; assets →</a></p>
+  <div class="prose">
+<h2>Features</h2>
+<ul>
+<li>When &quot;Run API sessions in the desktop app&quot; is on, <code>POST /api/sessions</code> accepts three optional fields: <code>name</code> sets the session&#39;s title in the session list, <code>projectId</code> puts the session in a project (it inherits the project&#39;s working directory), and <code>llmConnection</code> pins the session to a connection such as <code>claude-max</code>. An unknown project or connection returns 400. The standalone server and the headless pool return 400 for these fields. <a href="https://github.com/Swagatar-LLC/vorno/pull/241">#241</a></li>
+</ul>
+<h2>Improvements</h2>
+<ul>
+<li>With &quot;Run API sessions in the desktop app&quot; on, <code>POST /api/sessions</code> now returns 400 when <code>model</code> is not offered by the session&#39;s connection, naming the available models, instead of silently running on the connection&#39;s default model. <code>fast</code> and <code>default</code> are always accepted, and so are older model names the app still translates. <a href="https://github.com/Swagatar-LLC/vorno/pull/241">#241</a></li>
+</ul>
+
+  </div>
+  <p class="pager"><a href="/changelog/0.22.0-beta.2/">← 0.22.0-beta.2</a> · <a href="/changelog">All releases</a> · <a href="/changelog/0.22.0-beta.11/">0.22.0-beta.11 →</a></p>
+</main>
+<footer>
+  <p>© 2026 Swagatar, LLC · <a href="mailto:hello@vorno.ai">hello@vorno.ai</a> · <a href="/privacy">Privacy</a> · <a href="/links">All links</a></p>
+  <p>Powered by Claude.</p>
+  <p>Vorno is not affiliated with or endorsed by Craft Docs Ltd.</p>
+</footer>
+</body>
+</html>
